@@ -1,0 +1,28 @@
+default_profile_name = "staging1"
+
+[profiles]
+[profiles.staging1]
+auth_server_name = "staging"
+api_url = "https://api.staging.qcs.rigetti.com"
+credentials_name = "staging1"
+[profiles.staging1.applications]
+cli = {verbosity = "info"}
+
+[profiles.staging2]
+auth_server_name = "staging"
+api_url = "https://api.staging.qcs.rigetti.com"
+
+credentials_name = "staging2"
+[profiles.staging2.applications]
+cli = {verbosity = "debug"}
+
+[profiles.missing_auth_server]
+auth_server_name = "doesntexist"
+api_url = "https://api.staging.qcs.rigetti.com"
+[profiles.missing_auth_server.applications]
+cli = {verbosity = "debug"}
+
+[auth_servers]
+[auth_servers.staging]
+client_id = "0oarkug104njPxvTZ0h7"
+issuer = "https://auth.staging.qcs.rigetti.com/oauth2/ausg5h11bo5xyWoP30h7"
