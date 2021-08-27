@@ -54,3 +54,7 @@ configuration = QCSClientConfiguration.load(
 with build_sync_client(configuration=configuration) as client:
     response: ListReservationsResponse = list_reservations(client=client).parsed
 ```
+
+## Development
+
+The source code for this repository is largely automatically generated and is synchronized from another source. No commits made directly to GitHub will be retained.
