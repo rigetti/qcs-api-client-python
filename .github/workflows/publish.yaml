@@ -1,0 +1,12 @@
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish
+        run: pipx run poetry publish --build --username __token__ --password ${{ secrets.PYPI_TOKEN }}
