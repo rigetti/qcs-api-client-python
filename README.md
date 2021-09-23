@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/qcs-api-client-python/badge/?version=latest)](https://qcs-api-client-python.readthedocs.io/en/latest/?badge=latest)
+
 # QCS API Client
 
 A client library for accessing the [Rigetti QCS API](https://docs.api.qcs.rigetti.com/).
@@ -57,4 +59,4 @@ with build_sync_client(configuration=configuration) as client:
 
 ## Development
 
-The source code for this repository is largely automatically generated and is synchronized from another source. No commits made directly to GitHub will be retained.
+The source code for this repository is synchronized from another source. No commits made directly to GitHub will be retained.

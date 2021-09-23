@@ -3,6 +3,8 @@ This documentation supports light ☀️ and dark 🌙 modes and will automatica
 ```
 
 ```{include} ../README.md
+:start-after: badge=latest)
+:end-before: Development
 ```
 
 ```{toctree}
