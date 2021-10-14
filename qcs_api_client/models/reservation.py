@@ -94,8 +94,9 @@ class Reservation:
         notes = d.pop("notes", UNSET)
 
         updated_time = None
-        if d.pop("updatedTime", UNSET) is not None:
-            updated_time = isoparse(cast(str, d.pop("updatedTime", UNSET)))
+        updated_time__input = d.pop("updatedTime", UNSET)
+        if isinstance(updated_time__input, str):
+            updated_time = isoparse(cast(str, updated_time__input))
 
         reservation = Reservation(
             created_time=created_time,
