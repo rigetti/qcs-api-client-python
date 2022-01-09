@@ -18,7 +18,7 @@ include = ["CHANGELOG.md", "qcs_api_client/py.typed"]
 [tool.poetry.dependencies]
 attrs = "^20.1.0"
 httpx = "^0.15.0"
-iso8601 = "^0.1.13"
+iso8601 = "^1.0"
 pydantic = "^1.7.2"
 pyjwt = "^1.7.1"
 python = "^3.6"
