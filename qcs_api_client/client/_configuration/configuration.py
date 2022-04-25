@@ -12,6 +12,7 @@ from qcs_api_client.client._configuration.secrets import (
 from qcs_api_client.client._configuration.settings import (
     QCSClientConfigurationSettings,
     QCSClientConfigurationSettingsProfile,
+    QCSAuthServer,
 )
 
 
@@ -40,7 +41,7 @@ class QCSClientConfiguration(BaseModel):
     settings: QCSClientConfigurationSettings
 
     @property
-    def auth_server(self):
+    def auth_server(self) -> QCSAuthServer:
         """Returns the configured authorization server.
 
         ``self.profile.auth_server_name`` serves as key to

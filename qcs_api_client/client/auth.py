@@ -87,6 +87,11 @@ class QCSAuth(httpx.Auth):
             self.sync_refresh_token()
 
         request.headers["Authorization"] = f"Bearer {self._client_configuration.credentials.access_token}"
+        if self._client_configuration.profile.account_id is not None:
+            request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
+        if self._client_configuration.profile.account_type is not None:
+            request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
+
         response = yield request
 
         if self._auth_configuration.post and response.status_code in self._auth_configuration.post_refresh_statuses:
@@ -118,6 +123,11 @@ class QCSAuth(httpx.Auth):
             await self.async_refresh_token()
 
         request.headers["Authorization"] = f"Bearer {self._client_configuration.credentials.access_token}"
+        if self._client_configuration.profile.account_id is not None:
+            request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
+        if self._client_configuration.profile.account_type is not None:
+            request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
+
         response = yield request
 
         if self._auth_configuration.post and response.status_code in self._auth_configuration.post_refresh_statuses:
