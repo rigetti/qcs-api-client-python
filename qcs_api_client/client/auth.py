@@ -88,9 +88,11 @@ class QCSAuth(httpx.Auth):
 
         request.headers["Authorization"] = f"Bearer {self._client_configuration.credentials.access_token}"
         if self._client_configuration.profile.account_id is not None:
-            request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
+            if "X-QCS-ACCOUNT-ID" not in request.headers:
+                request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
         if self._client_configuration.profile.account_type is not None:
-            request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
+            if "X-QCS-ACCOUNT-TYPE" not in request.headers:
+                request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
 
         response = yield request
 
@@ -124,9 +126,11 @@ class QCSAuth(httpx.Auth):
 
         request.headers["Authorization"] = f"Bearer {self._client_configuration.credentials.access_token}"
         if self._client_configuration.profile.account_id is not None:
-            request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
+            if "X-QCS-ACCOUNT-ID" not in request.headers:
+                request.headers["X-QCS-ACCOUNT-ID"] = self._client_configuration.profile.account_id
         if self._client_configuration.profile.account_type is not None:
-            request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
+            if "X-QCS-ACCOUNT-TYPE" not in request.headers:
+                request.headers["X-QCS-ACCOUNT-TYPE"] = self._client_configuration.profile.account_type.value
 
         response = yield request
 

@@ -6,6 +6,7 @@ from qcs_api_client.client._configuration.secrets import (
     TokenPayload,
 )
 from qcs_api_client.client._configuration.settings import (
+    QCSAccountType,
     QCSAuthServer,
     QCSClientConfigurationSettings,
     QCSClientConfigurationSettingsProfile,
