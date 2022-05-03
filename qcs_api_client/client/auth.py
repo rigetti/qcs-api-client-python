@@ -75,7 +75,7 @@ class QCSAuth(httpx.Auth):
                 raise QCSAuthRefreshError(response=res)
             token_payload = TokenPayload(**res.json())
             self._client_configuration.secrets.update_token(
-                credentials_name=self._client_configuration.profile_name, token=token_payload
+                credentials_name=self._client_configuration.profile.credentials_name, token=token_payload
             )
 
     def sync_auth_flow(self, request):
@@ -113,7 +113,7 @@ class QCSAuth(httpx.Auth):
                 raise QCSAuthRefreshError(response=res)
             token_payload = TokenPayload(**res.json())
             self._client_configuration.secrets.update_token(
-                credentials_name=self._client_configuration.profile_name, token=token_payload
+                credentials_name=self._client_configuration.profile.credentials_name, token=token_payload
             )
 
     async def async_auth_flow(self, request):
