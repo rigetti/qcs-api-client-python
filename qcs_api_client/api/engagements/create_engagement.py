@@ -12,12 +12,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 def _get_kwargs(
     *,
+    client: httpx.Client,
     json_body: CreateEngagementRequest,
 ) -> Dict[str, Any]:
+    url = "{}/v1/engagements".format(client.base_url)
+
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
         "json": json_json_body,
     }
 
@@ -48,17 +58,31 @@ def sync(
     json_body: CreateEngagementRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[EngagementWithCredentials]:
-    url = "/v1/engagements"
+    """Create Engagement
+
+     Create a new engagement using the specified parameters.
+
+    At least one of the following parameters must be supplied:
+    - **endpointId**: The ID of the endpoint on which to engage.
+    - **quantumProcessorId**: The ID of the quantum processor on which to engage, allowing the
+        service to select a default endpoint. Ignored if **endpointId** is set.
+
+    Args:
+        json_body (CreateEngagementRequest):
+
+    Returns:
+        Response[EngagementWithCredentials]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -71,17 +95,15 @@ def sync_from_dict(
 ) -> Response[EngagementWithCredentials]:
     json_body = CreateEngagementRequest.from_dict(json_body_dict)
 
-    url = "/v1/engagements"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -92,17 +114,31 @@ async def asyncio(
     json_body: CreateEngagementRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[EngagementWithCredentials]:
-    url = "/v1/engagements"
+    """Create Engagement
+
+     Create a new engagement using the specified parameters.
+
+    At least one of the following parameters must be supplied:
+    - **endpointId**: The ID of the endpoint on which to engage.
+    - **quantumProcessorId**: The ID of the quantum processor on which to engage, allowing the
+        service to select a default endpoint. Ignored if **endpointId** is set.
+
+    Args:
+        json_body (CreateEngagementRequest):
+
+    Returns:
+        Response[EngagementWithCredentials]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -115,15 +151,13 @@ async def asyncio_from_dict(
 ) -> Response[EngagementWithCredentials]:
     json_body = CreateEngagementRequest.from_dict(json_body_dict)
 
-    url = "/v1/engagements"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "post",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

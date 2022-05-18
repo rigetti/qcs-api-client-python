@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,10 +6,18 @@ from ..models.validation_error import ValidationError
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="Error")
+
 
 @attr.s(auto_attribs=True)
 class Error:
-    """  """
+    """
+    Attributes:
+        code (str):
+        message (str):
+        request_id (str):
+        validation_errors (Union[Unset, List[ValidationError]]):
+    """
 
     code: str
     message: str
@@ -21,7 +29,7 @@ class Error:
         code = self.code
         message = self.message
         request_id = self.request_id
-        validation_errors: Union[Unset, List[Any]] = UNSET
+        validation_errors: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.validation_errors, Unset):
             validation_errors = []
             for validation_errors_item_data in self.validation_errors:
@@ -47,8 +55,8 @@ class Error:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Error":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         code = d.pop("code")
 
@@ -63,7 +71,7 @@ class Error:
 
             validation_errors.append(validation_errors_item)
 
-        error = Error(
+        error = cls(
             code=code,
             message=message,
             request_id=request_id,

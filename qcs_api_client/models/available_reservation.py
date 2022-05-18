@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 from dateutil.parser import isoparse
@@ -8,10 +8,19 @@ from rfc3339 import rfc3339
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="AvailableReservation")
+
 
 @attr.s(auto_attribs=True)
 class AvailableReservation:
-    """  """
+    """
+    Attributes:
+        duration (str):
+        end_time (datetime.datetime):
+        price (int):
+        quantum_processor_id (str):
+        start_time (datetime.datetime):
+    """
 
     duration: str
     end_time: datetime.datetime
@@ -48,8 +57,8 @@ class AvailableReservation:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "AvailableReservation":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         duration = d.pop("duration")
 
@@ -61,7 +70,7 @@ class AvailableReservation:
 
         start_time = isoparse(d.pop("startTime"))
 
-        available_reservation = AvailableReservation(
+        available_reservation = cls(
             duration=duration,
             end_time=end_time,
             price=price,

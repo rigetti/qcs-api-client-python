@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,10 +6,17 @@ from ..models.endpoint import Endpoint
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ListEndpointsResponse")
+
 
 @attr.s(auto_attribs=True)
 class ListEndpointsResponse:
-    """  """
+    """
+    Attributes:
+        endpoints (List[Endpoint]):
+        next_page_token (Union[Unset, str]): Opaque token indicating the start of the next page of results to return; do
+            not decode
+    """
 
     endpoints: List[Endpoint]
     next_page_token: Union[Unset, str] = UNSET
@@ -40,8 +47,8 @@ class ListEndpointsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ListEndpointsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         endpoints = []
         _endpoints = d.pop("endpoints")
@@ -52,7 +59,7 @@ class ListEndpointsResponse:
 
         next_page_token = d.pop("nextPageToken", UNSET)
 
-        list_endpoints_response = ListEndpointsResponse(
+        list_endpoints_response = cls(
             endpoints=endpoints,
             next_page_token=next_page_token,
         )

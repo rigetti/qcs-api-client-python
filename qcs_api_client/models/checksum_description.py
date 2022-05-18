@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
@@ -6,10 +6,16 @@ from ..models.checksum_description_type import ChecksumDescriptionType
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ChecksumDescription")
+
 
 @attr.s(auto_attribs=True)
 class ChecksumDescription:
-    """  """
+    """
+    Attributes:
+        header_name (str):
+        type (ChecksumDescriptionType):
+    """
 
     header_name: str
     type: ChecksumDescriptionType
@@ -34,14 +40,14 @@ class ChecksumDescription:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ChecksumDescription":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         header_name = d.pop("headerName")
 
         type = ChecksumDescriptionType(d.pop("type"))
 
-        checksum_description = ChecksumDescription(
+        checksum_description = cls(
             header_name=header_name,
             type=type,
         )

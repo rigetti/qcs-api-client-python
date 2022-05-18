@@ -1,9 +1,11 @@
-from typing import Any, Callable, Dict, List, Optional, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+T = TypeVar("T", bound="Edge")
 
 
 @attr.s(auto_attribs=True)
@@ -15,7 +17,12 @@ class Edge:
     two `node_id` values in instances of `Instruction`.
 
     Note that edges are undirected in this model. Thus edge :math:`(a, b)` is equivalent to edge
-    :math:`(b, a)`."""
+    :math:`(b, a)`.
+
+        Attributes:
+            node_ids (List[int]): The integer ids of the computational nodes at the two ends of the edge. Order is not
+                important; an architecture edge is treated as undirected.
+    """
 
     node_ids: List[int]
 
@@ -35,12 +42,12 @@ class Edge:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Edge":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         node_ids = cast(List[int], d.pop("node_ids"))
 
-        edge = Edge(
+        edge = cls(
             node_ids=node_ids,
         )
 

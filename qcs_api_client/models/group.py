@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 from dateutil.parser import isoparse
@@ -8,10 +8,20 @@ from rfc3339 import rfc3339
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="Group")
+
 
 @attr.s(auto_attribs=True)
 class Group:
-    """  """
+    """
+    Attributes:
+        created_time (datetime.datetime):
+        description (str):
+        id (str):
+        last_membership_updated_time (datetime.datetime):
+        name (str):
+        updated_time (datetime.datetime):
+    """
 
     created_time: datetime.datetime
     description: str
@@ -53,8 +63,8 @@ class Group:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Group":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         created_time = isoparse(d.pop("createdTime"))
 
@@ -68,7 +78,7 @@ class Group:
 
         updated_time = isoparse(d.pop("updatedTime"))
 
-        group = Group(
+        group = cls(
             created_time=created_time,
             description=description,
             id=id,

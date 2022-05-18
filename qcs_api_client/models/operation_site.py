@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 
 import attr
 
@@ -6,10 +6,18 @@ from ..models.characteristic import Characteristic
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="OperationSite")
+
 
 @attr.s(auto_attribs=True)
 class OperationSite:
-    """ A site for an operation, with its site-dependent characteristics. """
+    """A site for an operation, with its site-dependent characteristics.
+
+    Attributes:
+        characteristics (List[Characteristic]): The list of site-dependent characteristics of this operation.
+        node_ids (List[int]): The list of architecture node ids for the site. The order of these node ids obey the
+            definition of node symmetry from the enclosing operation.
+    """
 
     characteristics: List[Characteristic]
     node_ids: List[int]
@@ -37,8 +45,8 @@ class OperationSite:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "OperationSite":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         characteristics = []
         _characteristics = d.pop("characteristics")
@@ -49,7 +57,7 @@ class OperationSite:
 
         node_ids = cast(List[int], d.pop("node_ids"))
 
-        operation_site = OperationSite(
+        operation_site = cls(
             characteristics=characteristics,
             node_ids=node_ids,
         )

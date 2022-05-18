@@ -1,14 +1,20 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="InviteUserRequest")
+
 
 @attr.s(auto_attribs=True)
 class InviteUserRequest:
-    """  """
+    """
+    Attributes:
+        email (str):
+        group_name (Union[Unset, str]):
+    """
 
     email: str
     group_name: Union[Unset, str] = UNSET
@@ -34,14 +40,14 @@ class InviteUserRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "InviteUserRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         email = d.pop("email")
 
         group_name = d.pop("groupName", UNSET)
 
-        invite_user_request = InviteUserRequest(
+        invite_user_request = cls(
             email=email,
             group_name=group_name,
         )

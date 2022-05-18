@@ -10,11 +10,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
 def _get_kwargs(
-    *,
     user_id: str,
+    *,
+    client: httpx.Client,
 ) -> Dict[str, Any]:
+    url = "{}/v1/users/{userId}/groups".format(client.base_url, userId=user_id)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> ListGroupsResponse:
@@ -38,93 +49,99 @@ def _build_response(*, response: httpx.Response) -> Response[ListGroupsResponse]
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    user_id: str,
     *,
     client: httpx.Client,
-    user_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupsResponse]:
-    url = "/v1/users/{userId}/groups".format(
-        userId=user_id,
-    )
+    """List QCS groups for the requested user
+
+     List QCS groups for the requested user
+
+    Args:
+        user_id (str):
+
+    Returns:
+        Response[ListGroupsResponse]
+    """
 
     kwargs = _get_kwargs(
         user_id=user_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    user_id: str,
     *,
     client: httpx.Client,
-    user_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupsResponse]:
 
-    url = "/v1/users/{userId}/groups".format(
-        userId=user_id,
-    )
-
     kwargs = _get_kwargs(
         user_id=user_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    user_id: str,
     *,
     client: httpx.AsyncClient,
-    user_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupsResponse]:
-    url = "/v1/users/{userId}/groups".format(
-        userId=user_id,
-    )
+    """List QCS groups for the requested user
+
+     List QCS groups for the requested user
+
+    Args:
+        user_id (str):
+
+    Returns:
+        Response[ListGroupsResponse]
+    """
 
     kwargs = _get_kwargs(
         user_id=user_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    user_id: str,
     *,
     client: httpx.AsyncClient,
-    user_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupsResponse]:
 
-    url = "/v1/users/{userId}/groups".format(
-        userId=user_id,
-    )
-
     kwargs = _get_kwargs(
         user_id=user_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

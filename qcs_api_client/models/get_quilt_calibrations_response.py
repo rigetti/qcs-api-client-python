@@ -1,20 +1,28 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
-from ..types import UNSET
+from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+T = TypeVar("T", bound="GetQuiltCalibrationsResponse")
 
 
 @attr.s(auto_attribs=True)
 class GetQuiltCalibrationsResponse:
-    """  """
+    """
+    Attributes:
+        quilt (str): Calibrations suitable for use in a Quil-T program
+        settings_timestamp (Union[Unset, str]): ISO8601 timestamp of the settings used to generate these calibrations
+    """
 
     quilt: str
+    settings_timestamp: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         quilt = self.quilt
+        settings_timestamp = self.settings_timestamp
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -23,6 +31,8 @@ class GetQuiltCalibrationsResponse:
                 "quilt": quilt,
             }
         )
+        if settings_timestamp is not UNSET:
+            field_dict["settingsTimestamp"] = settings_timestamp
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -30,13 +40,16 @@ class GetQuiltCalibrationsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "GetQuiltCalibrationsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         quilt = d.pop("quilt")
 
-        get_quilt_calibrations_response = GetQuiltCalibrationsResponse(
+        settings_timestamp = d.pop("settingsTimestamp", UNSET)
+
+        get_quilt_calibrations_response = cls(
             quilt=quilt,
+            settings_timestamp=settings_timestamp,
         )
 
         get_quilt_calibrations_response.additional_properties = d

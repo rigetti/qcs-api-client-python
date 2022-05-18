@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -8,10 +8,21 @@ from ..models.parameter import Parameter
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="Operation")
+
 
 @attr.s(auto_attribs=True)
 class Operation:
-    """ An operation, with its sites and site-independent characteristics. """
+    """An operation, with its sites and site-independent characteristics.
+
+    Attributes:
+        characteristics (List[Characteristic]): The list of site-independent characteristics of this operation.
+        name (str): The name of the operation.
+        parameters (List[Parameter]): The list of parameters. Each parameter must be uniquely named. May be empty.
+        sites (List[OperationSite]): The list of sites at which this operation can be applied, together with its site-
+            dependent characteristics.
+        node_count (Union[Unset, int]): The number of nodes that this operation applies to. None if unspecified.
+    """
 
     characteristics: List[Characteristic]
     name: str
@@ -59,8 +70,8 @@ class Operation:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Operation":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         characteristics = []
         _characteristics = d.pop("characteristics")
@@ -87,7 +98,7 @@ class Operation:
 
         node_count = d.pop("node_count", UNSET)
 
-        operation = Operation(
+        operation = cls(
             characteristics=characteristics,
             name=name,
             parameters=parameters,

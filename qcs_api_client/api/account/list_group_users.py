@@ -10,11 +10,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
 def _get_kwargs(
-    *,
     group_name: str,
+    *,
+    client: httpx.Client,
 ) -> Dict[str, Any]:
+    url = "{}/v1/groups/{groupName}/users".format(client.base_url, groupName=group_name)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> ListGroupUsersResponse:
@@ -38,93 +49,103 @@ def _build_response(*, response: httpx.Response) -> Response[ListGroupUsersRespo
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    group_name: str,
     *,
     client: httpx.Client,
-    group_name: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupUsersResponse]:
-    url = "/v1/groups/{groupName}/users".format(
-        groupName=group_name,
-    )
+    """List users belonging to a group
+
+     List users belonging to a group. Note, group membership may take several minutes to update within
+    our identity provider. After adding or removing a user to or from a group, please allow up to 60
+    minutes for changes to be reflected.
+
+    Args:
+        group_name (str):
+
+    Returns:
+        Response[ListGroupUsersResponse]
+    """
 
     kwargs = _get_kwargs(
         group_name=group_name,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    group_name: str,
     *,
     client: httpx.Client,
-    group_name: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupUsersResponse]:
 
-    url = "/v1/groups/{groupName}/users".format(
-        groupName=group_name,
-    )
-
     kwargs = _get_kwargs(
         group_name=group_name,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    group_name: str,
     *,
     client: httpx.AsyncClient,
-    group_name: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupUsersResponse]:
-    url = "/v1/groups/{groupName}/users".format(
-        groupName=group_name,
-    )
+    """List users belonging to a group
+
+     List users belonging to a group. Note, group membership may take several minutes to update within
+    our identity provider. After adding or removing a user to or from a group, please allow up to 60
+    minutes for changes to be reflected.
+
+    Args:
+        group_name (str):
+
+    Returns:
+        Response[ListGroupUsersResponse]
+    """
 
     kwargs = _get_kwargs(
         group_name=group_name,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    group_name: str,
     *,
     client: httpx.AsyncClient,
-    group_name: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListGroupUsersResponse]:
 
-    url = "/v1/groups/{groupName}/users".format(
-        groupName=group_name,
-    )
-
     kwargs = _get_kwargs(
         group_name=group_name,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

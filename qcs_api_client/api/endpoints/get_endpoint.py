@@ -10,11 +10,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
 def _get_kwargs(
-    *,
     endpoint_id: str,
+    *,
+    client: httpx.Client,
 ) -> Dict[str, Any]:
+    url = "{}/v1/endpoints/{endpointId}".format(client.base_url, endpointId=endpoint_id)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> Endpoint:
@@ -38,93 +49,99 @@ def _build_response(*, response: httpx.Response) -> Response[Endpoint]:
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    endpoint_id: str,
     *,
     client: httpx.Client,
-    endpoint_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
-    url = "/v1/endpoints/{endpointId}".format(
-        endpointId=endpoint_id,
-    )
+    """Get Endpoint
+
+     Retrieve a specific endpoint by its ID.
+
+    Args:
+        endpoint_id (str):
+
+    Returns:
+        Response[Endpoint]
+    """
 
     kwargs = _get_kwargs(
         endpoint_id=endpoint_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    endpoint_id: str,
     *,
     client: httpx.Client,
-    endpoint_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
 
-    url = "/v1/endpoints/{endpointId}".format(
-        endpointId=endpoint_id,
-    )
-
     kwargs = _get_kwargs(
         endpoint_id=endpoint_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    endpoint_id: str,
     *,
     client: httpx.AsyncClient,
-    endpoint_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
-    url = "/v1/endpoints/{endpointId}".format(
-        endpointId=endpoint_id,
-    )
+    """Get Endpoint
+
+     Retrieve a specific endpoint by its ID.
+
+    Args:
+        endpoint_id (str):
+
+    Returns:
+        Response[Endpoint]
+    """
 
     kwargs = _get_kwargs(
         endpoint_id=endpoint_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    endpoint_id: str,
     *,
     client: httpx.AsyncClient,
-    endpoint_id: str,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
 
-    url = "/v1/endpoints/{endpointId}".format(
-        endpointId=endpoint_id,
-    )
-
     kwargs = _get_kwargs(
         endpoint_id=endpoint_id,
+        client=client,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

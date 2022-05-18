@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="Health")
+
 
 @attr.s(auto_attribs=True)
 class Health:
-    """  """
+    """
+    Attributes:
+        status (str):  Example: PASS.
+    """
 
     status: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -30,12 +35,12 @@ class Health:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Health":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         status = d.pop("status")
 
-        health = Health(
+        health = cls(
             status=status,
         )
 

@@ -9,9 +9,23 @@ from ...util.errors import QCSHTTPStatusError, raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    reservation_id: int,
+    *,
+    client: httpx.Client,
+) -> Dict[str, Any]:
+    url = "{}/v1/reservations/{reservationId}".format(client.base_url, reservationId=reservation_id)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "delete",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> Reservation:
@@ -35,73 +49,99 @@ def _build_response(*, response: httpx.Response) -> Response[Reservation]:
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    reservation_id: int,
     *,
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Reservation]:
-    url = "/v1/reservations/{reservationId}"
+    """Delete Reservation
 
-    kwargs = _get_kwargs()
+     Cancel an existing reservation for the user.
+
+    Args:
+        reservation_id (int):
+
+    Returns:
+        Response[Reservation]
+    """
+
+    kwargs = _get_kwargs(
+        reservation_id=reservation_id,
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "delete",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    reservation_id: int,
     *,
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Reservation]:
 
-    url = "/v1/reservations/{reservationId}"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        reservation_id=reservation_id,
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "delete",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    reservation_id: int,
     *,
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Reservation]:
-    url = "/v1/reservations/{reservationId}"
+    """Delete Reservation
 
-    kwargs = _get_kwargs()
+     Cancel an existing reservation for the user.
+
+    Args:
+        reservation_id (int):
+
+    Returns:
+        Response[Reservation]
+    """
+
+    kwargs = _get_kwargs(
+        reservation_id=reservation_id,
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "delete",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    reservation_id: int,
     *,
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Reservation]:
 
-    url = "/v1/reservations/{reservationId}"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        reservation_id=reservation_id,
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "delete",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

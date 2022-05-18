@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,10 +6,20 @@ from ..models.client_applications_download_link import ClientApplicationsDownloa
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ClientApplication")
+
 
 @attr.s(auto_attribs=True)
 class ClientApplication:
-    """  """
+    """
+    Attributes:
+        latest_version (str): Semantic version
+        name (str):
+        supported (bool):
+        details_uri (Union[Unset, str]):
+        links (Union[Unset, List[ClientApplicationsDownloadLink]]):
+        minimum_version (Union[Unset, str]): Semantic version
+    """
 
     latest_version: str
     name: str
@@ -24,7 +34,7 @@ class ClientApplication:
         name = self.name
         supported = self.supported
         details_uri = self.details_uri
-        links: Union[Unset, List[Any]] = UNSET
+        links: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.links, Unset):
             links = []
             for links_item_data in self.links:
@@ -56,8 +66,8 @@ class ClientApplication:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ClientApplication":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         latest_version = d.pop("latestVersion")
 
@@ -76,7 +86,7 @@ class ClientApplication:
 
         minimum_version = d.pop("minimumVersion", UNSET)
 
-        client_application = ClientApplication(
+        client_application = cls(
             latest_version=latest_version,
             name=name,
             supported=supported,

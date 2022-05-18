@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="QuantumProcessor")
+
 
 @attr.s(auto_attribs=True)
 class QuantumProcessor:
-    """  """
+    """
+    Attributes:
+        id (str): Immutable, unique identifier for a quantum processor [example: Aspen-1]
+    """
 
     id: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -30,12 +35,12 @@ class QuantumProcessor:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "QuantumProcessor":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         id = d.pop("id")
 
-        quantum_processor = QuantumProcessor(
+        quantum_processor = cls(
             id=id,
         )
 

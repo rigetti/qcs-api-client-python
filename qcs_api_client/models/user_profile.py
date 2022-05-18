@@ -1,14 +1,22 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="UserProfile")
+
 
 @attr.s(auto_attribs=True)
 class UserProfile:
-    """  """
+    """
+    Attributes:
+        email (str):
+        first_name (str):
+        last_name (str):
+        organization (str):
+    """
 
     email: str
     first_name: str
@@ -39,8 +47,8 @@ class UserProfile:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "UserProfile":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         email = d.pop("email")
 
@@ -50,7 +58,7 @@ class UserProfile:
 
         organization = d.pop("organization")
 
-        user_profile = UserProfile(
+        user_profile = cls(
             email=email,
             first_name=first_name,
             last_name=last_name,

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,13 +6,20 @@ from ..models.checksum_description import ChecksumDescription
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ClientApplicationsDownloadLink")
+
 
 @attr.s(auto_attribs=True)
 class ClientApplicationsDownloadLink:
-    """  """
+    """
+    Attributes:
+        url (str):
+        checksum_description (Union[Unset, ChecksumDescription]):
+        platform (Union[Unset, str]):
+    """
 
     url: str
-    checksum_description: Union[ChecksumDescription, Unset] = UNSET
+    checksum_description: Union[Unset, ChecksumDescription] = UNSET
     platform: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -42,19 +49,21 @@ class ClientApplicationsDownloadLink:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ClientApplicationsDownloadLink":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         url = d.pop("url")
 
-        checksum_description: Union[ChecksumDescription, Unset] = UNSET
         _checksum_description = d.pop("checksumDescription", UNSET)
-        if _checksum_description is not None and not isinstance(_checksum_description, Unset):
-            checksum_description = ChecksumDescription.from_dict(cast(Dict[str, Any], _checksum_description))
+        checksum_description: Union[Unset, ChecksumDescription]
+        if isinstance(_checksum_description, Unset):
+            checksum_description = UNSET
+        else:
+            checksum_description = ChecksumDescription.from_dict(_checksum_description)
 
         platform = d.pop("platform", UNSET)
 
-        client_applications_download_link = ClientApplicationsDownloadLink(
+        client_applications_download_link = cls(
             url=url,
             checksum_description=checksum_description,
             platform=platform,

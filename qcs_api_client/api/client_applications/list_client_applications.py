@@ -9,9 +9,22 @@ from ...util.errors import QCSHTTPStatusError, raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    *,
+    client: httpx.Client,
+) -> Dict[str, Any]:
+    url = "{}/v1/clientApplications".format(client.base_url)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> ListClientApplicationsResponse:
@@ -39,15 +52,23 @@ def sync(
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListClientApplicationsResponse]:
-    url = "/v1/clientApplications"
+    """List Client Applications
 
-    kwargs = _get_kwargs()
+     List supported clients of Rigetti system components along with their latest and minimum supported
+    versions.
+
+    Returns:
+        Response[ListClientApplicationsResponse]
+    """
+
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -58,15 +79,14 @@ def sync_from_dict(
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListClientApplicationsResponse]:
 
-    url = "/v1/clientApplications"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -76,15 +96,23 @@ async def asyncio(
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListClientApplicationsResponse]:
-    url = "/v1/clientApplications"
+    """List Client Applications
 
-    kwargs = _get_kwargs()
+     List supported clients of Rigetti system components along with their latest and minimum supported
+    versions.
+
+    Returns:
+        Response[ListClientApplicationsResponse]
+    """
+
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -95,13 +123,12 @@ async def asyncio_from_dict(
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListClientApplicationsResponse]:
 
-    url = "/v1/clientApplications"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

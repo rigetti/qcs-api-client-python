@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
 
 import attr
 
@@ -6,10 +6,17 @@ from ..models.validation_error_in import ValidationErrorIn
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ValidationError")
+
 
 @attr.s(auto_attribs=True)
 class ValidationError:
-    """  """
+    """
+    Attributes:
+        in_ (ValidationErrorIn):
+        message (str):
+        path (Union[Unset, List[str]]):
+    """
 
     in_: ValidationErrorIn
     message: str
@@ -20,7 +27,7 @@ class ValidationError:
         in_ = self.in_.value
 
         message = self.message
-        path: Union[Unset, List[Any]] = UNSET
+        path: Union[Unset, List[str]] = UNSET
         if not isinstance(self.path, Unset):
             path = self.path
 
@@ -41,8 +48,8 @@ class ValidationError:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ValidationError":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         in_ = ValidationErrorIn(d.pop("in"))
 
@@ -50,7 +57,7 @@ class ValidationError:
 
         path = cast(List[str], d.pop("path", UNSET))
 
-        validation_error = ValidationError(
+        validation_error = cls(
             in_=in_,
             message=message,
             path=path,

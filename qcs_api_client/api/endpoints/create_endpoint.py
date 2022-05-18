@@ -12,12 +12,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 def _get_kwargs(
     *,
+    client: httpx.Client,
     json_body: CreateEndpointParameters,
 ) -> Dict[str, Any]:
+    url = "{}/v1/endpoints".format(client.base_url)
+
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
         "json": json_json_body,
     }
 
@@ -48,17 +58,27 @@ def sync(
     json_body: CreateEndpointParameters,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
-    url = "/v1/endpoints"
+    """Create Endpoint
+
+     Create an endpoint associated with your user account.
+
+    Args:
+        json_body (CreateEndpointParameters): A publicly available set of parameters for defining
+            an endpoint.
+
+    Returns:
+        Response[Endpoint]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -71,17 +91,15 @@ def sync_from_dict(
 ) -> Response[Endpoint]:
     json_body = CreateEndpointParameters.from_dict(json_body_dict)
 
-    url = "/v1/endpoints"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -92,17 +110,27 @@ async def asyncio(
     json_body: CreateEndpointParameters,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Endpoint]:
-    url = "/v1/endpoints"
+    """Create Endpoint
+
+     Create an endpoint associated with your user account.
+
+    Args:
+        json_body (CreateEndpointParameters): A publicly available set of parameters for defining
+            an endpoint.
+
+    Returns:
+        Response[Endpoint]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -115,15 +143,13 @@ async def asyncio_from_dict(
 ) -> Response[Endpoint]:
     json_body = CreateEndpointParameters.from_dict(json_body_dict)
 
-    url = "/v1/endpoints"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "post",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

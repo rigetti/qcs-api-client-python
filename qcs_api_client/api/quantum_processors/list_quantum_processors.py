@@ -11,17 +11,28 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 def _get_kwargs(
     *,
-    page_size: Union[Unset, int] = 10,
-    page_token: Union[Unset, str] = UNSET,
+    client: httpx.Client,
+    page_size: Union[Unset, None, int] = 10,
+    page_token: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
+    url = "{}/v1/quantumProcessors".format(client.base_url)
+
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
 
     params: Dict[str, Any] = {}
-    if page_size != UNSET:
-        params["pageSize"] = page_size
-    if page_token != UNSET:
-        params["pageToken"] = page_token
+    params["pageSize"] = page_size
+
+    params["pageToken"] = page_token
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
         "params": params,
     }
 
@@ -49,22 +60,32 @@ def _build_response(*, response: httpx.Response) -> Response[ListQuantumProcesso
 def sync(
     *,
     client: httpx.Client,
-    page_size: Union[Unset, int] = 10,
-    page_token: Union[Unset, str] = UNSET,
+    page_size: Union[Unset, None, int] = 10,
+    page_token: Union[Unset, None, str] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListQuantumProcessorsResponse]:
-    url = "/v1/quantumProcessors"
+    """List Quantum Processors
+
+     List all QuantumProcessors available to the user.
+
+    Args:
+        page_size (Union[Unset, None, int]):  Default: 10.
+        page_token (Union[Unset, None, str]):
+
+    Returns:
+        Response[ListQuantumProcessorsResponse]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         page_size=page_size,
         page_token=page_token,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -72,23 +93,21 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
-    page_size: Union[Unset, int] = 10,
-    page_token: Union[Unset, str] = UNSET,
+    page_size: Union[Unset, None, int] = 10,
+    page_token: Union[Unset, None, str] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListQuantumProcessorsResponse]:
 
-    url = "/v1/quantumProcessors"
-
     kwargs = _get_kwargs(
+        client=client,
         page_size=page_size,
         page_token=page_token,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -96,22 +115,32 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
-    page_size: Union[Unset, int] = 10,
-    page_token: Union[Unset, str] = UNSET,
+    page_size: Union[Unset, None, int] = 10,
+    page_token: Union[Unset, None, str] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListQuantumProcessorsResponse]:
-    url = "/v1/quantumProcessors"
+    """List Quantum Processors
+
+     List all QuantumProcessors available to the user.
+
+    Args:
+        page_size (Union[Unset, None, int]):  Default: 10.
+        page_token (Union[Unset, None, str]):
+
+    Returns:
+        Response[ListQuantumProcessorsResponse]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         page_size=page_size,
         page_token=page_token,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -119,21 +148,19 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
-    page_size: Union[Unset, int] = 10,
-    page_token: Union[Unset, str] = UNSET,
+    page_size: Union[Unset, None, int] = 10,
+    page_token: Union[Unset, None, str] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[ListQuantumProcessorsResponse]:
 
-    url = "/v1/quantumProcessors"
-
     kwargs = _get_kwargs(
+        client=client,
         page_size=page_size,
         page_token=page_token,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

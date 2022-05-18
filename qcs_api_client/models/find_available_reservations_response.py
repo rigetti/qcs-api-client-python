@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,10 +6,16 @@ from ..models.available_reservation import AvailableReservation
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="FindAvailableReservationsResponse")
+
 
 @attr.s(auto_attribs=True)
 class FindAvailableReservationsResponse:
-    """  """
+    """
+    Attributes:
+        available_reservations (List[AvailableReservation]):
+        next_page_token (Union[Unset, str]):
+    """
 
     available_reservations: List[AvailableReservation]
     next_page_token: Union[Unset, str] = UNSET
@@ -40,8 +46,8 @@ class FindAvailableReservationsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "FindAvailableReservationsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         available_reservations = []
         _available_reservations = d.pop("availableReservations")
@@ -52,7 +58,7 @@ class FindAvailableReservationsResponse:
 
         next_page_token = d.pop("nextPageToken", UNSET)
 
-        find_available_reservations_response = FindAvailableReservationsResponse(
+        find_available_reservations_response = cls(
             available_reservations=available_reservations,
             next_page_token=next_page_token,
         )

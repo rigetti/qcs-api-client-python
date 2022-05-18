@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
@@ -6,10 +6,16 @@ from ..models.reservation import Reservation
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ListReservationsResponse")
+
 
 @attr.s(auto_attribs=True)
 class ListReservationsResponse:
-    """  """
+    """
+    Attributes:
+        next_page_token (str):
+        reservations (List[Reservation]):
+    """
 
     next_page_token: str
     reservations: List[Reservation]
@@ -38,8 +44,8 @@ class ListReservationsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ListReservationsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         next_page_token = d.pop("nextPageToken")
 
@@ -50,7 +56,7 @@ class ListReservationsResponse:
 
             reservations.append(reservations_item)
 
-        list_reservations_response = ListReservationsResponse(
+        list_reservations_response = cls(
             next_page_token=next_page_token,
             reservations=reservations,
         )

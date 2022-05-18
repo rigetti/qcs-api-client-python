@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="UserCredentialsPassword")
+
 
 @attr.s(auto_attribs=True)
 class UserCredentialsPassword:
-    """  """
+    """
+    Attributes:
+        value (str):
+    """
 
     value: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -30,12 +35,12 @@ class UserCredentialsPassword:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "UserCredentialsPassword":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         value = d.pop("value")
 
-        user_credentials_password = UserCredentialsPassword(
+        user_credentials_password = cls(
             value=value,
         )
 

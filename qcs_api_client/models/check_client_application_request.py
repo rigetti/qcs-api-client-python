@@ -1,14 +1,20 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="CheckClientApplicationRequest")
+
 
 @attr.s(auto_attribs=True)
 class CheckClientApplicationRequest:
-    """  """
+    """
+    Attributes:
+        name (str): Name of component
+        version (str): Semantic version of component.
+    """
 
     name: str
     version: str
@@ -33,14 +39,14 @@ class CheckClientApplicationRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "CheckClientApplicationRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         name = d.pop("name")
 
         version = d.pop("version")
 
-        check_client_application_request = CheckClientApplicationRequest(
+        check_client_application_request = cls(
             name=name,
             version=version,
         )

@@ -1,9 +1,11 @@
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+T = TypeVar("T", bound="Node")
 
 
 @attr.s(auto_attribs=True)
@@ -12,7 +14,12 @@ class Node:
 
     The existence of a node in the ISA `Architecture` does not necessarily mean that a given 1Q
     operation will be available on the node. This information is conveyed by the presence of the
-    specific `node_id` in instances of `Instruction`."""
+    specific `node_id` in instances of `Instruction`.
+
+        Attributes:
+            node_id (int): An integer id assigned to the computational node. The ids may not be contiguous and will be
+                assigned based on the architecture family.
+    """
 
     node_id: int
 
@@ -32,12 +39,12 @@ class Node:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Node":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         node_id = d.pop("node_id")
 
-        node = Node(
+        node = cls(
             node_id=node_id,
         )
 

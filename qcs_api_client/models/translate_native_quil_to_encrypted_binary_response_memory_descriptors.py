@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
@@ -6,10 +6,12 @@ from ..models.parameter_spec import ParameterSpec
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors")
+
 
 @attr.s(auto_attribs=True)
 class TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors:
-    """  """
+    """"""
 
     additional_properties: Dict[str, ParameterSpec] = attr.ib(init=False, factory=dict)
 
@@ -27,12 +29,10 @@ class TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        translate_native_quil_to_encrypted_binary_response_memory_descriptors = (
-            TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors()
-        )
+        translate_native_quil_to_encrypted_binary_response_memory_descriptors = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():

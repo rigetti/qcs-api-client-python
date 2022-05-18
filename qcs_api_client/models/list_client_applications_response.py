@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
@@ -6,10 +6,15 @@ from ..models.client_application import ClientApplication
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ListClientApplicationsResponse")
+
 
 @attr.s(auto_attribs=True)
 class ListClientApplicationsResponse:
-    """  """
+    """
+    Attributes:
+        client_applications (List[ClientApplication]):
+    """
 
     client_applications: List[ClientApplication]
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -35,8 +40,8 @@ class ListClientApplicationsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ListClientApplicationsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         client_applications = []
         _client_applications = d.pop("clientApplications")
@@ -45,7 +50,7 @@ class ListClientApplicationsResponse:
 
             client_applications.append(client_applications_item)
 
-        list_client_applications_response = ListClientApplicationsResponse(
+        list_client_applications_response = cls(
             client_applications=client_applications,
         )
 

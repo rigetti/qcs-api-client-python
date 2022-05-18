@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ParameterSpec")
+
 
 @attr.s(auto_attribs=True)
 class ParameterSpec:
-    """  """
+    """
+    Attributes:
+        length (Union[Unset, int]):
+    """
 
     length: Union[Unset, int] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -28,12 +33,12 @@ class ParameterSpec:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ParameterSpec":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         length = d.pop("length", UNSET)
 
-        parameter_spec = ParameterSpec(
+        parameter_spec = cls(
             length=length,
         )
 

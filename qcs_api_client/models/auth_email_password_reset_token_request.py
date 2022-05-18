@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="AuthEmailPasswordResetTokenRequest")
+
 
 @attr.s(auto_attribs=True)
 class AuthEmailPasswordResetTokenRequest:
-    """  """
+    """
+    Attributes:
+        email (str):
+    """
 
     email: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -30,12 +35,12 @@ class AuthEmailPasswordResetTokenRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "AuthEmailPasswordResetTokenRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         email = d.pop("email")
 
-        auth_email_password_reset_token_request = AuthEmailPasswordResetTokenRequest(
+        auth_email_password_reset_token_request = cls(
             email=email,
         )
 

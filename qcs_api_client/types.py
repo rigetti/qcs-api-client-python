@@ -15,14 +15,14 @@ UNSET: Unset = Unset()
 
 @attr.s(auto_attribs=True)
 class File:
-    """ Contains information for file uploads """
+    """Contains information for file uploads"""
 
     payload: Union[BinaryIO, TextIO]
     file_name: Optional[str] = None
     mime_type: Optional[str] = None
 
     def to_tuple(self) -> Tuple[Optional[str], Union[BinaryIO, TextIO], Optional[str]]:
-        """ Return a tuple representation that httpx will accept for multipart/form-data """
+        """Return a tuple representation that httpx will accept for multipart/form-data"""
         return self.file_name, self.payload, self.mime_type
 
 

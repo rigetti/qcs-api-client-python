@@ -1,14 +1,23 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="AddGroupUserRequest")
+
 
 @attr.s(auto_attribs=True)
 class AddGroupUserRequest:
-    """ Must provide either `userId` or `userEmail` and `groupId` or `groupName`. """
+    """Must provide either `userId` or `userEmail` and `groupId` or `groupName`.
+
+    Attributes:
+        group_id (Union[Unset, str]):
+        group_name (Union[Unset, str]):
+        user_email (Union[Unset, str]):
+        user_id (Union[Unset, str]):
+    """
 
     group_id: Union[Unset, str] = UNSET
     group_name: Union[Unset, str] = UNSET
@@ -40,8 +49,8 @@ class AddGroupUserRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "AddGroupUserRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         group_id = d.pop("groupId", UNSET)
 
@@ -51,7 +60,7 @@ class AddGroupUserRequest:
 
         user_id = d.pop("userId", UNSET)
 
-        add_group_user_request = AddGroupUserRequest(
+        add_group_user_request = cls(
             group_id=group_id,
             group_name=group_name,
             user_email=user_email,

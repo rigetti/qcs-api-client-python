@@ -9,9 +9,22 @@ from ...util.errors import QCSHTTPStatusError, raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    *,
+    client: httpx.Client,
+) -> Dict[str, Any]:
+    url = "{}/".format(client.base_url)
 
-    return {}
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
+
+    return {
+        "method": "get",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
+    }
 
 
 def _parse_response(*, response: httpx.Response) -> Health:
@@ -39,15 +52,20 @@ def sync(
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Health]:
-    url = "/"
+    """Retrieve the health status of the API
 
-    kwargs = _get_kwargs()
+    Returns:
+        Response[Health]
+    """
+
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -58,15 +76,14 @@ def sync_from_dict(
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Health]:
 
-    url = "/"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -76,15 +93,20 @@ async def asyncio(
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Health]:
-    url = "/"
+    """Retrieve the health status of the API
 
-    kwargs = _get_kwargs()
+    Returns:
+        Response[Health]
+    """
+
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "get",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -95,13 +117,12 @@ async def asyncio_from_dict(
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Health]:
 
-    url = "/"
-
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        client=client,
+    )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "get",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

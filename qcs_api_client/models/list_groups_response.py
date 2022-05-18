@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
@@ -6,10 +6,16 @@ from ..models.group import Group
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="ListGroupsResponse")
+
 
 @attr.s(auto_attribs=True)
 class ListGroupsResponse:
-    """  """
+    """
+    Attributes:
+        groups (List[Group]):
+        next_page_token (Union[Unset, str]):
+    """
 
     groups: List[Group]
     next_page_token: Union[Unset, str] = UNSET
@@ -40,8 +46,8 @@ class ListGroupsResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "ListGroupsResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         groups = []
         _groups = d.pop("groups")
@@ -52,7 +58,7 @@ class ListGroupsResponse:
 
         next_page_token = d.pop("nextPageToken", UNSET)
 
-        list_groups_response = ListGroupsResponse(
+        list_groups_response = cls(
             groups=groups,
             next_page_token=next_page_token,
         )

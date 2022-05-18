@@ -1,15 +1,23 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="EngagementCredentials")
+
 
 @attr.s(auto_attribs=True)
 class EngagementCredentials:
     """Credentials are the ZeroMQ CURVE Keys used to encrypt the connection with the Quantum Processor
-    Endpoint."""
+    Endpoint.
+
+        Attributes:
+            client_public (str):
+            client_secret (str):
+            server_public (str):
+    """
 
     client_public: str
     client_secret: str
@@ -37,8 +45,8 @@ class EngagementCredentials:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "EngagementCredentials":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         client_public = d.pop("clientPublic")
 
@@ -46,7 +54,7 @@ class EngagementCredentials:
 
         server_public = d.pop("serverPublic")
 
-        engagement_credentials = EngagementCredentials(
+        engagement_credentials = cls(
             client_public=client_public,
             client_secret=client_secret,
             server_public=server_public,

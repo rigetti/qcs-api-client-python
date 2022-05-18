@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Callable, Dict, List, Optional, Union, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
@@ -9,15 +9,23 @@ from ..models.user_profile import UserProfile
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="User")
+
 
 @attr.s(auto_attribs=True)
 class User:
-    """  """
+    """
+    Attributes:
+        created_time (datetime.datetime):
+        id (int):
+        idp_id (str):
+        profile (Union[Unset, UserProfile]):
+    """
 
     created_time: datetime.datetime
     id: int
     idp_id: str
-    profile: Union[UserProfile, Unset] = UNSET
+    profile: Union[Unset, UserProfile] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
@@ -48,8 +56,8 @@ class User:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "User":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         created_time = isoparse(d.pop("createdTime"))
 
@@ -57,12 +65,14 @@ class User:
 
         idp_id = d.pop("idpId")
 
-        profile: Union[UserProfile, Unset] = UNSET
         _profile = d.pop("profile", UNSET)
-        if _profile is not None and not isinstance(_profile, Unset):
-            profile = UserProfile.from_dict(cast(Dict[str, Any], _profile))
+        profile: Union[Unset, UserProfile]
+        if isinstance(_profile, Unset):
+            profile = UNSET
+        else:
+            profile = UserProfile.from_dict(_profile)
 
-        user = User(
+        user = cls(
             created_time=created_time,
             id=id,
             idp_id=idp_id,

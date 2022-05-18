@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Callable, Dict, List, Optional, Union, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
 
 import attr
 from dateutil.parser import isoparse
@@ -8,10 +8,25 @@ from rfc3339 import rfc3339
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="Characteristic")
+
 
 @attr.s(auto_attribs=True)
 class Characteristic:
-    """ A measured characteristic of an operation. """
+    """A measured characteristic of an operation.
+
+    Attributes:
+        name (str): The name of the characteristic.
+        timestamp (datetime.datetime): The date and time at which the characteristic was measured.
+        value (float): The characteristic value measured.
+        error (Union[Unset, float]): The error in the characteristic value, or None otherwise.
+        node_ids (Union[Unset, List[int]]): The list of architecture node ids for the site where the characteristic is
+            measured, if that is different from the site of the enclosing operation. None if it is the same. The order of
+            this or the enclosing node ids obey the definition of node symmetry from the enclosing operation.
+        parameter_values (Union[Unset, List[float]]): The optional ordered list of parameter values used to generate the
+            characteristic. The order matches the parameters in the enclosing operation, and so the lengths of these two
+            lists must match.
+    """
 
     name: str
     timestamp: datetime.datetime
@@ -27,11 +42,11 @@ class Characteristic:
 
         value = self.value
         error = self.error
-        node_ids: Union[Unset, List[Any]] = UNSET
+        node_ids: Union[Unset, List[int]] = UNSET
         if not isinstance(self.node_ids, Unset):
             node_ids = self.node_ids
 
-        parameter_values: Union[Unset, List[Any]] = UNSET
+        parameter_values: Union[Unset, List[float]] = UNSET
         if not isinstance(self.parameter_values, Unset):
             parameter_values = self.parameter_values
 
@@ -56,8 +71,8 @@ class Characteristic:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Characteristic":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         name = d.pop("name")
 
@@ -71,7 +86,7 @@ class Characteristic:
 
         parameter_values = cast(List[float], d.pop("parameter_values", UNSET))
 
-        characteristic = Characteristic(
+        characteristic = cls(
             name=name,
             timestamp=timestamp,
             value=value,

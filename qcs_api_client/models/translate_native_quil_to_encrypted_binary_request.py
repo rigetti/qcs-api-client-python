@@ -1,14 +1,22 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="TranslateNativeQuilToEncryptedBinaryRequest")
+
 
 @attr.s(auto_attribs=True)
 class TranslateNativeQuilToEncryptedBinaryRequest:
-    """  """
+    """
+    Attributes:
+        num_shots (int): Number of iterations to execute on the control hardware
+        quil (str): The native Quil program to be translated for execution
+        settings_timestamp (Union[Unset, str]): ISO8601 timestamp of the latest settings to be used in translation. If
+            omitted, latest settings will be used.
+    """
 
     num_shots: int
     quil: str
@@ -37,8 +45,8 @@ class TranslateNativeQuilToEncryptedBinaryRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "TranslateNativeQuilToEncryptedBinaryRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         num_shots = d.pop("numShots")
 
@@ -46,7 +54,7 @@ class TranslateNativeQuilToEncryptedBinaryRequest:
 
         settings_timestamp = d.pop("settingsTimestamp", UNSET)
 
-        translate_native_quil_to_encrypted_binary_request = TranslateNativeQuilToEncryptedBinaryRequest(
+        translate_native_quil_to_encrypted_binary_request = cls(
             num_shots=num_shots,
             quil=quil,
             settings_timestamp=settings_timestamp,

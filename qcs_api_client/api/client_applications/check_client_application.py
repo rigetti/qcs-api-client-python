@@ -12,12 +12,22 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 def _get_kwargs(
     *,
+    client: httpx.Client,
     json_body: CheckClientApplicationRequest,
 ) -> Dict[str, Any]:
+    url = "{}/v1/clientApplications:check".format(client.base_url)
+
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
         "json": json_json_body,
     }
 
@@ -48,17 +58,26 @@ def sync(
     json_body: CheckClientApplicationRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[CheckClientApplicationResponse]:
-    url = "/v1/clientApplications:check"
+    """Check Client Application
+
+     Check the requested client application version against the latest and minimum version.
+
+    Args:
+        json_body (CheckClientApplicationRequest):
+
+    Returns:
+        Response[CheckClientApplicationResponse]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -71,17 +90,15 @@ def sync_from_dict(
 ) -> Response[CheckClientApplicationResponse]:
     json_body = CheckClientApplicationRequest.from_dict(json_body_dict)
 
-    url = "/v1/clientApplications:check"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -92,17 +109,26 @@ async def asyncio(
     json_body: CheckClientApplicationRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[CheckClientApplicationResponse]:
-    url = "/v1/clientApplications:check"
+    """Check Client Application
+
+     Check the requested client application version against the latest and minimum version.
+
+    Args:
+        json_body (CheckClientApplicationRequest):
+
+    Returns:
+        Response[CheckClientApplicationResponse]
+    """
 
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
@@ -115,15 +141,13 @@ async def asyncio_from_dict(
 ) -> Response[CheckClientApplicationResponse]:
     json_body = CheckClientApplicationRequest.from_dict(json_body_dict)
 
-    url = "/v1/clientApplications:check"
-
     kwargs = _get_kwargs(
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "post",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)

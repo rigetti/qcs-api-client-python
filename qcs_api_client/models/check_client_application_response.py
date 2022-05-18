@@ -1,14 +1,21 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="CheckClientApplicationResponse")
+
 
 @attr.s(auto_attribs=True)
 class CheckClientApplicationResponse:
-    """  """
+    """
+    Attributes:
+        is_latest_version (bool):
+        is_update_required (bool): Set to true if component is not at latest version.
+        message (str):
+    """
 
     is_latest_version: bool
     is_update_required: bool
@@ -36,8 +43,8 @@ class CheckClientApplicationResponse:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "CheckClientApplicationResponse":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         is_latest_version = d.pop("isLatestVersion")
 
@@ -45,7 +52,7 @@ class CheckClientApplicationResponse:
 
         message = d.pop("message")
 
-        check_client_application_response = CheckClientApplicationResponse(
+        check_client_application_response = cls(
             is_latest_version=is_latest_version,
             is_update_required=is_update_required,
             message=message,

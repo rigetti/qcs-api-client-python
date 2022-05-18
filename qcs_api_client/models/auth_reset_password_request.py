@@ -1,14 +1,20 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="AuthResetPasswordRequest")
+
 
 @attr.s(auto_attribs=True)
 class AuthResetPasswordRequest:
-    """  """
+    """
+    Attributes:
+        new_password (str):
+        old_password (str):
+    """
 
     new_password: str
     old_password: str
@@ -33,14 +39,14 @@ class AuthResetPasswordRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "AuthResetPasswordRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         new_password = d.pop("newPassword")
 
         old_password = d.pop("oldPassword")
 
-        auth_reset_password_request = AuthResetPasswordRequest(
+        auth_reset_password_request = cls(
             new_password=new_password,
             old_password=old_password,
         )

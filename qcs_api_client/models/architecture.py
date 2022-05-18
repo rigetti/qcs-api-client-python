@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
@@ -7,6 +7,8 @@ from ..models.family import Family
 from ..models.node import Node
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+T = TypeVar("T", bound="Architecture")
 
 
 @attr.s(auto_attribs=True)
@@ -28,7 +30,18 @@ class Architecture:
 
     Note that the operations that are actually available are defined entirely by `Operation`
     instances. The presence of a node or edge in the `Architecture` model provides no guarantee
-    that any 1Q or 2Q operation will be available to users writing QUIL programs."""
+    that any 1Q or 2Q operation will be available to users writing QUIL programs.
+
+        Attributes:
+            edges (List[Edge]): A list of all computational edges in the instruction set architecture.
+            family (Family): Family identifier.
+
+                Value 'None' implies the architecture has no specific layout topology. Value 'Full' implies
+                every node is connected to every other node (a fully-connected architecture). Value 'Aspen'
+                implies the architecture adheres the to the Aspen topology conventions for node numbering
+                and edge connectivity.
+            nodes (List[Node]): A list of all computational nodes in the instruction set architecture.
+    """
 
     edges: List[Edge]
     family: Family
@@ -64,8 +77,8 @@ class Architecture:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Architecture":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         edges = []
         _edges = d.pop("edges")
@@ -83,7 +96,7 @@ class Architecture:
 
             nodes.append(nodes_item)
 
-        architecture = Architecture(
+        architecture = cls(
             edges=edges,
             family=family,
             nodes=nodes,

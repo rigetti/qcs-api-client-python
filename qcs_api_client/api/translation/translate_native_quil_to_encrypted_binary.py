@@ -11,14 +11,26 @@ from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
 def _get_kwargs(
-    *,
     quantum_processor_id: str,
+    *,
+    client: httpx.Client,
     json_body: TranslateNativeQuilToEncryptedBinaryRequest,
 ) -> Dict[str, Any]:
+    url = "{}/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
+        client.base_url, quantumProcessorId=quantum_processor_id
+    )
+
+    headers = {k: v for (k, v) in client.headers.items()}
+    cookies = {k: v for (k, v) in client.cookies}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
+        "url": url,
+        "headers": headers,
+        "cookies": cookies,
+        "timeout": client.timeout,
         "json": json_json_body,
     }
 
@@ -44,103 +56,113 @@ def _build_response(*, response: httpx.Response) -> Response[TranslateNativeQuil
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    quantum_processor_id: str,
     *,
     client: httpx.Client,
-    quantum_processor_id: str,
     json_body: TranslateNativeQuilToEncryptedBinaryRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
-    url = "/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
-        quantumProcessorId=quantum_processor_id,
-    )
+    """Translate Native Quil To Encrypted Binary
+
+     Compile Rigetti-native Quil code to encrypted binary form, ready for execution on a
+    Rigetti Quantum Processor.
+
+    Args:
+        quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
+        json_body (TranslateNativeQuilToEncryptedBinaryRequest):
+
+    Returns:
+        Response[TranslateNativeQuilToEncryptedBinaryResponse]
+    """
 
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    quantum_processor_id: str,
     *,
     client: httpx.Client,
-    quantum_processor_id: str,
     json_body_dict: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
     json_body = TranslateNativeQuilToEncryptedBinaryRequest.from_dict(json_body_dict)
 
-    url = "/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
-        quantumProcessorId=quantum_processor_id,
-    )
-
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    quantum_processor_id: str,
     *,
     client: httpx.AsyncClient,
-    quantum_processor_id: str,
     json_body: TranslateNativeQuilToEncryptedBinaryRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
-    url = "/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
-        quantumProcessorId=quantum_processor_id,
-    )
+    """Translate Native Quil To Encrypted Binary
+
+     Compile Rigetti-native Quil code to encrypted binary form, ready for execution on a
+    Rigetti Quantum Processor.
+
+    Args:
+        quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
+        json_body (TranslateNativeQuilToEncryptedBinaryRequest):
+
+    Returns:
+        Response[TranslateNativeQuilToEncryptedBinaryResponse]
+    """
 
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
-        "post",
-        url,
         **kwargs,
     )
+
     return _build_response(response=response)
 
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    quantum_processor_id: str,
     *,
     client: httpx.AsyncClient,
-    quantum_processor_id: str,
     json_body_dict: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
     json_body = TranslateNativeQuilToEncryptedBinaryRequest.from_dict(json_body_dict)
 
-    url = "/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
-        quantumProcessorId=quantum_processor_id,
-    )
-
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
+        client=client,
         json_body=json_body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        "post",
-        url,
+    response = client.request(
         **kwargs,
     )
+
     return _build_response(response=response)
