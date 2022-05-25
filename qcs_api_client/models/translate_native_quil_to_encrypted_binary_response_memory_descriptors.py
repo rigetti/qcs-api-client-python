@@ -11,7 +11,7 @@ T = TypeVar("T", bound="TranslateNativeQuilToEncryptedBinaryResponseMemoryDescri
 
 @attr.s(auto_attribs=True)
 class TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors:
-    """"""
+    """ """
 
     additional_properties: Dict[str, ParameterSpec] = attr.ib(init=False, factory=dict)
 

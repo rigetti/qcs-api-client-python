@@ -1,16 +1,18 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 
 import attr
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+T = TypeVar("T", bound="BillingInvoiceLineMetadata")
+
 
 @attr.s(auto_attribs=True)
-class InternalCreateReservationRequest:
-    """  """
+class BillingInvoiceLineMetadata:
+    """ """
 
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, str] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
 
@@ -24,22 +26,22 @@ class InternalCreateReservationRequest:
 
         return field_dict
 
-    @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "InternalCreateReservationRequest":
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        internal_create_reservation_request = InternalCreateReservationRequest()
+        billing_invoice_line_metadata = cls()
 
-        internal_create_reservation_request.additional_properties = d
-        return internal_create_reservation_request
+        billing_invoice_line_metadata.additional_properties = d
+        return billing_invoice_line_metadata
 
     @property
     def additional_keys(self) -> List[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> str:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: str) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:
