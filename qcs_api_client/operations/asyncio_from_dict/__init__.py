@@ -48,6 +48,7 @@ from qcs_api_client.api.endpoints.delete_endpoint import asyncio_from_dict as de
 from qcs_api_client.api.endpoints.get_default_endpoint import asyncio_from_dict as get_default_endpoint
 from qcs_api_client.api.endpoints.get_endpoint import asyncio_from_dict as get_endpoint
 from qcs_api_client.api.endpoints.list_endpoints import asyncio_from_dict as list_endpoints
+from qcs_api_client.api.endpoints.restart_endpoint import asyncio_from_dict as restart_endpoint
 from qcs_api_client.api.engagements.create_engagement import asyncio_from_dict as create_engagement
 from qcs_api_client.api.quantum_processors.get_instruction_set_architecture import (
     asyncio_from_dict as get_instruction_set_architecture,

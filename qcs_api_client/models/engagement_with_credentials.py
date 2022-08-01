@@ -21,13 +21,14 @@ class EngagementWithCredentials:
             Endpoint.
         endpoint_id (str): The ID of the endpoint to which this engagement grants access
         expires_at (str): Time after which the engagement is no longer valid. Given in RFC3339 format.
-        quantum_processor_id (str):
         user_id (str):
         account_id (Union[Unset, str]): User ID or group name on behalf of which the engagement is made.
         account_type (Union[Unset, AccountType]): There are two types of accounts within QCS: user (representing a
             single user in Okta) and group
             (representing one or more users in Okta).
         minimum_priority (Union[Unset, int]): The minimum priority value allowed for execution
+        quantum_processor_ids (Union[Unset, List[str]]): The quantum processors for which this engagement enables access
+            and execution
         tags (Union[Unset, List[str]]): Tags recorded on QPU requests and recorded on usage records.
     """
 
@@ -35,11 +36,11 @@ class EngagementWithCredentials:
     credentials: EngagementCredentials
     endpoint_id: str
     expires_at: str
-    quantum_processor_id: str
     user_id: str
     account_id: Union[Unset, str] = UNSET
     account_type: Union[Unset, AccountType] = UNSET
     minimum_priority: Union[Unset, int] = UNSET
+    quantum_processor_ids: Union[Unset, List[str]] = UNSET
     tags: Union[Unset, List[str]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -49,7 +50,6 @@ class EngagementWithCredentials:
 
         endpoint_id = self.endpoint_id
         expires_at = self.expires_at
-        quantum_processor_id = self.quantum_processor_id
         user_id = self.user_id
         account_id = self.account_id
         account_type: Union[Unset, str] = UNSET
@@ -57,6 +57,10 @@ class EngagementWithCredentials:
             account_type = self.account_type.value
 
         minimum_priority = self.minimum_priority
+        quantum_processor_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.quantum_processor_ids, Unset):
+            quantum_processor_ids = self.quantum_processor_ids
+
         tags: Union[Unset, List[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
@@ -69,7 +73,6 @@ class EngagementWithCredentials:
                 "credentials": credentials,
                 "endpointId": endpoint_id,
                 "expiresAt": expires_at,
-                "quantumProcessorId": quantum_processor_id,
                 "userId": user_id,
             }
         )
@@ -79,6 +82,8 @@ class EngagementWithCredentials:
             field_dict["accountType"] = account_type
         if minimum_priority is not UNSET:
             field_dict["minimumPriority"] = minimum_priority
+        if quantum_processor_ids is not UNSET:
+            field_dict["quantumProcessorIds"] = quantum_processor_ids
         if tags is not UNSET:
             field_dict["tags"] = tags
 
@@ -99,8 +104,6 @@ class EngagementWithCredentials:
 
         expires_at = d.pop("expiresAt")
 
-        quantum_processor_id = d.pop("quantumProcessorId")
-
         user_id = d.pop("userId")
 
         account_id = d.pop("accountId", UNSET)
@@ -114,6 +117,8 @@ class EngagementWithCredentials:
 
         minimum_priority = d.pop("minimumPriority", UNSET)
 
+        quantum_processor_ids = cast(List[str], d.pop("quantumProcessorIds", UNSET))
+
         tags = cast(List[str], d.pop("tags", UNSET))
 
         engagement_with_credentials = cls(
@@ -121,11 +126,11 @@ class EngagementWithCredentials:
             credentials=credentials,
             endpoint_id=endpoint_id,
             expires_at=expires_at,
-            quantum_processor_id=quantum_processor_id,
             user_id=user_id,
             account_id=account_id,
             account_type=account_type,
             minimum_priority=minimum_priority,
+            quantum_processor_ids=quantum_processor_ids,
             tags=tags,
         )
 

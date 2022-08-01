@@ -1,21 +1,21 @@
-from typing import Any, Dict
+from typing import Any, Dict, cast
 
 import httpx
 from retrying import retry
 
-from ...models.create_reservation_request import CreateReservationRequest
-from ...models.reservation import Reservation
+from ...models.restart_endpoint_request import RestartEndpointRequest
 from ...types import Response
 from ...util.errors import QCSHTTPStatusError, raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 
 def _get_kwargs(
+    endpoint_id: str,
     *,
     client: httpx.Client,
-    json_body: CreateReservationRequest,
+    json_body: RestartEndpointRequest,
 ) -> Dict[str, Any]:
-    url = "{}/v1/reservations".format(client.base_url)
+    url = "{}/v1/endpoints/{endpointId}:restart".format(client.base_url, endpointId=endpoint_id)
 
     headers = {k: v for (k, v) in client.headers.items()}
     cookies = {k: v for (k, v) in client.cookies}
@@ -32,19 +32,18 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, response: httpx.Response) -> Reservation:
+def _parse_response(*, response: httpx.Response) -> Any:
     raise_for_status(response)
-    if response.status_code == 201:
-        response_201 = Reservation.from_dict(response.json())
-
-        return response_201
+    if response.status_code == 200:
+        response_200 = cast(Any, response.json())
+        return response_200
     else:
         raise QCSHTTPStatusError(
             f"Unexpected response: status code {response.status_code}", response=response, error=None
         )
 
 
-def _build_response(*, response: httpx.Response) -> Response[Reservation]:
+def _build_response(*, response: httpx.Response) -> Response[Any]:
     """
     Construct the Response class from the raw ``httpx.Response``.
     """
@@ -53,30 +52,26 @@ def _build_response(*, response: httpx.Response) -> Response[Reservation]:
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync(
+    endpoint_id: str,
     *,
     client: httpx.Client,
-    json_body: CreateReservationRequest,
+    json_body: RestartEndpointRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Reservation]:
-    """Create Reservation
+) -> Response[Any]:
+    """Restart Endpoint
 
-     Create a new reservation.
-
-    The following precedence applies when specifying the reservation subject account
-    ID and type:
-    * request body `accountId` field, or if unset then `X-QCS-ACCOUNT-ID` header,
-    or if unset then requesting user's ID.
-    * request body `accountType` field, or if unset then `X-QCS-ACCOUNT-TYPE`
-    header, or if unset then \"user\" type.
+     Restart an entire endpoint or a single component within an endpoint.
 
     Args:
-        json_body (CreateReservationRequest):
+        endpoint_id (str):
+        json_body (RestartEndpointRequest):
 
     Returns:
-        Response[Reservation]
+        Response[Any]
     """
 
     kwargs = _get_kwargs(
+        endpoint_id=endpoint_id,
         client=client,
         json_body=json_body,
     )
@@ -90,14 +85,16 @@ def sync(
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 def sync_from_dict(
+    endpoint_id: str,
     *,
     client: httpx.Client,
     json_body_dict: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Reservation]:
-    json_body = CreateReservationRequest.from_dict(json_body_dict)
+) -> Response[Any]:
+    json_body = RestartEndpointRequest.from_dict(json_body_dict)
 
     kwargs = _get_kwargs(
+        endpoint_id=endpoint_id,
         client=client,
         json_body=json_body,
     )
@@ -111,30 +108,26 @@ def sync_from_dict(
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio(
+    endpoint_id: str,
     *,
     client: httpx.AsyncClient,
-    json_body: CreateReservationRequest,
+    json_body: RestartEndpointRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Reservation]:
-    """Create Reservation
+) -> Response[Any]:
+    """Restart Endpoint
 
-     Create a new reservation.
-
-    The following precedence applies when specifying the reservation subject account
-    ID and type:
-    * request body `accountId` field, or if unset then `X-QCS-ACCOUNT-ID` header,
-    or if unset then requesting user's ID.
-    * request body `accountType` field, or if unset then `X-QCS-ACCOUNT-TYPE`
-    header, or if unset then \"user\" type.
+     Restart an entire endpoint or a single component within an endpoint.
 
     Args:
-        json_body (CreateReservationRequest):
+        endpoint_id (str):
+        json_body (RestartEndpointRequest):
 
     Returns:
-        Response[Reservation]
+        Response[Any]
     """
 
     kwargs = _get_kwargs(
+        endpoint_id=endpoint_id,
         client=client,
         json_body=json_body,
     )
@@ -148,14 +141,16 @@ async def asyncio(
 
 @retry(**DEFAULT_RETRY_ARGUMENTS)
 async def asyncio_from_dict(
+    endpoint_id: str,
     *,
     client: httpx.AsyncClient,
     json_body_dict: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Reservation]:
-    json_body = CreateReservationRequest.from_dict(json_body_dict)
+) -> Response[Any]:
+    json_body = RestartEndpointRequest.from_dict(json_body_dict)
 
     kwargs = _get_kwargs(
+        endpoint_id=endpoint_id,
         client=client,
         json_body=json_body,
     )

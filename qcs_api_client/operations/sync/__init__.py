@@ -32,6 +32,7 @@ from qcs_api_client.api.endpoints.delete_endpoint import sync as delete_endpoint
 from qcs_api_client.api.endpoints.get_default_endpoint import sync as get_default_endpoint
 from qcs_api_client.api.endpoints.get_endpoint import sync as get_endpoint
 from qcs_api_client.api.endpoints.list_endpoints import sync as list_endpoints
+from qcs_api_client.api.endpoints.restart_endpoint import sync as restart_endpoint
 from qcs_api_client.api.engagements.create_engagement import sync as create_engagement
 from qcs_api_client.api.quantum_processors.get_instruction_set_architecture import (
     sync as get_instruction_set_architecture,

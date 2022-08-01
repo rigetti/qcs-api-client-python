@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
 
 import attr
 
@@ -19,8 +19,9 @@ class Endpoint:
         healthy (bool): Whether the endpoint is operating as intended
         id (str): Unique, opaque identifier for the endpoint
         mock (bool): Whether the endpoint serves simulated or substituted data for testing purposes
-        quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
-        datacenter (Union[Unset, str]): Datacenter that the endpoint is running in
+        datacenter (Union[Unset, str]): Datacenter within which the endpoint is deployed
+        quantum_processor_ids (Union[Unset, List[str]]): Public identifiers for quantum processors served by this
+            endpoint.
     """
 
     address: str
@@ -28,8 +29,8 @@ class Endpoint:
     healthy: bool
     id: str
     mock: bool
-    quantum_processor_id: str
     datacenter: Union[Unset, str] = UNSET
+    quantum_processor_ids: Union[Unset, List[str]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
@@ -39,8 +40,10 @@ class Endpoint:
         healthy = self.healthy
         id = self.id
         mock = self.mock
-        quantum_processor_id = self.quantum_processor_id
         datacenter = self.datacenter
+        quantum_processor_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.quantum_processor_ids, Unset):
+            quantum_processor_ids = self.quantum_processor_ids
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -51,11 +54,12 @@ class Endpoint:
                 "healthy": healthy,
                 "id": id,
                 "mock": mock,
-                "quantumProcessorId": quantum_processor_id,
             }
         )
         if datacenter is not UNSET:
             field_dict["datacenter"] = datacenter
+        if quantum_processor_ids is not UNSET:
+            field_dict["quantumProcessorIds"] = quantum_processor_ids
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -76,9 +80,9 @@ class Endpoint:
 
         mock = d.pop("mock")
 
-        quantum_processor_id = d.pop("quantumProcessorId")
-
         datacenter = d.pop("datacenter", UNSET)
+
+        quantum_processor_ids = cast(List[str], d.pop("quantumProcessorIds", UNSET))
 
         endpoint = cls(
             address=address,
@@ -86,8 +90,8 @@ class Endpoint:
             healthy=healthy,
             id=id,
             mock=mock,
-            quantum_processor_id=quantum_processor_id,
             datacenter=datacenter,
+            quantum_processor_ids=quantum_processor_ids,
         )
 
         endpoint.additional_properties = d

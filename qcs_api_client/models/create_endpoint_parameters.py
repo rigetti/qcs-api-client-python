@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
 
 import attr
 
@@ -14,17 +14,17 @@ class CreateEndpointParameters:
     """A publicly available set of parameters for defining an endpoint.
 
     Attributes:
-        quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
         datacenters (Union[Unset, List[NomadJobDatacenters]]): Which datacenters are available for endpoint placement.
             Defaults to berkeley-775
+        quantum_processor_ids (Union[Unset, List[str]]): Public identifiers for quantum processors served by this
+            endpoint.
     """
 
-    quantum_processor_id: str
     datacenters: Union[Unset, List[NomadJobDatacenters]] = UNSET
+    quantum_processor_ids: Union[Unset, List[str]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        quantum_processor_id = self.quantum_processor_id
         datacenters: Union[Unset, List[str]] = UNSET
         if not isinstance(self.datacenters, Unset):
             datacenters = []
@@ -33,15 +33,17 @@ class CreateEndpointParameters:
 
                 datacenters.append(datacenters_item)
 
+        quantum_processor_ids: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.quantum_processor_ids, Unset):
+            quantum_processor_ids = self.quantum_processor_ids
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "quantumProcessorId": quantum_processor_id,
-            }
-        )
+        field_dict.update({})
         if datacenters is not UNSET:
             field_dict["datacenters"] = datacenters
+        if quantum_processor_ids is not UNSET:
+            field_dict["quantumProcessorIds"] = quantum_processor_ids
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -52,8 +54,6 @@ class CreateEndpointParameters:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        quantum_processor_id = d.pop("quantumProcessorId")
-
         datacenters = []
         _datacenters = d.pop("datacenters", UNSET)
         for datacenters_item_data in _datacenters or []:
@@ -61,9 +61,11 @@ class CreateEndpointParameters:
 
             datacenters.append(datacenters_item)
 
+        quantum_processor_ids = cast(List[str], d.pop("quantumProcessorIds", UNSET))
+
         create_endpoint_parameters = cls(
-            quantum_processor_id=quantum_processor_id,
             datacenters=datacenters,
+            quantum_processor_ids=quantum_processor_ids,
         )
 
         create_endpoint_parameters.additional_properties = d

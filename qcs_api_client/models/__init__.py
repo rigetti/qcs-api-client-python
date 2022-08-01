@@ -21,6 +21,8 @@ from .billing_price_recurrence import BillingPriceRecurrence
 from .billing_price_recurrence_aggregate_usage import BillingPriceRecurrenceAggregateUsage
 from .billing_price_recurrence_interval import BillingPriceRecurrenceInterval
 from .billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
+from .billing_price_scheme import BillingPriceScheme
+from .billing_price_tiers_mode import BillingPriceTiersMode
 from .billing_product import BillingProduct
 from .billing_product_object import BillingProductObject
 from .billing_upcoming_invoice import BillingUpcomingInvoice
@@ -65,6 +67,8 @@ from .parameter_spec import ParameterSpec
 from .quantum_processor import QuantumProcessor
 from .remove_group_user_request import RemoveGroupUserRequest
 from .reservation import Reservation
+from .restart_endpoint_request import RestartEndpointRequest
+from .tier import Tier
 from .translate_native_quil_to_encrypted_binary_request import TranslateNativeQuilToEncryptedBinaryRequest
 from .translate_native_quil_to_encrypted_binary_response import TranslateNativeQuilToEncryptedBinaryResponse
 from .translate_native_quil_to_encrypted_binary_response_memory_descriptors import (

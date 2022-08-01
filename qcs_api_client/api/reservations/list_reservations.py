@@ -55,7 +55,8 @@ def sync(
     """List Reservations
 
      List existing reservations for the authenticated user,
-    or a target user when specifying `X-QCS-ACCOUNT-ID` and `X-QCS-ACCOUNT-TYPE` headers.
+    or a target user when specifying `X-QCS-ACCOUNT-ID` and `X-QCS-ACCOUNT-TYPE`
+    headers.
 
     Available filter fields include:
 
@@ -115,7 +116,8 @@ async def asyncio(
     """List Reservations
 
      List existing reservations for the authenticated user,
-    or a target user when specifying `X-QCS-ACCOUNT-ID` and `X-QCS-ACCOUNT-TYPE` headers.
+    or a target user when specifying `X-QCS-ACCOUNT-ID` and `X-QCS-ACCOUNT-TYPE`
+    headers.
 
     Available filter fields include:
 
