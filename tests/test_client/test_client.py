@@ -129,7 +129,7 @@ def test_env_overrides(monkeypatch):
 
 
 @respx.mock(assert_all_mocked=True)
-def test_sync_client(client_configuration: QCSClientConfiguration, respx_mock: respx.MockTransport = None):
+def test_sync_client(client_configuration: QCSClientConfiguration, respx_mock: respx.MockRouter = None):
     """
     Assert that a sync client can be constructed and make a call with authorization header.
     """
@@ -144,7 +144,7 @@ def test_sync_client(client_configuration: QCSClientConfiguration, respx_mock: r
 
 
 @respx.mock(assert_all_mocked=True)
-def test_sync_client_api_call(client_configuration: QCSClientConfiguration, respx_mock: respx.MockTransport = None):
+def test_sync_client_api_call(client_configuration: QCSClientConfiguration, respx_mock: respx.MockRouter = None):
     """Assert that a generated request function can be called with a sync client."""
 
     def assert_request(request: Request):
@@ -159,7 +159,7 @@ def test_sync_client_api_call(client_configuration: QCSClientConfiguration, resp
 
 
 @respx.mock(assert_all_mocked=True)
-def test_sync_client_api_call_empty_config(fixture_directory: Path, respx_mock: respx.MockTransport = None):
+def test_sync_client_api_call_empty_config(fixture_directory: Path, respx_mock: respx.MockRouter = None):
     """Assert that the client makes sync requests with authentication if configuration is empty."""
 
     client_configuration = QCSClientConfiguration.load(
@@ -184,7 +184,7 @@ def test_sync_client_api_call_empty_config(fixture_directory: Path, respx_mock: 
 
 @respx.mock(assert_all_mocked=True)
 @pytest.mark.asyncio
-async def test_async_client(client_configuration: QCSClientConfiguration, respx_mock: respx.MockTransport = None):
+async def test_async_client(client_configuration: QCSClientConfiguration, respx_mock: respx.MockRouter = None):
     """
     Assert that an async client can be constructed and make a call with authorization header.
     """
@@ -198,7 +198,7 @@ async def test_async_client(client_configuration: QCSClientConfiguration, respx_
 
 
 @respx.mock(assert_all_mocked=True)
-async def test_async_client_api_call_empty_config(fixture_directory: Path, respx_mock: respx.MockTransport = None):
+async def test_async_client_api_call_empty_config(fixture_directory: Path, respx_mock: respx.MockRouter = None):
     """Assert that the client makes async requests with authentication if configuration is empty."""
 
     client_configuration = QCSClientConfiguration.load(

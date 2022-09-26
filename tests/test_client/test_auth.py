@@ -18,7 +18,7 @@ from qcs_api_client.client._configuration.secrets import toml
     ],
 )
 @respx.mock(assert_all_mocked=True)
-def test_qcs_auth_refresh_token(fixture_directory: Path, execute_async: bool, respx_mock: respx.MockTransport = None):
+def test_qcs_auth_refresh_token(fixture_directory: Path, execute_async: bool, respx_mock: respx.MockRouter = None):
     """
     Assert that the credential's token payload is written back to the file on update during the
     QCSAuth refresh flows.
