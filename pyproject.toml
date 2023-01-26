@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qcs-api-client"
-version = "0.21.2"
+version = "0.21.3"
 description = "A client library for accessing the Rigetti QCS API"
 license = "Apache-2.0"
 repository = "https://github.com/rigetti/qcs-api-client-python"
@@ -14,7 +14,7 @@ include = ["CHANGELOG.md", "qcs_api_client/py.typed"]
 
 
 [tool.poetry.dependencies]
-attrs = "^20.1.0"
+attrs = "^21.3.0"
 httpx = "^0.23.0"
 iso8601 = "^1.0.2"
 pydantic = "^1.7.2"
