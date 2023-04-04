@@ -29,9 +29,9 @@ def _get_kwargs(
 
 def _parse_response(*, response: httpx.Response) -> Any:
     raise_for_status(response)
-    if response.status_code == 200:
-        response_200 = cast(Any, response.json())
-        return response_200
+    if response.status_code == 204:
+        response_204 = cast(Any, None)
+        return response_204
     else:
         raise QCSHTTPStatusError(
             f"Unexpected response: status code {response.status_code}", response=response, error=None

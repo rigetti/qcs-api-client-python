@@ -36,10 +36,11 @@ class Architecture:
             edges (List[Edge]): A list of all computational edges in the instruction set architecture.
             family (Family): Family identifier.
 
-                Value 'None' implies the architecture has no specific layout topology. Value 'Full' implies
-                every node is connected to every other node (a fully-connected architecture). Value 'Aspen'
-                implies the architecture adheres the to the Aspen topology conventions for node numbering
-                and edge connectivity.
+                Value 'None' implies the architecture has no specific layout topology.
+                Value 'Full' implies that each node is connected to every other (a fully-connected architecture)
+
+                For other values based on deployed architecture layouts (e.g. `Aspen` and `Ankaa`), refer to
+                the architecture classes themselves for more details.
             nodes (List[Node]): A list of all computational nodes in the instruction set architecture.
     """
 

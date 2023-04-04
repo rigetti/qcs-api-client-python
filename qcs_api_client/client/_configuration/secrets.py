@@ -37,7 +37,7 @@ class TokenPayload(BaseModel):
         that the returned claims might be forged or invalid.
         """
         if key is None:
-            return decode(self.access_token, verify=False)
+            return decode(self.access_token, options={"verify_signature": False})
 
         return decode(self.access_token, key=key)
 

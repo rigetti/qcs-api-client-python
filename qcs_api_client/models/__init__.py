@@ -56,6 +56,7 @@ from .list_client_applications_response import ListClientApplicationsResponse
 from .list_endpoints_response import ListEndpointsResponse
 from .list_group_users_response import ListGroupUsersResponse
 from .list_groups_response import ListGroupsResponse
+from .list_quantum_processor_accessors_response import ListQuantumProcessorAccessorsResponse
 from .list_quantum_processors_response import ListQuantumProcessorsResponse
 from .list_reservations_response import ListReservationsResponse
 from .node import Node
@@ -65,6 +66,8 @@ from .operation_site import OperationSite
 from .parameter import Parameter
 from .parameter_spec import ParameterSpec
 from .quantum_processor import QuantumProcessor
+from .quantum_processor_accessor import QuantumProcessorAccessor
+from .quantum_processor_accessor_type import QuantumProcessorAccessorType
 from .remove_group_user_request import RemoveGroupUserRequest
 from .reservation import Reservation
 from .restart_endpoint_request import RestartEndpointRequest

@@ -14,32 +14,32 @@ class Endpoint:
     """An Endpoint is the entry point for remote access to a QuantumProcessor.
 
     Attributes:
-        address (str): Network address at which the endpoint is locally reachable
         addresses (EndpointAddresses): Addresses at which an endpoint is reachable over the network.
         healthy (bool): Whether the endpoint is operating as intended
         id (str): Unique, opaque identifier for the endpoint
         mock (bool): Whether the endpoint serves simulated or substituted data for testing purposes
+        address (Union[Unset, None, str]): Network address at which the endpoint is locally reachable
         datacenter (Union[Unset, str]): Datacenter within which the endpoint is deployed
         quantum_processor_ids (Union[Unset, List[str]]): Public identifiers for quantum processors served by this
             endpoint.
     """
 
-    address: str
     addresses: EndpointAddresses
     healthy: bool
     id: str
     mock: bool
+    address: Union[Unset, None, str] = UNSET
     datacenter: Union[Unset, str] = UNSET
     quantum_processor_ids: Union[Unset, List[str]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        address = self.address
         addresses = self.addresses.to_dict()
 
         healthy = self.healthy
         id = self.id
         mock = self.mock
+        address = self.address
         datacenter = self.datacenter
         quantum_processor_ids: Union[Unset, List[str]] = UNSET
         if not isinstance(self.quantum_processor_ids, Unset):
@@ -49,13 +49,14 @@ class Endpoint:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "address": address,
                 "addresses": addresses,
                 "healthy": healthy,
                 "id": id,
                 "mock": mock,
             }
         )
+        if address is not UNSET:
+            field_dict["address"] = address
         if datacenter is not UNSET:
             field_dict["datacenter"] = datacenter
         if quantum_processor_ids is not UNSET:
@@ -70,8 +71,6 @@ class Endpoint:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        address = d.pop("address")
-
         addresses = EndpointAddresses.from_dict(d.pop("addresses"))
 
         healthy = d.pop("healthy")
@@ -80,16 +79,18 @@ class Endpoint:
 
         mock = d.pop("mock")
 
+        address = d.pop("address", UNSET)
+
         datacenter = d.pop("datacenter", UNSET)
 
         quantum_processor_ids = cast(List[str], d.pop("quantumProcessorIds", UNSET))
 
         endpoint = cls(
-            address=address,
             addresses=addresses,
             healthy=healthy,
             id=id,
             mock=mock,
+            address=address,
             datacenter=datacenter,
             quantum_processor_ids=quantum_processor_ids,
         )

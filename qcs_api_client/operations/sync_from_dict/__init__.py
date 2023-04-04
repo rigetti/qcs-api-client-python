@@ -48,6 +48,9 @@ from qcs_api_client.api.quantum_processors.get_instruction_set_architecture impo
     sync_from_dict as get_instruction_set_architecture,
 )
 from qcs_api_client.api.quantum_processors.get_quantum_processor import sync_from_dict as get_quantum_processor
+from qcs_api_client.api.quantum_processors.list_quantum_processor_accessors import (
+    sync_from_dict as list_quantum_processor_accessors,
+)
 from qcs_api_client.api.quantum_processors.list_quantum_processors import sync_from_dict as list_quantum_processors
 from qcs_api_client.api.reservations.create_reservation import sync_from_dict as create_reservation
 from qcs_api_client.api.reservations.delete_reservation import sync_from_dict as delete_reservation
