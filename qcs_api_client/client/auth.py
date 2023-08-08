@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from http import HTTPStatus
 from typing import Set
 
-from qcs_api_client.client._configuration import (
+from ._configuration import (
     QCSClientConfiguration,
     TokenPayload,
 )

@@ -3,8 +3,8 @@ from typing import Optional
 
 import httpx
 
-from qcs_api_client.client._configuration import QCSClientConfiguration
-from qcs_api_client.client.auth import QCSAuth, QCSAuthConfiguration
+from ._configuration import QCSClientConfiguration
+from .auth import QCSAuth, QCSAuthConfiguration
 
 
 def _build_client_kwargs(

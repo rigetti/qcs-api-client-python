@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 from pydantic.networks import HttpUrl
 from enum import Enum
-from qcs_api_client.client._configuration.environment import EnvironmentModel
-from qcs_api_client.client._configuration.file import QCSClientConfigurationFile
+from .environment import EnvironmentModel
+from .file import QCSClientConfigurationFile
 
 
 class QCSAuthServer(BaseModel):

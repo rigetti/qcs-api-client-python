@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from qcs_api_client.util.errors import QCSHTTPStatusError
+from .errors import QCSHTTPStatusError
 
 
 DEFAULT_RETRY_STATUS_CODES = {

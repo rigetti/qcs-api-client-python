@@ -4,12 +4,12 @@ from typing import Optional
 
 from pydantic.main import BaseModel
 
-from qcs_api_client.client._configuration.error import QCSClientConfigurationError
-from qcs_api_client.client._configuration.secrets import (
+from .error import QCSClientConfigurationError
+from .secrets import (
     QCSClientConfigurationSecrets,
     QCSClientConfigurationSecretsCredentials,
 )
-from qcs_api_client.client._configuration.settings import (
+from .settings import (
     QCSClientConfigurationSettings,
     QCSClientConfigurationSettingsProfile,
     QCSAuthServer,
