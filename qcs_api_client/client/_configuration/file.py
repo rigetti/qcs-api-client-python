@@ -5,7 +5,7 @@ import toml
 from pydantic.types import FilePath
 from pydantic.utils import deep_update
 
-from qcs_api_client.client._configuration.environment import _EnvironmentBaseModel
+from .environment import _EnvironmentBaseModel
 
 
 class QCSClientConfigurationFile(_EnvironmentBaseModel):

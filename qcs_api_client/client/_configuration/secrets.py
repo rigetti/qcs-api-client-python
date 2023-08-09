@@ -7,7 +7,7 @@ from jwt import decode
 from pydantic import BaseModel, ValidationError
 from pydantic.fields import Field
 
-from qcs_api_client.client._configuration.file import QCSClientConfigurationFile
+from .file import QCSClientConfigurationFile
 
 _TOKEN_REFRESH_PREEMPT_INTERVAL = timedelta(seconds=15)
 _secrets_write_lock = threading.RLock()
