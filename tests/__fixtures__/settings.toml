@@ -4,6 +4,7 @@ default_profile_name = "staging1"
 [profiles.staging1]
 auth_server_name = "staging"
 api_url = "https://api.staging.qcs.rigetti.com"
+grpc_api_url = "https://grpc.staging.qcs.rigetti.com"
 credentials_name = "staging1"
 [profiles.staging1.applications]
 cli = {verbosity = "info"}

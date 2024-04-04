@@ -12,7 +12,7 @@ def _get_kwargs(
     *,
     client: httpx.Client,
 ) -> Dict[str, Any]:
-    url = "{}/v1/healthcheck".format(client.base_url)
+    url = "{}/v1/".format(client.base_url)
 
     headers = {k: v for (k, v) in client.headers.items()}
     cookies = {k: v for (k, v) in client.cookies}

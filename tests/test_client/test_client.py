@@ -87,6 +87,7 @@ def test_settings_file_does_not_exist(fixture_directory: Path):
     )
     assert client_configuration.auth_server.client_id == _DEFAULT_AUTH_SERVER.client_id
     assert client_configuration.auth_server.issuer == _DEFAULT_AUTH_SERVER.issuer
+    assert client_configuration.profile.grpc_api_url == "https://grpc.qcs.rigetti.com"
 
     assert client_configuration.profile_name == "default"
     assert client_configuration.credentials.refresh_token == "refresh"
@@ -105,6 +106,7 @@ def test_secrets_file_does_not_exist(fixture_directory: Path):
 
     client_configuration.profile.api_url = MOCK_URL
     client_configuration.profile.credentials_name = "default"
+    client_configuration.profile.grpc_api_url = "https://grpc.staging.qcs.rigetti.com/"
 
     assert client_configuration.credentials.token_payload is None
     assert client_configuration.credentials.access_token is None
@@ -118,6 +120,7 @@ def test_env_overrides(monkeypatch):
     monkeypatch.setenv("QCS_SECRETS_FILE_PATH", "secrets-path.file")
     monkeypatch.setenv("QCS_SETTINGS_FILE_PATH", "settings-path.file")
     monkeypatch.setenv("QCS_SETTINGS_API_URL", "http://api.mock")
+    monkeypatch.setenv("QCS_SETTINGS_GRPC_API_URL", "http://grpc.mock")
     monkeypatch.setenv("QCS_SETTINGS_APPLICATIONS_CLI_VERBOSITY", "fatal")
 
     client_configuration = QCSClientConfiguration.load()
@@ -125,6 +128,7 @@ def test_env_overrides(monkeypatch):
     assert client_configuration.secrets.file_path == Path("secrets-path.file")
     assert client_configuration.settings.file_path == Path("settings-path.file")
     assert client_configuration.profile.api_url == "http://api.mock"
+    assert client_configuration.profile.grpc_api_url == "http://grpc.mock"
     assert client_configuration.profile.applications.cli.verbosity == "fatal"
 
 

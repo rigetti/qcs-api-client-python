@@ -43,6 +43,7 @@ from qcs_api_client.api.client_applications.list_client_applications import (
 )
 from qcs_api_client.api.default.get_health import asyncio_from_dict as get_health
 from qcs_api_client.api.default.health_check import asyncio_from_dict as health_check
+from qcs_api_client.api.default.health_check_deprecated import asyncio_from_dict as health_check_deprecated
 from qcs_api_client.api.endpoints.create_endpoint import asyncio_from_dict as create_endpoint
 from qcs_api_client.api.endpoints.delete_endpoint import asyncio_from_dict as delete_endpoint
 from qcs_api_client.api.endpoints.get_default_endpoint import asyncio_from_dict as get_default_endpoint

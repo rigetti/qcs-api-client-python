@@ -29,6 +29,11 @@ class Reservation:
         user_id (str): Deprecated in favor of `accountId`.
         cancellation_billing_invoice_item_id (Union[Unset, str]):
         cancelled (Union[Unset, bool]):
+        created_by_account_id (Union[Unset, str]): userId for `accountType` "user", group name for `accountType`
+            "group".
+        created_by_account_type (Union[Unset, AccountType]): There are two types of accounts within QCS: user
+            (representing a single user in Okta) and group
+            (representing one or more users in Okta).
         creation_billing_invoice_item_id (Union[Unset, str]):
         notes (Union[Unset, str]):
         updated_time (Union[Unset, datetime.datetime]):
@@ -45,6 +50,8 @@ class Reservation:
     user_id: str
     cancellation_billing_invoice_item_id: Union[Unset, str] = UNSET
     cancelled: Union[Unset, bool] = UNSET
+    created_by_account_id: Union[Unset, str] = UNSET
+    created_by_account_type: Union[Unset, AccountType] = UNSET
     creation_billing_invoice_item_id: Union[Unset, str] = UNSET
     notes: Union[Unset, str] = UNSET
     updated_time: Union[Unset, datetime.datetime] = UNSET
@@ -69,6 +76,11 @@ class Reservation:
         user_id = self.user_id
         cancellation_billing_invoice_item_id = self.cancellation_billing_invoice_item_id
         cancelled = self.cancelled
+        created_by_account_id = self.created_by_account_id
+        created_by_account_type: Union[Unset, str] = UNSET
+        if not isinstance(self.created_by_account_type, Unset):
+            created_by_account_type = self.created_by_account_type.value
+
         creation_billing_invoice_item_id = self.creation_billing_invoice_item_id
         notes = self.notes
         updated_time: Union[Unset, str] = UNSET
@@ -94,6 +106,10 @@ class Reservation:
             field_dict["cancellationBillingInvoiceItemId"] = cancellation_billing_invoice_item_id
         if cancelled is not UNSET:
             field_dict["cancelled"] = cancelled
+        if created_by_account_id is not UNSET:
+            field_dict["createdByAccountId"] = created_by_account_id
+        if created_by_account_type is not UNSET:
+            field_dict["createdByAccountType"] = created_by_account_type
         if creation_billing_invoice_item_id is not UNSET:
             field_dict["creationBillingInvoiceItemId"] = creation_billing_invoice_item_id
         if notes is not UNSET:
@@ -132,6 +148,15 @@ class Reservation:
 
         cancelled = d.pop("cancelled", UNSET)
 
+        created_by_account_id = d.pop("createdByAccountId", UNSET)
+
+        _created_by_account_type = d.pop("createdByAccountType", UNSET)
+        created_by_account_type: Union[Unset, AccountType]
+        if isinstance(_created_by_account_type, Unset):
+            created_by_account_type = UNSET
+        else:
+            created_by_account_type = AccountType(_created_by_account_type)
+
         creation_billing_invoice_item_id = d.pop("creationBillingInvoiceItemId", UNSET)
 
         notes = d.pop("notes", UNSET)
@@ -155,6 +180,8 @@ class Reservation:
             user_id=user_id,
             cancellation_billing_invoice_item_id=cancellation_billing_invoice_item_id,
             cancelled=cancelled,
+            created_by_account_id=created_by_account_id,
+            created_by_account_type=created_by_account_type,
             creation_billing_invoice_item_id=creation_billing_invoice_item_id,
             notes=notes,
             updated_time=updated_time,

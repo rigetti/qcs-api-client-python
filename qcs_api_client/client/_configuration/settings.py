@@ -82,6 +82,8 @@ class QCSClientConfigurationSettingsProfile(EnvironmentModel):
     auth_server_name: str = "default"
     """Which of the configured ``QCSClientConfigurationSettings.auth_servers`` to use"""
 
+    grpc_api_url: HttpUrl = "https://grpc.qcs.rigetti.com"
+
     applications: QCSClientConfigurationSettingsApplications = Field(
         default_factory=QCSClientConfigurationSettingsApplications
     )
