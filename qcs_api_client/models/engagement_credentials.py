@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+
 T = TypeVar("T", bound="EngagementCredentials")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class EngagementCredentials:
     """Credentials are the ZeroMQ CURVE Keys used to encrypt the connection with the Quantum Processor
     Endpoint.
@@ -22,11 +27,13 @@ class EngagementCredentials:
     client_public: str
     client_secret: str
     server_public: str
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         client_public = self.client_public
+
         client_secret = self.client_secret
+
         server_public = self.server_public
 
         field_dict: Dict[str, Any] = {}

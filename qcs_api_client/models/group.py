@@ -1,17 +1,24 @@
-import datetime
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
-from dateutil.parser import isoparse
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 from rfc3339 import rfc3339
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+
+from dateutil.parser import isoparse
+import datetime
+
+
 T = TypeVar("T", bound="Group")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Group:
     """
     Attributes:
@@ -29,18 +36,21 @@ class Group:
     last_membership_updated_time: datetime.datetime
     name: str
     updated_time: datetime.datetime
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         assert self.created_time.tzinfo is not None, "Datetime must have timezone information"
         created_time = rfc3339(self.created_time)
 
         description = self.description
+
         id = self.id
+
         assert self.last_membership_updated_time.tzinfo is not None, "Datetime must have timezone information"
         last_membership_updated_time = rfc3339(self.last_membership_updated_time)
 
         name = self.name
+
         assert self.updated_time.tzinfo is not None, "Datetime must have timezone information"
         updated_time = rfc3339(self.updated_time)
 

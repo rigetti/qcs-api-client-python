@@ -1,17 +1,27 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.billing_invoice_line_line_item_type import BillingInvoiceLineLineItemType
-from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
-from ..models.billing_price import BillingPrice
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.billing_invoice_line_line_item_type import BillingInvoiceLineLineItemType
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.billing_price import BillingPrice
+    from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
+
 
 T = TypeVar("T", bound="BillingInvoiceLine")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BillingInvoiceLine:
     """A line item on an invoice representing a particular purchase (such as a reservation) or aggregate usage for the
     invoice period.
@@ -33,29 +43,35 @@ class BillingInvoiceLine:
     description: str
     id: str
     line_item_type: BillingInvoiceLineLineItemType
-    metadata: BillingInvoiceLineMetadata
+    metadata: "BillingInvoiceLineMetadata"
     quantity: int
     invoice_item: Union[Unset, str] = UNSET
-    price: Union[Unset, BillingPrice] = UNSET
+    price: Union[Unset, "BillingPrice"] = UNSET
     subscription: Union[Unset, str] = UNSET
     subscription_item: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         amount = self.amount
+
         description = self.description
+
         id = self.id
+
         line_item_type = self.line_item_type.value
 
         metadata = self.metadata.to_dict()
 
         quantity = self.quantity
+
         invoice_item = self.invoice_item
+
         price: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.price, Unset):
             price = self.price.to_dict()
 
         subscription = self.subscription
+
         subscription_item = self.subscription_item
 
         field_dict: Dict[str, Any] = {}
@@ -87,6 +103,9 @@ class BillingInvoiceLine:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.billing_price import BillingPrice
+        from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
+
         d = src_dict.copy()
         amount = d.pop("amount")
 

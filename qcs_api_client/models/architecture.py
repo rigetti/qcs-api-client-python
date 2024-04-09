@@ -1,17 +1,24 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
 
-from ..models.edge import Edge
-from ..models.family import Family
-from ..models.node import Node
+from attrs import define as _attrs_define
+
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+from ..models.family import Family
+from typing import List
+
+if TYPE_CHECKING:
+    from ..models.node import Node
+    from ..models.edge import Edge
+
 
 T = TypeVar("T", bound="Architecture")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Architecture:
     """Represents the logical underlying architecture of a quantum processor.
 
@@ -33,7 +40,7 @@ class Architecture:
     that any 1Q or 2Q operation will be available to users writing QUIL programs.
 
         Attributes:
-            edges (List[Edge]): A list of all computational edges in the instruction set architecture.
+            edges (List['Edge']): A list of all computational edges in the instruction set architecture.
             family (Family): Family identifier.
 
                 Value 'None' implies the architecture has no specific layout topology.
@@ -41,18 +48,17 @@ class Architecture:
 
                 For other values based on deployed architecture layouts (e.g. `Aspen` and `Ankaa`), refer to
                 the architecture classes themselves for more details.
-            nodes (List[Node]): A list of all computational nodes in the instruction set architecture.
+            nodes (List['Node']): A list of all computational nodes in the instruction set architecture.
     """
 
-    edges: List[Edge]
+    edges: List["Edge"]
     family: Family
-    nodes: List[Node]
+    nodes: List["Node"]
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         edges = []
         for edges_item_data in self.edges:
             edges_item = edges_item_data.to_dict()
-
             edges.append(edges_item)
 
         family = self.family.value
@@ -60,7 +66,6 @@ class Architecture:
         nodes = []
         for nodes_item_data in self.nodes:
             nodes_item = nodes_item_data.to_dict()
-
             nodes.append(nodes_item)
 
         field_dict: Dict[str, Any] = {}
@@ -80,6 +85,9 @@ class Architecture:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.node import Node
+        from ..models.edge import Edge
+
         d = src_dict.copy()
         edges = []
         _edges = d.pop("edges")

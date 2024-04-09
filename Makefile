@@ -12,7 +12,8 @@ style-check:
 
 .PHONY: test
 test:
-	poetry run pytest -x tests
+	poetry install
+	poetry run pytest tests
 
 .PHONY: docs
 docs:

@@ -1,32 +1,38 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
 
-from ..models.characteristic import Characteristic
+from attrs import define as _attrs_define
+
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+from typing import cast, List
+
+if TYPE_CHECKING:
+    from ..models.characteristic import Characteristic
+
 
 T = TypeVar("T", bound="OperationSite")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class OperationSite:
     """A site for an operation, with its site-dependent characteristics.
 
     Attributes:
-        characteristics (List[Characteristic]): The list of site-dependent characteristics of this operation.
+        characteristics (List['Characteristic']): The list of site-dependent characteristics of this operation.
         node_ids (List[int]): The list of architecture node ids for the site. The order of these node ids obey the
             definition of node symmetry from the enclosing operation.
     """
 
-    characteristics: List[Characteristic]
+    characteristics: List["Characteristic"]
     node_ids: List[int]
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         characteristics = []
         for characteristics_item_data in self.characteristics:
             characteristics_item = characteristics_item_data.to_dict()
-
             characteristics.append(characteristics_item)
 
         node_ids = self.node_ids
@@ -47,6 +53,8 @@ class OperationSite:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.characteristic import Characteristic
+
         d = src_dict.copy()
         characteristics = []
         _characteristics = d.pop("characteristics")

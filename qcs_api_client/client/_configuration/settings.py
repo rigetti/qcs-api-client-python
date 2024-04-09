@@ -3,6 +3,9 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 from pydantic.networks import HttpUrl
 from enum import Enum
+
+from pydantic_settings import SettingsConfigDict
+
 from .environment import EnvironmentModel
 from .file import QCSClientConfigurationFile
 
@@ -23,8 +26,7 @@ class QCSAuthServer(BaseModel):
     def scopes():
         return ["offline_access"]
 
-    class Config:
-        env_prefix = "QCS_SETTINGS_AUTH_SERVER_"
+    model_config = SettingsConfigDict(env_prefix="QCS_SETTINGS_AUTH_SERVER_")
 
 
 _DEFAULT_AUTH_SERVER = QCSAuthServer(
@@ -36,16 +38,14 @@ _DEFAULT_AUTH_SERVER = QCSAuthServer(
 class QCSClientConfigurationSettingsApplicationsCLI(EnvironmentModel):
     verbosity: str = ""
 
-    class Config:
-        env_prefix = "QCS_SETTINGS_APPLICATIONS_CLI_"
+    model_config = SettingsConfigDict(env_prefix="QCS_SETTINGS_APPLICATIONS_CLI_")
 
 
 class QCSClientConfigurationSettingsApplicationsPyquil(EnvironmentModel):
     qvm_url: str = "http://127.0.0.1:5000"
     quilc_url: str = "tcp://127.0.0.1:5555"
 
-    class Config:
-        env_prefix = "QCS_SETTINGS_APPLICATIONS_PYQUIL_"
+    model_config = SettingsConfigDict(env_prefix="QCS_SETTINGS_APPLICATIONS_PYQUIL_")
 
 
 class QCSClientConfigurationSettingsApplications(BaseModel):
@@ -105,8 +105,7 @@ class QCSClientConfigurationSettingsProfile(EnvironmentModel):
     to a group name, this must be set to ``AccountType.group``.
     """
 
-    class Config:
-        env_prefix = "QCS_SETTINGS_"
+    model_config = SettingsConfigDict(env_prefix="QCS_SETTINGS_")
 
 
 class QCSClientConfigurationSettings(QCSClientConfigurationFile):

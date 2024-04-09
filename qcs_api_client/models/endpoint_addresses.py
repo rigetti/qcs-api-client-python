@@ -1,14 +1,22 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+
+from typing import Union
+
+
 T = TypeVar("T", bound="EndpointAddresses")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class EndpointAddresses:
     """Addresses at which an endpoint is reachable over the network.
 
@@ -19,10 +27,11 @@ class EndpointAddresses:
 
     grpc: Union[Unset, str] = UNSET
     rpcq: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         grpc = self.grpc
+
         rpcq = self.rpcq
 
         field_dict: Dict[str, Any] = {}

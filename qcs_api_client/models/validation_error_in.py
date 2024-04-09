@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class ValidationErrorIn(str, Enum):
-    HEADER = "header"
-    QUERY = "query"
-    PATH = "path"
     BODY = "body"
+    HEADER = "header"
+    PATH = "path"
+    QUERY = "query"
 
     def __str__(self) -> str:
         return str(self.value)

@@ -1,16 +1,27 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.account_type import AccountType
-from ..models.engagement_credentials import EngagementCredentials
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import cast
+from ..models.account_type import AccountType
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.engagement_credentials import EngagementCredentials
+
 
 T = TypeVar("T", bound="EngagementWithCredentials")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class EngagementWithCredentials:
     """An engagement is the authorization of a user to execute work on a Quantum Processor Endpoint.
 
@@ -33,7 +44,7 @@ class EngagementWithCredentials:
     """
 
     address: str
-    credentials: EngagementCredentials
+    credentials: "EngagementCredentials"
     endpoint_id: str
     expires_at: str
     user_id: str
@@ -42,21 +53,27 @@ class EngagementWithCredentials:
     minimum_priority: Union[Unset, int] = UNSET
     quantum_processor_ids: Union[Unset, List[str]] = UNSET
     tags: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         address = self.address
+
         credentials = self.credentials.to_dict()
 
         endpoint_id = self.endpoint_id
+
         expires_at = self.expires_at
+
         user_id = self.user_id
+
         account_id = self.account_id
+
         account_type: Union[Unset, str] = UNSET
         if not isinstance(self.account_type, Unset):
             account_type = self.account_type.value
 
         minimum_priority = self.minimum_priority
+
         quantum_processor_ids: Union[Unset, List[str]] = UNSET
         if not isinstance(self.quantum_processor_ids, Unset):
             quantum_processor_ids = self.quantum_processor_ids
@@ -95,6 +112,8 @@ class EngagementWithCredentials:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.engagement_credentials import EngagementCredentials
+
         d = src_dict.copy()
         address = d.pop("address")
 

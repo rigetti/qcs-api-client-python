@@ -1,14 +1,22 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+
+from typing import Union
+
+
 T = TypeVar("T", bound="Tier")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Tier:
     """
     Attributes:
@@ -24,13 +32,17 @@ class Tier:
     flat_amount_decimal: Union[Unset, float] = UNSET
     unit_amount: Union[Unset, int] = UNSET
     unit_amount_decimal: Union[Unset, float] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         up_to = self.up_to
+
         flat_amount = self.flat_amount
+
         flat_amount_decimal = self.flat_amount_decimal
+
         unit_amount = self.unit_amount
+
         unit_amount_decimal = self.unit_amount_decimal
 
         field_dict: Dict[str, Any] = {}

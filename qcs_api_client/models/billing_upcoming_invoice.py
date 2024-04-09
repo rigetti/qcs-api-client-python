@@ -1,18 +1,25 @@
-import datetime
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
-from dateutil.parser import isoparse
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 from rfc3339 import rfc3339
 
-from ..models.billing_invoice_status import BillingInvoiceStatus
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+from ..models.billing_invoice_status import BillingInvoiceStatus
+from dateutil.parser import isoparse
+import datetime
+
 
 T = TypeVar("T", bound="BillingUpcomingInvoice")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BillingUpcomingInvoice:
     """An unfinalized billing invoice.
 
@@ -33,7 +40,7 @@ class BillingUpcomingInvoice:
     subtotal: int
     tax: int
     total: int
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         assert self.period_end.tzinfo is not None, "Datetime must have timezone information"
@@ -43,10 +50,13 @@ class BillingUpcomingInvoice:
         period_start = rfc3339(self.period_start)
 
         starting_balance = self.starting_balance
+
         status = self.status.value
 
         subtotal = self.subtotal
+
         tax = self.tax
+
         total = self.total
 
         field_dict: Dict[str, Any] = {}

@@ -1,15 +1,27 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.client_applications_download_link import ClientApplicationsDownloadLink
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.client_applications_download_link import (
+        ClientApplicationsDownloadLink,
+    )
+
 
 T = TypeVar("T", bound="ClientApplication")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ClientApplication:
     """
     Attributes:
@@ -17,7 +29,7 @@ class ClientApplication:
         name (str):
         supported (bool):
         details_uri (Union[Unset, str]):
-        links (Union[Unset, List[ClientApplicationsDownloadLink]]):
+        links (Union[Unset, List['ClientApplicationsDownloadLink']]):
         minimum_version (Union[Unset, str]): Semantic version
     """
 
@@ -25,21 +37,24 @@ class ClientApplication:
     name: str
     supported: bool
     details_uri: Union[Unset, str] = UNSET
-    links: Union[Unset, List[ClientApplicationsDownloadLink]] = UNSET
+    links: Union[Unset, List["ClientApplicationsDownloadLink"]] = UNSET
     minimum_version: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         latest_version = self.latest_version
+
         name = self.name
+
         supported = self.supported
+
         details_uri = self.details_uri
+
         links: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.links, Unset):
             links = []
             for links_item_data in self.links:
                 links_item = links_item_data.to_dict()
-
                 links.append(links_item)
 
         minimum_version = self.minimum_version
@@ -68,6 +83,10 @@ class ClientApplication:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.client_applications_download_link import (
+            ClientApplicationsDownloadLink,
+        )
+
         d = src_dict.copy()
         latest_version = d.pop("latestVersion")
 

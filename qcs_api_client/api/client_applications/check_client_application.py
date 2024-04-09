@@ -1,53 +1,49 @@
-from typing import Any, Dict
+from http import HTTPStatus
+from typing import Any, Dict, Union
 
 import httpx
 from retrying import retry
 
-from ...models.check_client_application_request import CheckClientApplicationRequest
-from ...models.check_client_application_response import CheckClientApplicationResponse
 from ...types import Response
-from ...util.errors import QCSHTTPStatusError, raise_for_status
+from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
+
+from ...models.check_client_application_request import CheckClientApplicationRequest
+from ...models.error import Error
+from ...models.check_client_application_response import CheckClientApplicationResponse
 
 
 def _get_kwargs(
     *,
-    client: httpx.Client,
-    json_body: CheckClientApplicationRequest,
+    body: CheckClientApplicationRequest,
 ) -> Dict[str, Any]:
-    url = "{}/v1/clientApplications:check".format(client.base_url)
+    headers: Dict[str, Any] = {}
 
-    headers = {k: v for (k, v) in client.headers.items()}
-    cookies = {k: v for (k, v) in client.cookies}
-
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.timeout,
-        "json": json_json_body,
+        "url": "/v1/clientApplications:check",
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, response: httpx.Response) -> CheckClientApplicationResponse:
-    raise_for_status(response)
-    if response.status_code == 200:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(*, response: httpx.Response) -> Union[CheckClientApplicationResponse, Error]:
+    if response.status_code == HTTPStatus.OK:
         response_200 = CheckClientApplicationResponse.from_dict(response.json())
 
         return response_200
     else:
-        raise QCSHTTPStatusError(
-            f"Unexpected response: status code {response.status_code}", response=response, error=None
-        )
+        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[CheckClientApplicationResponse]:
-    """
-    Construct the Response class from the raw ``httpx.Response``.
-    """
+def _build_response(*, response: httpx.Response) -> Response[Union[CheckClientApplicationResponse, Error]]:
+    """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
 
@@ -55,23 +51,26 @@ def _build_response(*, response: httpx.Response) -> Response[CheckClientApplicat
 def sync(
     *,
     client: httpx.Client,
-    json_body: CheckClientApplicationRequest,
+    body: CheckClientApplicationRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[CheckClientApplicationResponse]:
+) -> Response[Union[CheckClientApplicationResponse, Error]]:
     """Check Client Application
 
      Check the requested client application version against the latest and minimum version.
 
     Args:
-        json_body (CheckClientApplicationRequest):
+        body (CheckClientApplicationRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CheckClientApplicationResponse]
+        Response[Union[CheckClientApplicationResponse, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -85,20 +84,17 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[CheckClientApplicationResponse]:
-    json_body = CheckClientApplicationRequest.from_dict(json_body_dict)
-
+) -> Response[Union[CheckClientApplicationResponse, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
     )
-
     return _build_response(response=response)
 
 
@@ -106,29 +102,29 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
-    json_body: CheckClientApplicationRequest,
+    body: CheckClientApplicationRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[CheckClientApplicationResponse]:
+) -> Response[Union[CheckClientApplicationResponse, Error]]:
     """Check Client Application
 
      Check the requested client application version against the latest and minimum version.
 
     Args:
-        json_body (CheckClientApplicationRequest):
+        body (CheckClientApplicationRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CheckClientApplicationResponse]
+        Response[Union[CheckClientApplicationResponse, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        **kwargs,
-    )
-
+    response = await client.request(**kwargs)
     return _build_response(response=response)
 
 
@@ -136,17 +132,15 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[CheckClientApplicationResponse]:
-    json_body = CheckClientApplicationRequest.from_dict(json_body_dict)
-
+) -> Response[Union[CheckClientApplicationResponse, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = client.request(
+    response = await client.request(
         **kwargs,
     )
 

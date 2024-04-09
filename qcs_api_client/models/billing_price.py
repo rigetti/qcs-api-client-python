@@ -1,21 +1,31 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.billing_price_object import BillingPriceObject
-from ..models.billing_price_price_type import BillingPricePriceType
-from ..models.billing_price_recurrence import BillingPriceRecurrence
-from ..models.billing_price_scheme import BillingPriceScheme
-from ..models.billing_price_tiers_mode import BillingPriceTiersMode
-from ..models.billing_product import BillingProduct
-from ..models.tier import Tier
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.billing_price_tiers_mode import BillingPriceTiersMode
+from ..models.billing_price_object import BillingPriceObject
+from ..models.billing_price_price_type import BillingPricePriceType
+from ..models.billing_price_scheme import BillingPriceScheme
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.tier import Tier
+    from ..models.billing_product import BillingProduct
+    from ..models.billing_price_recurrence import BillingPriceRecurrence
+
 
 T = TypeVar("T", bound="BillingPrice")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BillingPrice:
     """The price schedule for a particular service applied to an invoice line item.
 
@@ -35,7 +45,7 @@ class BillingPrice:
             reservations) or metered services.
         recurring (Union[Unset, BillingPriceRecurrence]): The recurring components of a price such as `interval` and
             `usageType`.
-        tiers (Union[Unset, List[Tier]]): Each element represents a pricing tier. This parameter requires
+        tiers (Union[Unset, List['Tier']]): Each element represents a pricing tier. This parameter requires
             `billingScheme` to be set to `tiered`. See also the documentation for `billingScheme`.
         tiers_mode (Union[Unset, BillingPriceTiersMode]): Defines if the tiering price should be `graduated` or `volume`
             based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in
@@ -49,16 +59,18 @@ class BillingPrice:
     billing_scheme: Union[Unset, BillingPriceScheme] = UNSET
     object_: Union[Unset, BillingPriceObject] = UNSET
     price_type: Union[Unset, BillingPricePriceType] = UNSET
-    product: Union[Unset, BillingProduct] = UNSET
-    recurring: Union[Unset, BillingPriceRecurrence] = UNSET
-    tiers: Union[Unset, List[Tier]] = UNSET
+    product: Union[Unset, "BillingProduct"] = UNSET
+    recurring: Union[Unset, "BillingPriceRecurrence"] = UNSET
+    tiers: Union[Unset, List["Tier"]] = UNSET
     tiers_mode: Union[Unset, BillingPriceTiersMode] = UNSET
     unit_amount_decimal: Union[Unset, float] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         id = self.id
+
         active = self.active
+
         billing_scheme: Union[Unset, str] = UNSET
         if not isinstance(self.billing_scheme, Unset):
             billing_scheme = self.billing_scheme.value
@@ -84,7 +96,6 @@ class BillingPrice:
             tiers = []
             for tiers_item_data in self.tiers:
                 tiers_item = tiers_item_data.to_dict()
-
                 tiers.append(tiers_item)
 
         tiers_mode: Union[Unset, str] = UNSET
@@ -127,6 +138,10 @@ class BillingPrice:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.tier import Tier
+        from ..models.billing_product import BillingProduct
+        from ..models.billing_price_recurrence import BillingPriceRecurrence
+
         d = src_dict.copy()
         id = d.pop("id")
 

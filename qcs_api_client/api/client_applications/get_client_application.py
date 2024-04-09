@@ -1,51 +1,41 @@
-from typing import Any, Dict
+from http import HTTPStatus
+from typing import Any, Dict, Union
 
 import httpx
 from retrying import retry
 
-from ...models.client_application import ClientApplication
 from ...types import Response
-from ...util.errors import QCSHTTPStatusError, raise_for_status
+from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
+
+from ...models.error import Error
+from ...models.client_application import ClientApplication
 
 
 def _get_kwargs(
     client_application_name: str,
-    *,
-    client: httpx.Client,
 ) -> Dict[str, Any]:
-    url = "{}/v1/clientApplications/{clientApplicationName}".format(
-        client.base_url, clientApplicationName=client_application_name
-    )
-
-    headers = {k: v for (k, v) in client.headers.items()}
-    cookies = {k: v for (k, v) in client.cookies}
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.timeout,
+        "url": "/v1/clientApplications/{client_application_name}".format(
+            client_application_name=client_application_name,
+        ),
     }
 
+    return _kwargs
 
-def _parse_response(*, response: httpx.Response) -> ClientApplication:
-    raise_for_status(response)
-    if response.status_code == 200:
+
+def _parse_response(*, response: httpx.Response) -> Union[ClientApplication, Error]:
+    if response.status_code == HTTPStatus.OK:
         response_200 = ClientApplication.from_dict(response.json())
 
         return response_200
     else:
-        raise QCSHTTPStatusError(
-            f"Unexpected response: status code {response.status_code}", response=response, error=None
-        )
+        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[ClientApplication]:
-    """
-    Construct the Response class from the raw ``httpx.Response``.
-    """
+def _build_response(*, response: httpx.Response) -> Response[Union[ClientApplication, Error]]:
+    """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
 
@@ -55,7 +45,7 @@ def sync(
     *,
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[ClientApplication]:
+) -> Response[Union[ClientApplication, Error]]:
     """Get Client Application
 
      Get details of a specific Rigetti system component along with its latest and minimum supported
@@ -64,13 +54,16 @@ def sync(
     Args:
         client_application_name (str):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[ClientApplication]
+        Response[Union[ClientApplication, Error]]
     """
 
     kwargs = _get_kwargs(
         client_application_name=client_application_name,
-        client=client,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -86,8 +79,7 @@ def sync_from_dict(
     *,
     client: httpx.Client,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[ClientApplication]:
-
+) -> Response[Union[ClientApplication, Error]]:
     kwargs = _get_kwargs(
         client_application_name=client_application_name,
         client=client,
@@ -96,7 +88,6 @@ def sync_from_dict(
     response = client.request(
         **kwargs,
     )
-
     return _build_response(response=response)
 
 
@@ -106,7 +97,7 @@ async def asyncio(
     *,
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[ClientApplication]:
+) -> Response[Union[ClientApplication, Error]]:
     """Get Client Application
 
      Get details of a specific Rigetti system component along with its latest and minimum supported
@@ -115,19 +106,19 @@ async def asyncio(
     Args:
         client_application_name (str):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[ClientApplication]
+        Response[Union[ClientApplication, Error]]
     """
 
     kwargs = _get_kwargs(
         client_application_name=client_application_name,
-        client=client,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        **kwargs,
-    )
-
+    response = await client.request(**kwargs)
     return _build_response(response=response)
 
 
@@ -137,14 +128,13 @@ async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[ClientApplication]:
-
+) -> Response[Union[ClientApplication, Error]]:
     kwargs = _get_kwargs(
         client_application_name=client_application_name,
         client=client,
     )
     kwargs.update(httpx_request_kwargs)
-    response = client.request(
+    response = await client.request(
         **kwargs,
     )
 

@@ -1,15 +1,24 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
 
-from ..models.nomad_job_datacenters import NomadJobDatacenters
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import cast
+from ..models.nomad_job_datacenters import NomadJobDatacenters
+from typing import Union
+
 
 T = TypeVar("T", bound="CreateEndpointParameters")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class CreateEndpointParameters:
     """A publicly available set of parameters for defining an endpoint.
 
@@ -22,7 +31,7 @@ class CreateEndpointParameters:
 
     datacenters: Union[Unset, List[NomadJobDatacenters]] = UNSET
     quantum_processor_ids: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         datacenters: Union[Unset, List[str]] = UNSET
@@ -30,7 +39,6 @@ class CreateEndpointParameters:
             datacenters = []
             for datacenters_item_data in self.datacenters:
                 datacenters_item = datacenters_item_data.value
-
                 datacenters.append(datacenters_item)
 
         quantum_processor_ids: Union[Unset, List[str]] = UNSET

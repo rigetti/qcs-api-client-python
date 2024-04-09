@@ -1,6 +1,7 @@
 """
 Test that all modules in the package can be successfully imported from.
 """
+
 from importlib import import_module
 from pathlib import Path
 

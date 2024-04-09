@@ -1,14 +1,16 @@
-from typing import Any, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+
+from attrs import define as _attrs_define
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+
 T = TypeVar("T", bound="Node")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Node:
     """A logical node in the quantum processor's architecture.
 

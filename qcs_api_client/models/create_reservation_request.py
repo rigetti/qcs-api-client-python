@@ -1,18 +1,26 @@
-import datetime
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
-from dateutil.parser import isoparse
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 from rfc3339 import rfc3339
 
-from ..models.account_type import AccountType
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.account_type import AccountType
+from dateutil.parser import isoparse
+import datetime
+from typing import Union
+
 
 T = TypeVar("T", bound="CreateReservationRequest")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class CreateReservationRequest:
     """
     Attributes:
@@ -32,17 +40,19 @@ class CreateReservationRequest:
     account_id: Union[Unset, str] = UNSET
     account_type: Union[Unset, AccountType] = UNSET
     notes: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         assert self.end_time.tzinfo is not None, "Datetime must have timezone information"
         end_time = rfc3339(self.end_time)
 
         quantum_processor_id = self.quantum_processor_id
+
         assert self.start_time.tzinfo is not None, "Datetime must have timezone information"
         start_time = rfc3339(self.start_time)
 
         account_id = self.account_id
+
         account_type: Union[Unset, str] = UNSET
         if not isinstance(self.account_type, Unset):
             account_type = self.account_type.value

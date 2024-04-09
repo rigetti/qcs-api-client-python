@@ -1,14 +1,19 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+
+from attrs import define as _attrs_define
 
 from ..types import UNSET
 from ..util.serialization import is_not_none
 
+
+from typing import cast, List
+
+
 T = TypeVar("T", bound="Edge")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Edge:
     """A degree-two logical connection in the quantum processor's architecture.
 

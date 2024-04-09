@@ -21,7 +21,7 @@ def _build_client_kwargs(
         client_configuration=configuration,
         auth_configuration=auth_configuration,
     )
-    kwargs = dict(auth=auth, base_url=configuration.profile.api_url)
+    kwargs = dict(auth=auth, base_url=str(configuration.profile.api_url))
 
     if kwarg_overrides is not None:
         kwargs.update(kwarg_overrides)

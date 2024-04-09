@@ -1,15 +1,24 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
 
-from ..models.validation_error_in import ValidationErrorIn
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.validation_error_in import ValidationErrorIn
+from typing import cast
+from typing import Union
+
 
 T = TypeVar("T", bound="ValidationError")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ValidationError:
     """
     Attributes:
@@ -21,12 +30,13 @@ class ValidationError:
     in_: ValidationErrorIn
     message: str
     path: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         in_ = self.in_.value
 
         message = self.message
+
         path: Union[Unset, List[str]] = UNSET
         if not isinstance(self.path, Unset):
             path = self.path

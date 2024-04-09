@@ -1,32 +1,41 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.quantum_processor import QuantumProcessor
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.quantum_processor import QuantumProcessor
+
 
 T = TypeVar("T", bound="ListQuantumProcessorsResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ListQuantumProcessorsResponse:
     """
     Attributes:
-        quantum_processors (List[QuantumProcessor]):
+        quantum_processors (List['QuantumProcessor']):
         next_page_token (Union[Unset, str]): Opaque token indicating the start of the next page of results to return; do
             not decode
     """
 
-    quantum_processors: List[QuantumProcessor]
+    quantum_processors: List["QuantumProcessor"]
     next_page_token: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         quantum_processors = []
         for quantum_processors_item_data in self.quantum_processors:
             quantum_processors_item = quantum_processors_item_data.to_dict()
-
             quantum_processors.append(quantum_processors_item)
 
         next_page_token = self.next_page_token
@@ -49,6 +58,8 @@ class ListQuantumProcessorsResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.quantum_processor import QuantumProcessor
+
         d = src_dict.copy()
         quantum_processors = []
         _quantum_processors = d.pop("quantumProcessors")

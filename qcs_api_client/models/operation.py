@@ -1,53 +1,59 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
 
-from ..models.characteristic import Characteristic
-from ..models.operation_site import OperationSite
-from ..models.parameter import Parameter
+from attrs import define as _attrs_define
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import List
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.parameter import Parameter
+    from ..models.characteristic import Characteristic
+    from ..models.operation_site import OperationSite
+
 
 T = TypeVar("T", bound="Operation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Operation:
     """An operation, with its sites and site-independent characteristics.
 
     Attributes:
-        characteristics (List[Characteristic]): The list of site-independent characteristics of this operation.
+        characteristics (List['Characteristic']): The list of site-independent characteristics of this operation.
         name (str): The name of the operation.
-        parameters (List[Parameter]): The list of parameters. Each parameter must be uniquely named. May be empty.
-        sites (List[OperationSite]): The list of sites at which this operation can be applied, together with its site-
+        parameters (List['Parameter']): The list of parameters. Each parameter must be uniquely named. May be empty.
+        sites (List['OperationSite']): The list of sites at which this operation can be applied, together with its site-
             dependent characteristics.
         node_count (Union[Unset, int]): The number of nodes that this operation applies to. None if unspecified.
     """
 
-    characteristics: List[Characteristic]
+    characteristics: List["Characteristic"]
     name: str
-    parameters: List[Parameter]
-    sites: List[OperationSite]
+    parameters: List["Parameter"]
+    sites: List["OperationSite"]
     node_count: Union[Unset, int] = UNSET
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         characteristics = []
         for characteristics_item_data in self.characteristics:
             characteristics_item = characteristics_item_data.to_dict()
-
             characteristics.append(characteristics_item)
 
         name = self.name
+
         parameters = []
         for parameters_item_data in self.parameters:
             parameters_item = parameters_item_data.to_dict()
-
             parameters.append(parameters_item)
 
         sites = []
         for sites_item_data in self.sites:
             sites_item = sites_item_data.to_dict()
-
             sites.append(sites_item)
 
         node_count = self.node_count
@@ -72,6 +78,10 @@ class Operation:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.parameter import Parameter
+        from ..models.characteristic import Characteristic
+        from ..models.operation_site import OperationSite
+
         d = src_dict.copy()
         characteristics = []
         _characteristics = d.pop("characteristics")

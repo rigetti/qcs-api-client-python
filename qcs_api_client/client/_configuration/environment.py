@@ -2,7 +2,8 @@ import os
 from typing import Any, Dict
 
 from pydantic import BaseModel
-from pydantic.utils import deep_update
+from pydantic.v1.utils import deep_update
+from pydantic_settings.sources import _annotation_is_complex
 
 
 class _EnvironmentBaseModel(BaseModel):
@@ -19,19 +20,19 @@ class _EnvironmentBaseModel(BaseModel):
         Environment variable name is case insensitive. The prefix is set as ``env_prefix``on the
         model's ``Config``.
         """
-        if not getattr(self.__config__, "env_prefix", None):
+        if not self.model_config.get("env_prefix"):
             return {}
 
         data: Dict[str, str] = {}
         env: Dict[str, str] = {k.lower(): v for k, v in os.environ.items()}
 
-        for field in self.__fields__.values():
+        for field_name, field in self.model_fields.items():
 
             # We only read primitives from the environment, no JSON parsing
-            if not field.is_complex():
-                env_name = (self.__config__.env_prefix + field.name).lower()
+            if not _annotation_is_complex(field.annotation, field.metadata):
+                env_name = (self.model_config["env_prefix"] + field_name).lower()
                 if env_name in env:
-                    data[field.name] = env[env_name]
+                    data[field_name] = env[env_name]
 
         return data
 
@@ -53,5 +54,4 @@ class EnvironmentModel(_EnvironmentBaseModel):
             self._read_env(),
             kwargs,
         )
-
         super().__init__(**values)

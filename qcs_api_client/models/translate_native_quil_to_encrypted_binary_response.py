@@ -1,17 +1,28 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.translate_native_quil_to_encrypted_binary_response_memory_descriptors import (
-    TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors,
-)
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import cast
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.translate_native_quil_to_encrypted_binary_response_memory_descriptors import (
+        TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors,
+    )
+
 
 T = TypeVar("T", bound="TranslateNativeQuilToEncryptedBinaryResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class TranslateNativeQuilToEncryptedBinaryResponse:
     """
     Attributes:
@@ -24,13 +35,14 @@ class TranslateNativeQuilToEncryptedBinaryResponse:
     """
 
     program: str
-    memory_descriptors: Union[Unset, TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors] = UNSET
+    memory_descriptors: Union[Unset, "TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors"] = UNSET
     ro_sources: Union[Unset, List[List[str]]] = UNSET
     settings_timestamp: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         program = self.program
+
         memory_descriptors: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.memory_descriptors, Unset):
             memory_descriptors = self.memory_descriptors.to_dict()
@@ -67,6 +79,10 @@ class TranslateNativeQuilToEncryptedBinaryResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.translate_native_quil_to_encrypted_binary_response_memory_descriptors import (
+            TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors,
+        )
+
         d = src_dict.copy()
         program = d.pop("program")
 

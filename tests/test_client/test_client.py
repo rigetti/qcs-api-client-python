@@ -127,8 +127,8 @@ def test_env_overrides(monkeypatch):
 
     assert client_configuration.secrets.file_path == Path("secrets-path.file")
     assert client_configuration.settings.file_path == Path("settings-path.file")
-    assert client_configuration.profile.api_url == "http://api.mock"
-    assert client_configuration.profile.grpc_api_url == "http://grpc.mock"
+    assert str(client_configuration.profile.api_url) == "http://api.mock/"
+    assert str(client_configuration.profile.grpc_api_url) == "http://grpc.mock/"
     assert client_configuration.profile.applications.cli.verbosity == "fatal"
 
 

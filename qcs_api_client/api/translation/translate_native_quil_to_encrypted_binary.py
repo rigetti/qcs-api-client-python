@@ -1,56 +1,61 @@
-from typing import Any, Dict
+from http import HTTPStatus
+from typing import Any, Dict, Union
 
 import httpx
 from retrying import retry
 
-from ...models.translate_native_quil_to_encrypted_binary_request import TranslateNativeQuilToEncryptedBinaryRequest
-from ...models.translate_native_quil_to_encrypted_binary_response import TranslateNativeQuilToEncryptedBinaryResponse
 from ...types import Response
-from ...util.errors import QCSHTTPStatusError, raise_for_status
+from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
+
+from ...models.translate_native_quil_to_encrypted_binary_response import (
+    TranslateNativeQuilToEncryptedBinaryResponse,
+)
+from ...models.validation_error import ValidationError
+from ...models.translate_native_quil_to_encrypted_binary_request import (
+    TranslateNativeQuilToEncryptedBinaryRequest,
+)
+from ...models.error import Error
 
 
 def _get_kwargs(
     quantum_processor_id: str,
     *,
-    client: httpx.Client,
-    json_body: TranslateNativeQuilToEncryptedBinaryRequest,
+    body: TranslateNativeQuilToEncryptedBinaryRequest,
 ) -> Dict[str, Any]:
-    url = "{}/v1/quantumProcessors/{quantumProcessorId}:translateNativeQuilToEncryptedBinary".format(
-        client.base_url, quantumProcessorId=quantum_processor_id
-    )
+    headers: Dict[str, Any] = {}
 
-    headers = {k: v for (k, v) in client.headers.items()}
-    cookies = {k: v for (k, v) in client.cookies}
-
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.timeout,
-        "json": json_json_body,
+        "url": "/v1/quantumProcessors/{quantum_processor_id}:translateNativeQuilToEncryptedBinary".format(
+            quantum_processor_id=quantum_processor_id,
+        ),
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, response: httpx.Response) -> TranslateNativeQuilToEncryptedBinaryResponse:
-    raise_for_status(response)
-    if response.status_code == 200:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, response: httpx.Response
+) -> Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]:
+    if response.status_code == HTTPStatus.OK:
         response_200 = TranslateNativeQuilToEncryptedBinaryResponse.from_dict(response.json())
 
         return response_200
     else:
-        raise QCSHTTPStatusError(
-            f"Unexpected response: status code {response.status_code}", response=response, error=None
-        )
+        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
-    """
-    Construct the Response class from the raw ``httpx.Response``.
-    """
+def _build_response(
+    *, response: httpx.Response
+) -> Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]:
+    """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
 
@@ -59,9 +64,9 @@ def sync(
     quantum_processor_id: str,
     *,
     client: httpx.Client,
-    json_body: TranslateNativeQuilToEncryptedBinaryRequest,
+    body: TranslateNativeQuilToEncryptedBinaryRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
+) -> Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]:
     """Translate Native Quil To Encrypted Binary
 
      Compile Rigetti-native Quil code to encrypted binary form, ready for execution on a
@@ -69,16 +74,19 @@ def sync(
 
     Args:
         quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
-        json_body (TranslateNativeQuilToEncryptedBinaryRequest):
+        body (TranslateNativeQuilToEncryptedBinaryRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TranslateNativeQuilToEncryptedBinaryResponse]
+        Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]
     """
 
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -93,21 +101,18 @@ def sync_from_dict(
     quantum_processor_id: str,
     *,
     client: httpx.Client,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
-    json_body = TranslateNativeQuilToEncryptedBinaryRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]:
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
     )
-
     return _build_response(response=response)
 
 
@@ -116,9 +121,9 @@ async def asyncio(
     quantum_processor_id: str,
     *,
     client: httpx.AsyncClient,
-    json_body: TranslateNativeQuilToEncryptedBinaryRequest,
+    body: TranslateNativeQuilToEncryptedBinaryRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
+) -> Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]:
     """Translate Native Quil To Encrypted Binary
 
      Compile Rigetti-native Quil code to encrypted binary form, ready for execution on a
@@ -126,22 +131,22 @@ async def asyncio(
 
     Args:
         quantum_processor_id (str): Public identifier for a quantum processor [example: Aspen-1]
-        json_body (TranslateNativeQuilToEncryptedBinaryRequest):
+        body (TranslateNativeQuilToEncryptedBinaryRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TranslateNativeQuilToEncryptedBinaryResponse]
+        Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]
     """
 
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        **kwargs,
-    )
-
+    response = await client.request(**kwargs)
     return _build_response(response=response)
 
 
@@ -150,18 +155,16 @@ async def asyncio_from_dict(
     quantum_processor_id: str,
     *,
     client: httpx.AsyncClient,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[TranslateNativeQuilToEncryptedBinaryResponse]:
-    json_body = TranslateNativeQuilToEncryptedBinaryRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Error, TranslateNativeQuilToEncryptedBinaryResponse, ValidationError]]:
     kwargs = _get_kwargs(
         quantum_processor_id=quantum_processor_id,
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = client.request(
+    response = await client.request(
         **kwargs,
     )
 

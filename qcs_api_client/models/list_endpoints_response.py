@@ -1,32 +1,41 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.endpoint import Endpoint
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.endpoint import Endpoint
+
 
 T = TypeVar("T", bound="ListEndpointsResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ListEndpointsResponse:
     """
     Attributes:
-        endpoints (List[Endpoint]):
+        endpoints (List['Endpoint']):
         next_page_token (Union[Unset, str]): Opaque token indicating the start of the next page of results to return; do
             not decode
     """
 
-    endpoints: List[Endpoint]
+    endpoints: List["Endpoint"]
     next_page_token: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         endpoints = []
         for endpoints_item_data in self.endpoints:
             endpoints_item = endpoints_item_data.to_dict()
-
             endpoints.append(endpoints_item)
 
         next_page_token = self.next_page_token
@@ -49,6 +58,8 @@ class ListEndpointsResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.endpoint import Endpoint
+
         d = src_dict.copy()
         endpoints = []
         _endpoints = d.pop("endpoints")

@@ -1,15 +1,24 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
 
-from ..models.account_type import AccountType
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import cast
+from typing import Union
+from ..models.account_type import AccountType
+
 
 T = TypeVar("T", bound="CreateEngagementRequest")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class CreateEngagementRequest:
     """
     Attributes:
@@ -29,16 +38,19 @@ class CreateEngagementRequest:
     endpoint_id: Union[Unset, str] = UNSET
     quantum_processor_id: Union[Unset, str] = UNSET
     tags: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         account_id = self.account_id
+
         account_type: Union[Unset, str] = UNSET
         if not isinstance(self.account_type, Unset):
             account_type = self.account_type.value
 
         endpoint_id = self.endpoint_id
+
         quantum_processor_id = self.quantum_processor_id
+
         tags: Union[Unset, List[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags

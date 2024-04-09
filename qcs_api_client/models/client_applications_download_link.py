@@ -1,15 +1,25 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.checksum_description import ChecksumDescription
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.checksum_description import ChecksumDescription
+
 
 T = TypeVar("T", bound="ClientApplicationsDownloadLink")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ClientApplicationsDownloadLink:
     """
     Attributes:
@@ -19,12 +29,13 @@ class ClientApplicationsDownloadLink:
     """
 
     url: str
-    checksum_description: Union[Unset, ChecksumDescription] = UNSET
+    checksum_description: Union[Unset, "ChecksumDescription"] = UNSET
     platform: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         url = self.url
+
         checksum_description: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.checksum_description, Unset):
             checksum_description = self.checksum_description.to_dict()
@@ -51,6 +62,8 @@ class ClientApplicationsDownloadLink:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.checksum_description import ChecksumDescription
+
         d = src_dict.copy()
         url = d.pop("url")
 

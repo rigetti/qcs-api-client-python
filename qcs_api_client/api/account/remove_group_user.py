@@ -1,51 +1,47 @@
-from typing import Any, Dict, cast
+from http import HTTPStatus
+from typing import Any, Dict, Union, cast
 
 import httpx
 from retrying import retry
 
-from ...models.remove_group_user_request import RemoveGroupUserRequest
 from ...types import Response
-from ...util.errors import QCSHTTPStatusError, raise_for_status
+from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
+
+from ...models.remove_group_user_request import RemoveGroupUserRequest
+from ...models.error import Error
 
 
 def _get_kwargs(
     *,
-    client: httpx.Client,
-    json_body: RemoveGroupUserRequest,
+    body: RemoveGroupUserRequest,
 ) -> Dict[str, Any]:
-    url = "{}/v1/groups:removeUser".format(client.base_url)
+    headers: Dict[str, Any] = {}
 
-    headers = {k: v for (k, v) in client.headers.items()}
-    cookies = {k: v for (k, v) in client.cookies}
-
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.timeout,
-        "json": json_json_body,
+        "url": "/v1/groups:removeUser",
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, response: httpx.Response) -> Any:
-    raise_for_status(response)
-    if response.status_code == 204:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(*, response: httpx.Response) -> Union[Any, Error]:
+    if response.status_code == HTTPStatus.NO_CONTENT:
         response_204 = cast(Any, None)
         return response_204
     else:
-        raise QCSHTTPStatusError(
-            f"Unexpected response: status code {response.status_code}", response=response, error=None
-        )
+        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[Any]:
-    """
-    Construct the Response class from the raw ``httpx.Response``.
-    """
+def _build_response(*, response: httpx.Response) -> Response[Union[Any, Error]]:
+    """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
 
@@ -53,9 +49,9 @@ def _build_response(*, response: httpx.Response) -> Response[Any]:
 def sync(
     *,
     client: httpx.Client,
-    json_body: RemoveGroupUserRequest,
+    body: RemoveGroupUserRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Any]:
+) -> Response[Union[Any, Error]]:
     """Remove user from a group.
 
      Remove a user from a group. Note, group membership may take several minutes to update within our
@@ -63,16 +59,19 @@ def sync(
     be reflected.
 
     Args:
-        json_body (RemoveGroupUserRequest): Must provide either `userId` or `userEmail` and
-            `groupId` or `groupName`.
+        body (RemoveGroupUserRequest): Must provide either `userId` or `userEmail` and `groupId`
+            or `groupName`.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Union[Any, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -86,20 +85,17 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Any]:
-    json_body = RemoveGroupUserRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Any, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
     )
-
     return _build_response(response=response)
 
 
@@ -107,9 +103,9 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
-    json_body: RemoveGroupUserRequest,
+    body: RemoveGroupUserRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Any]:
+) -> Response[Union[Any, Error]]:
     """Remove user from a group.
 
      Remove a user from a group. Note, group membership may take several minutes to update within our
@@ -117,22 +113,22 @@ async def asyncio(
     be reflected.
 
     Args:
-        json_body (RemoveGroupUserRequest): Must provide either `userId` or `userEmail` and
-            `groupId` or `groupName`.
+        body (RemoveGroupUserRequest): Must provide either `userId` or `userEmail` and `groupId`
+            or `groupName`.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Union[Any, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        **kwargs,
-    )
-
+    response = await client.request(**kwargs)
     return _build_response(response=response)
 
 
@@ -140,17 +136,15 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
-    json_body_dict: Dict,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Any]:
-    json_body = RemoveGroupUserRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Any, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
-    response = client.request(
+    response = await client.request(
         **kwargs,
     )
 

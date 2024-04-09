@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import toml
-from pydantic.main import BaseConfig
+from pydantic_settings import SettingsConfigDict
 
 from qcs_api_client.client._configuration.file import QCSClientConfigurationFile
 
@@ -20,8 +20,7 @@ def test_read_precedence(monkeypatch, tmpdir: str):
         from_file: str = "wrong"
         from_default: str = "in_default"
 
-        class Config(BaseConfig):
-            env_prefix = "TEST_CLIENT_CONFIGURATION_"
+        model_config = SettingsConfigDict(env_prefix="TEST_CLIENT_CONFIGURATION_")
 
     monkeypatch.setenv("TEST_CLIENT_CONFIGURATION_FROM_KWARG", "wrong")
     monkeypatch.setenv("TEST_CLIENT_CONFIGURATION_FROM_ENV", "in_env")

@@ -1,32 +1,40 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.reservation import Reservation
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+if TYPE_CHECKING:
+    from ..models.reservation import Reservation
+
 
 T = TypeVar("T", bound="ListReservationsResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ListReservationsResponse:
     """
     Attributes:
         next_page_token (str):
-        reservations (List[Reservation]):
+        reservations (List['Reservation']):
     """
 
     next_page_token: str
-    reservations: List[Reservation]
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    reservations: List["Reservation"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         next_page_token = self.next_page_token
+
         reservations = []
         for reservations_item_data in self.reservations:
             reservations_item = reservations_item_data.to_dict()
-
             reservations.append(reservations_item)
 
         field_dict: Dict[str, Any] = {}
@@ -46,6 +54,8 @@ class ListReservationsResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.reservation import Reservation
+
         d = src_dict.copy()
         next_page_token = d.pop("nextPageToken")
 

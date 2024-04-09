@@ -1,18 +1,28 @@
-import datetime
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
-from dateutil.parser import isoparse
+from typing import List
+
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 from rfc3339 import rfc3339
 
-from ..models.user_profile import UserProfile
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from dateutil.parser import isoparse
+import datetime
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.user_profile import UserProfile
+
 
 T = TypeVar("T", bound="User")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class User:
     """
     Attributes:
@@ -25,15 +35,17 @@ class User:
     created_time: datetime.datetime
     id: int
     idp_id: str
-    profile: Union[Unset, UserProfile] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    profile: Union[Unset, "UserProfile"] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         assert self.created_time.tzinfo is not None, "Datetime must have timezone information"
         created_time = rfc3339(self.created_time)
 
         id = self.id
+
         idp_id = self.idp_id
+
         profile: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.profile, Unset):
             profile = self.profile.to_dict()
@@ -58,6 +70,8 @@ class User:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.user_profile import UserProfile
+
         d = src_dict.copy()
         created_time = isoparse(d.pop("createdTime"))
 

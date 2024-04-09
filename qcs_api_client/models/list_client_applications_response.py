@@ -1,29 +1,36 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.client_application import ClientApplication
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+if TYPE_CHECKING:
+    from ..models.client_application import ClientApplication
+
 
 T = TypeVar("T", bound="ListClientApplicationsResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ListClientApplicationsResponse:
     """
     Attributes:
-        client_applications (List[ClientApplication]):
+        client_applications (List['ClientApplication']):
     """
 
-    client_applications: List[ClientApplication]
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    client_applications: List["ClientApplication"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         client_applications = []
         for client_applications_item_data in self.client_applications:
             client_applications_item = client_applications_item_data.to_dict()
-
             client_applications.append(client_applications_item)
 
         field_dict: Dict[str, Any] = {}
@@ -42,6 +49,8 @@ class ListClientApplicationsResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.client_application import ClientApplication
+
         d = src_dict.copy()
         client_applications = []
         _client_applications = d.pop("clientApplications")

@@ -23,12 +23,12 @@ class TokenPayload(BaseModel):
     token expires.
     """
 
-    refresh_token: Optional[str]
-    access_token: Optional[str]
-    scope: Optional[str]
-    expires_in: Optional[int]
-    id_token: Optional[str]
-    token_type: Optional[str]
+    refresh_token: Optional[str] = None
+    access_token: Optional[str] = None
+    scope: Optional[str] = None
+    expires_in: Optional[int] = None
+    id_token: Optional[str] = None
+    token_type: Optional[str] = None
 
     def get_access_token_claims(self, key: Union[None, bytes, str] = None):
         """Return the claims within the encoded access token.
@@ -45,17 +45,17 @@ class TokenPayload(BaseModel):
     def access_token_expires_at(self) -> Optional[datetime]:
         """Return the datetime that the token expires (if any)."""
         claims = self.get_access_token_claims()
-        iat = claims.get("iat")
-        if iat is None:
+        exp = claims.get("exp")
+        if exp is None:
             return None
-        return datetime.utcfromtimestamp(int(iat))
+        return datetime.utcfromtimestamp(int(exp)).astimezone(timezone.utc)
 
     def should_refresh(self) -> bool:
         """Return True if the token is past or nearing expiration and should be refreshed."""
-        iat = self.access_token_expires_at
-        if iat is None:
+        exp = self.access_token_expires_at
+        if exp is None:
             return False
-        return iat - _TOKEN_REFRESH_PREEMPT_INTERVAL < datetime.now().astimezone(timezone.utc)
+        return exp - _TOKEN_REFRESH_PREEMPT_INTERVAL < datetime.now().astimezone(timezone.utc)
 
 
 class QCSClientConfigurationSecretsCredentials(BaseModel):

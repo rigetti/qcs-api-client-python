@@ -1,15 +1,23 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
 
-from ..models.quantum_processor_accessor_type import QuantumProcessorAccessorType
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.quantum_processor_accessor_type import QuantumProcessorAccessorType
+from typing import Union
+
 
 T = TypeVar("T", bound="QuantumProcessorAccessor")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class QuantumProcessorAccessor:
     """Method of accessing an available QPU.
 
@@ -30,14 +38,17 @@ class QuantumProcessorAccessor:
     url: str
     id: Union[Unset, str] = UNSET
     rank: Union[Unset, int] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         access_type = self.access_type.value
 
         live = self.live
+
         url = self.url
+
         id = self.id
+
         rank = self.rank
 
         field_dict: Dict[str, Any] = {}

@@ -1,31 +1,40 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
+from typing import List
 
-from ..models.user import User
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..models.user import User
+
 
 T = TypeVar("T", bound="ListGroupUsersResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ListGroupUsersResponse:
     """
     Attributes:
-        users (List[User]):
+        users (List['User']):
         next_page_token (Union[Unset, str]):
     """
 
-    users: List[User]
+    users: List["User"]
     next_page_token: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         users = []
         for users_item_data in self.users:
             users_item = users_item_data.to_dict()
-
             users.append(users_item)
 
         next_page_token = self.next_page_token
@@ -48,6 +57,8 @@ class ListGroupUsersResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.user import User
+
         d = src_dict.copy()
         users = []
         _users = d.pop("users")

@@ -1,53 +1,58 @@
-from typing import Any, Dict
+from http import HTTPStatus
+from typing import Any, Dict, Union
 
 import httpx
 from retrying import retry
 
-from ...models.create_engagement_request import CreateEngagementRequest
-from ...models.engagement_with_credentials import EngagementWithCredentials
-from ...types import Response
-from ...util.errors import QCSHTTPStatusError, raise_for_status
+from ...types import Response, UNSET
+from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
+
+from ...models.account_type import AccountType
+from ...models.engagement_with_credentials import EngagementWithCredentials
+from ...models.create_engagement_request import CreateEngagementRequest
+from ...models.error import Error
+from ...types import Unset
 
 
 def _get_kwargs(
     *,
-    client: httpx.Client,
-    json_body: CreateEngagementRequest,
+    body: CreateEngagementRequest,
+    x_qcs_account_id: Union[Unset, str] = UNSET,
+    x_qcs_account_type: Union[Unset, AccountType] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/v1/engagements".format(client.base_url)
+    headers: Dict[str, Any] = {}
+    if not isinstance(x_qcs_account_id, Unset):
+        headers["X-QCS-ACCOUNT-ID"] = x_qcs_account_id
 
-    headers = {k: v for (k, v) in client.headers.items()}
-    cookies = {k: v for (k, v) in client.cookies}
+    if not isinstance(x_qcs_account_type, Unset):
+        headers["X-QCS-ACCOUNT-TYPE"] = str(x_qcs_account_type)
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.timeout,
-        "json": json_json_body,
+        "url": "/v1/engagements",
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, response: httpx.Response) -> EngagementWithCredentials:
-    raise_for_status(response)
-    if response.status_code == 200:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(*, response: httpx.Response) -> Union[Any, EngagementWithCredentials, Error]:
+    if response.status_code == HTTPStatus.OK:
         response_200 = EngagementWithCredentials.from_dict(response.json())
 
         return response_200
     else:
-        raise QCSHTTPStatusError(
-            f"Unexpected response: status code {response.status_code}", response=response, error=None
-        )
+        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[EngagementWithCredentials]:
-    """
-    Construct the Response class from the raw ``httpx.Response``.
-    """
+def _build_response(*, response: httpx.Response) -> Response[Union[Any, EngagementWithCredentials, Error]]:
+    """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
 
@@ -55,9 +60,11 @@ def _build_response(*, response: httpx.Response) -> Response[EngagementWithCrede
 def sync(
     *,
     client: httpx.Client,
-    json_body: CreateEngagementRequest,
+    body: CreateEngagementRequest,
+    x_qcs_account_id: Union[Unset, str] = UNSET,
+    x_qcs_account_type: Union[Unset, AccountType] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[EngagementWithCredentials]:
+) -> Response[Union[Any, EngagementWithCredentials, Error]]:
     """Create Engagement
 
      Create a new engagement using the specified parameters.
@@ -68,15 +75,25 @@ def sync(
         service to select a default endpoint. Ignored if **endpointId** is set.
 
     Args:
-        json_body (CreateEngagementRequest):
+        x_qcs_account_id (Union[Unset, str]): userId for `accountType` "user", group name for
+            `accountType` "group".
+        x_qcs_account_type (Union[Unset, AccountType]): There are two types of accounts within
+            QCS: user (representing a single user in Okta) and group
+            (representing one or more users in Okta).
+        body (CreateEngagementRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[EngagementWithCredentials]
+        Response[Union[Any, EngagementWithCredentials, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
+        x_qcs_account_id=x_qcs_account_id,
+        x_qcs_account_type=x_qcs_account_type,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -90,20 +107,21 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
-    json_body_dict: Dict,
+    body: Dict,
+    x_qcs_account_id: Union[Unset, str] = UNSET,
+    x_qcs_account_type: Union[Unset, AccountType] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[EngagementWithCredentials]:
-    json_body = CreateEngagementRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Any, EngagementWithCredentials, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
+        x_qcs_account_id=x_qcs_account_id,
+        x_qcs_account_type=x_qcs_account_type,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
     )
-
     return _build_response(response=response)
 
 
@@ -111,9 +129,11 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
-    json_body: CreateEngagementRequest,
+    body: CreateEngagementRequest,
+    x_qcs_account_id: Union[Unset, str] = UNSET,
+    x_qcs_account_type: Union[Unset, AccountType] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[EngagementWithCredentials]:
+) -> Response[Union[Any, EngagementWithCredentials, Error]]:
     """Create Engagement
 
      Create a new engagement using the specified parameters.
@@ -124,21 +144,28 @@ async def asyncio(
         service to select a default endpoint. Ignored if **endpointId** is set.
 
     Args:
-        json_body (CreateEngagementRequest):
+        x_qcs_account_id (Union[Unset, str]): userId for `accountType` "user", group name for
+            `accountType` "group".
+        x_qcs_account_type (Union[Unset, AccountType]): There are two types of accounts within
+            QCS: user (representing a single user in Okta) and group
+            (representing one or more users in Okta).
+        body (CreateEngagementRequest):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[EngagementWithCredentials]
+        Response[Union[Any, EngagementWithCredentials, Error]]
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
+        x_qcs_account_id=x_qcs_account_id,
+        x_qcs_account_type=x_qcs_account_type,
     )
     kwargs.update(httpx_request_kwargs)
-    response = await client.request(
-        **kwargs,
-    )
-
+    response = await client.request(**kwargs)
     return _build_response(response=response)
 
 
@@ -146,17 +173,19 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
-    json_body_dict: Dict,
+    body: Dict,
+    x_qcs_account_id: Union[Unset, str] = UNSET,
+    x_qcs_account_type: Union[Unset, AccountType] = UNSET,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[EngagementWithCredentials]:
-    json_body = CreateEngagementRequest.from_dict(json_body_dict)
-
+) -> Response[Union[Any, EngagementWithCredentials, Error]]:
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        body=body,
+        x_qcs_account_id=x_qcs_account_id,
+        x_qcs_account_type=x_qcs_account_type,
     )
     kwargs.update(httpx_request_kwargs)
-    response = client.request(
+    response = await client.request(
         **kwargs,
     )
 

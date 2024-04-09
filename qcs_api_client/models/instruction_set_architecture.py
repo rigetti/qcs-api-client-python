@@ -1,16 +1,23 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
-import attr
 
-from ..models.architecture import Architecture
-from ..models.operation import Operation
+from attrs import define as _attrs_define
+
 from ..types import UNSET
 from ..util.serialization import is_not_none
+
+
+from typing import List
+
+if TYPE_CHECKING:
+    from ..models.operation import Operation
+    from ..models.architecture import Architecture
+
 
 T = TypeVar("T", bound="InstructionSetArchitecture")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class InstructionSetArchitecture:
     """The native instruction set architecture of a quantum processor, annotated with characteristics.
 
@@ -40,14 +47,14 @@ class InstructionSetArchitecture:
                 Note that the operations that are actually available are defined entirely by `Operation`
                 instances. The presence of a node or edge in the `Architecture` model provides no guarantee
                 that any 1Q or 2Q operation will be available to users writing QUIL programs.
-            benchmarks (List[Operation]): The list of benchmarks that have characterized the quantum processor.
-            instructions (List[Operation]): The list of native QUIL instructions supported by the quantum processor.
+            benchmarks (List['Operation']): The list of benchmarks that have characterized the quantum processor.
+            instructions (List['Operation']): The list of native QUIL instructions supported by the quantum processor.
             name (str): The name of the quantum processor.
     """
 
-    architecture: Architecture
-    benchmarks: List[Operation]
-    instructions: List[Operation]
+    architecture: "Architecture"
+    benchmarks: List["Operation"]
+    instructions: List["Operation"]
     name: str
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
@@ -56,13 +63,11 @@ class InstructionSetArchitecture:
         benchmarks = []
         for benchmarks_item_data in self.benchmarks:
             benchmarks_item = benchmarks_item_data.to_dict()
-
             benchmarks.append(benchmarks_item)
 
         instructions = []
         for instructions_item_data in self.instructions:
             instructions_item = instructions_item_data.to_dict()
-
             instructions.append(instructions_item)
 
         name = self.name
@@ -85,6 +90,9 @@ class InstructionSetArchitecture:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.operation import Operation
+        from ..models.architecture import Architecture
+
         d = src_dict.copy()
         architecture = Architecture.from_dict(d.pop("architecture"))
 

@@ -1,17 +1,23 @@
-import datetime
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
-from dateutil.parser import isoparse
+
+from attrs import define as _attrs_define
 from rfc3339 import rfc3339
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
+
+from typing import cast, List
+from dateutil.parser import isoparse
+from typing import Union
+import datetime
+
+
 T = TypeVar("T", bound="Characteristic")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Characteristic:
     """A measured characteristic of an operation.
 
@@ -37,11 +43,14 @@ class Characteristic:
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         name = self.name
+
         assert self.timestamp.tzinfo is not None, "Datetime must have timezone information"
         timestamp = rfc3339(self.timestamp)
 
         value = self.value
+
         error = self.error
+
         node_ids: Union[Unset, List[int]] = UNSET
         if not isinstance(self.node_ids, Unset):
             node_ids = self.node_ids

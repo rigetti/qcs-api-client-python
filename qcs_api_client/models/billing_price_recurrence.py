@@ -1,17 +1,27 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, Type, TypeVar, Optional
 
-import attr
+from typing import List
 
-from ..models.billing_price_recurrence_aggregate_usage import BillingPriceRecurrenceAggregateUsage
-from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
-from ..models.billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
+
+
+from ..models.billing_price_recurrence_aggregate_usage import (
+    BillingPriceRecurrenceAggregateUsage,
+)
+from ..models.billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
+from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
+from typing import Union
+
 
 T = TypeVar("T", bound="BillingPriceRecurrence")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BillingPriceRecurrence:
     """The recurring components of a price such as `interval` and `usageType`.
 
@@ -26,7 +36,7 @@ class BillingPriceRecurrence:
     aggregate_usage: Union[Unset, BillingPriceRecurrenceAggregateUsage] = UNSET
     interval_count: Union[Unset, int] = UNSET
     usage_type: Union[Unset, BillingPriceRecurrenceUsageType] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         interval = self.interval.value
@@ -36,6 +46,7 @@ class BillingPriceRecurrence:
             aggregate_usage = self.aggregate_usage.value
 
         interval_count = self.interval_count
+
         usage_type: Union[Unset, str] = UNSET
         if not isinstance(self.usage_type, Unset):
             usage_type = self.usage_type.value
