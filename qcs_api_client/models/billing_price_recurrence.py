@@ -10,12 +10,12 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
+from typing import Union
+from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
+from ..models.billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
 from ..models.billing_price_recurrence_aggregate_usage import (
     BillingPriceRecurrenceAggregateUsage,
 )
-from ..models.billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
-from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
-from typing import Union
 
 
 T = TypeVar("T", bound="BillingPriceRecurrence")

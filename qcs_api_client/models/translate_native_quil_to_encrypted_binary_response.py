@@ -10,8 +10,8 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import cast
 from typing import Union
+from typing import cast
 
 if TYPE_CHECKING:
     from ..models.translate_native_quil_to_encrypted_binary_response_memory_descriptors import (

@@ -10,8 +10,8 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from ..models.billing_product_object import BillingProductObject
 from typing import Union
+from ..models.billing_product_object import BillingProductObject
 
 
 T = TypeVar("T", bound="BillingProduct")

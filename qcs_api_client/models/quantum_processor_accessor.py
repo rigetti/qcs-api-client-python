@@ -10,8 +10,8 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from ..models.quantum_processor_accessor_type import QuantumProcessorAccessorType
 from typing import Union
+from ..models.quantum_processor_accessor_type import QuantumProcessorAccessorType
 
 
 T = TypeVar("T", bound="QuantumProcessorAccessor")

@@ -11,10 +11,10 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from ..models.account_type import AccountType
-from dateutil.parser import isoparse
-import datetime
 from typing import Union
+import datetime
+from dateutil.parser import isoparse
+from ..models.account_type import AccountType
 
 
 T = TypeVar("T", bound="Reservation")

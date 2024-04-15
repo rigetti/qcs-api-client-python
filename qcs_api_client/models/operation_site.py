@@ -7,7 +7,8 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-from typing import cast, List
+from typing import cast
+from typing import List
 
 if TYPE_CHECKING:
     from ..models.characteristic import Characteristic

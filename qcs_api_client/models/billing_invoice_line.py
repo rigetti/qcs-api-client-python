@@ -10,12 +10,12 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from ..models.billing_invoice_line_line_item_type import BillingInvoiceLineLineItemType
 from typing import Union
+from ..models.billing_invoice_line_line_item_type import BillingInvoiceLineLineItemType
 
 if TYPE_CHECKING:
-    from ..models.billing_price import BillingPrice
     from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
+    from ..models.billing_price import BillingPrice
 
 
 T = TypeVar("T", bound="BillingInvoiceLine")
@@ -103,8 +103,8 @@ class BillingInvoiceLine:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.billing_price import BillingPrice
         from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
+        from ..models.billing_price import BillingPrice
 
         d = src_dict.copy()
         amount = d.pop("amount")

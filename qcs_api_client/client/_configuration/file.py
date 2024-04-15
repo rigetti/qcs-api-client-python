@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional
 
 import toml
 from pydantic.types import FilePath
-from pydantic.utils import deep_update
+from pydantic.v1.utils import deep_update
 
 from .environment import _EnvironmentBaseModel
 

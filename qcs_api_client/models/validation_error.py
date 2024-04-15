@@ -10,9 +10,9 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
+from typing import Union
 from ..models.validation_error_in import ValidationErrorIn
 from typing import cast
-from typing import Union
 
 
 T = TypeVar("T", bound="ValidationError")

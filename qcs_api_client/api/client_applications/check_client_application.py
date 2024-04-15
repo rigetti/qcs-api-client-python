@@ -8,9 +8,9 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
+from ...models.check_client_application_response import CheckClientApplicationResponse
 from ...models.check_client_application_request import CheckClientApplicationRequest
 from ...models.error import Error
-from ...models.check_client_application_response import CheckClientApplicationResponse
 
 
 def _get_kwargs(

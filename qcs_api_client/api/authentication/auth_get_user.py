@@ -8,8 +8,8 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.user import User
 from ...models.error import Error
+from ...models.user import User
 
 
 def _get_kwargs() -> Dict[str, Any]:

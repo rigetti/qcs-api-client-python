@@ -10,9 +10,9 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
+from typing import Union
 from typing import cast
 from ..models.account_type import AccountType
-from typing import Union
 
 if TYPE_CHECKING:
     from ..models.engagement_credentials import EngagementCredentials
