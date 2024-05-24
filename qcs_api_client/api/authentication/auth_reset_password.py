@@ -8,8 +8,8 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.error import Error
 from ...models.auth_reset_password_request import AuthResetPasswordRequest
+from ...models.error import Error
 
 
 def _get_kwargs(

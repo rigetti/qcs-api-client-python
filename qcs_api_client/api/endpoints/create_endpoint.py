@@ -8,9 +8,9 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
+from ...models.validation_error import ValidationError
 from ...models.create_endpoint_parameters import CreateEndpointParameters
 from ...models.endpoint import Endpoint
-from ...models.validation_error import ValidationError
 from ...models.error import Error
 
 

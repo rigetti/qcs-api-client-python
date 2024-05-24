@@ -8,10 +8,10 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.error import Error
 from ...models.auth_email_password_reset_token_request import (
     AuthEmailPasswordResetTokenRequest,
 )
+from ...models.error import Error
 
 
 def _get_kwargs(

@@ -11,8 +11,8 @@ from ..models.family import Family
 from typing import List
 
 if TYPE_CHECKING:
-    from ..models.edge import Edge
     from ..models.node import Node
+    from ..models.edge import Edge
 
 
 T = TypeVar("T", bound="Architecture")
@@ -85,8 +85,8 @@ class Architecture:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.edge import Edge
         from ..models.node import Node
+        from ..models.edge import Edge
 
         d = src_dict.copy()
         edges = []

@@ -12,9 +12,9 @@ from ..util.serialization import is_not_none
 
 
 from typing import Union
-import datetime
 from dateutil.parser import isoparse
 from ..models.account_type import AccountType
+import datetime
 
 
 T = TypeVar("T", bound="Reservation")

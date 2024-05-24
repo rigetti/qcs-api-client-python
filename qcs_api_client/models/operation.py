@@ -11,8 +11,8 @@ from typing import Union
 from typing import List
 
 if TYPE_CHECKING:
-    from ..models.operation_site import OperationSite
     from ..models.characteristic import Characteristic
+    from ..models.operation_site import OperationSite
     from ..models.parameter import Parameter
 
 
@@ -78,8 +78,8 @@ class Operation:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.operation_site import OperationSite
         from ..models.characteristic import Characteristic
+        from ..models.operation_site import OperationSite
         from ..models.parameter import Parameter
 
         d = src_dict.copy()

@@ -9,13 +9,13 @@ from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 from ...models.validation_error import ValidationError
-from ...models.translate_native_quil_to_encrypted_binary_request import (
-    TranslateNativeQuilToEncryptedBinaryRequest,
-)
 from ...models.translate_native_quil_to_encrypted_binary_response import (
     TranslateNativeQuilToEncryptedBinaryResponse,
 )
 from ...models.error import Error
+from ...models.translate_native_quil_to_encrypted_binary_request import (
+    TranslateNativeQuilToEncryptedBinaryRequest,
+)
 
 
 def _get_kwargs(

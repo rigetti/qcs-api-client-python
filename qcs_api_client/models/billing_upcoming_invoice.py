@@ -11,9 +11,9 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-import datetime
 from ..models.billing_invoice_status import BillingInvoiceStatus
 from dateutil.parser import isoparse
+import datetime
 
 
 T = TypeVar("T", bound="BillingUpcomingInvoice")

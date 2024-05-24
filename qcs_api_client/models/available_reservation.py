@@ -11,8 +11,8 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-import datetime
 from dateutil.parser import isoparse
+import datetime
 
 
 T = TypeVar("T", bound="AvailableReservation")

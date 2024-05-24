@@ -10,8 +10,8 @@ from ..util.serialization import is_not_none
 from typing import List
 
 if TYPE_CHECKING:
-    from ..models.operation import Operation
     from ..models.architecture import Architecture
+    from ..models.operation import Operation
 
 
 T = TypeVar("T", bound="InstructionSetArchitecture")
@@ -90,8 +90,8 @@ class InstructionSetArchitecture:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.operation import Operation
         from ..models.architecture import Architecture
+        from ..models.operation import Operation
 
         d = src_dict.copy()
         architecture = Architecture.from_dict(d.pop("architecture"))

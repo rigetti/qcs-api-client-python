@@ -10,11 +10,11 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
-from ..models.billing_price_object import BillingPriceObject
-from ..models.billing_price_scheme import BillingPriceScheme
-from ..models.billing_price_price_type import BillingPricePriceType
 from ..models.billing_price_tiers_mode import BillingPriceTiersMode
+from typing import Union
+from ..models.billing_price_scheme import BillingPriceScheme
+from ..models.billing_price_object import BillingPriceObject
+from ..models.billing_price_price_type import BillingPricePriceType
 
 if TYPE_CHECKING:
     from ..models.billing_product import BillingProduct

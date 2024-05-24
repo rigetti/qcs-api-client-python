@@ -10,8 +10,7 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
-from typing import cast
+from typing import cast, Union
 
 if TYPE_CHECKING:
     from ..models.endpoint_addresses import EndpointAddresses

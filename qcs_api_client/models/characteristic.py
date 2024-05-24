@@ -9,9 +9,10 @@ from ..util.serialization import is_not_none
 
 
 from typing import Union
-from typing import cast, List
-import datetime
 from dateutil.parser import isoparse
+from typing import cast
+from typing import List
+import datetime
 
 
 T = TypeVar("T", bound="Characteristic")
