@@ -2,7 +2,7 @@ from http import HTTPStatus
 from typing import Any, Dict, Union
 
 import httpx
-from retrying import retry
+from tenacity import retry
 from rfc3339 import rfc3339
 
 from ...types import Response, UNSET

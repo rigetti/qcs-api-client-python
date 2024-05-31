@@ -2,7 +2,7 @@ from http import HTTPStatus
 from typing import Any, Dict
 
 import httpx
-from retrying import retry
+from tenacity import retry
 
 from ...types import Response
 from ...util.errors import QCSHTTPStatusError

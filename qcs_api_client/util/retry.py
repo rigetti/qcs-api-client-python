@@ -1,5 +1,7 @@
+from datetime import timedelta
 from http import HTTPStatus
 from .errors import QCSHTTPStatusError
+from tenacity import stop_after_attempt, wait_random_exponential, retry_if_exception
 
 
 DEFAULT_RETRY_STATUS_CODES = {
@@ -16,8 +18,8 @@ def _is_exception_retryable(exception):
 
 
 DEFAULT_RETRY_ARGUMENTS = {
-    "stop_max_attempt_number": 3,
-    "wait_exponential_multiplier": 200,
-    "wait_exponential_max": 1000,
-    "retry_on_exception": _is_exception_retryable,
+    "stop": stop_after_attempt(3),
+    "wait": wait_random_exponential(multiplier=200, min=timedelta(milliseconds=1), max=timedelta(seconds=1)),
+    "reraise": True,
+    "retry": retry_if_exception(_is_exception_retryable),
 }

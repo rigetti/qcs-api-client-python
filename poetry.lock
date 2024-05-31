@@ -602,20 +602,6 @@ files = [
 httpx = ">=0.21.0"
 
 [[package]]
-name = "retrying"
-version = "1.3.4"
-description = "Retrying"
-optional = false
-python-versions = "*"
-files = [
-    {file = "retrying-1.3.4-py3-none-any.whl", hash = "sha256:8cc4d43cb8e1125e0ff3344e9de678fefd85db3b750b81b2240dc0183af37b35"},
-    {file = "retrying-1.3.4.tar.gz", hash = "sha256:345da8c5765bd982b1d1915deb9102fd3d1f7ad16bd84a9700b85f64d24e8f3e"},
-]
-
-[package.dependencies]
-six = ">=1.7.0"
-
-[[package]]
 name = "rfc3339"
 version = "6.2"
 description = "Format dates according to the RFC 3339."
@@ -666,6 +652,21 @@ files = [
 ]
 
 [[package]]
+name = "tenacity"
+version = "8.3.0"
+description = "Retry code until it succeeds"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "tenacity-8.3.0-py3-none-any.whl", hash = "sha256:3649f6443dbc0d9b01b9d8020a9c4ec7a1ff5f6f3c6c8a036ef371f573fe9185"},
+    {file = "tenacity-8.3.0.tar.gz", hash = "sha256:953d4e6ad24357bceffbc9707bc74349aca9d245f68eb65419cf0c249a1949a2"},
+]
+
+[package.extras]
+doc = ["reno", "sphinx"]
+test = ["pytest", "tornado (>=4.5)", "typeguard"]
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -701,4 +702,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "2b999a8df501eb52a1c5cd5d06fb55b6c74f9510b50057f3861267adc7f157f3"
+content-hash = "b092ac0cd406590a6b8c3617345ef26dd8f4bfcbc16cb9e137b5838aceadcbdf"
