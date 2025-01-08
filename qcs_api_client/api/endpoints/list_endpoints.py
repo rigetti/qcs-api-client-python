@@ -8,9 +8,9 @@ from ...types import Response, UNSET
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.list_endpoints_response import ListEndpointsResponse
 from ...models.validation_error import ValidationError
 from ...types import Unset
+from ...models.list_endpoints_response import ListEndpointsResponse
 
 
 def _get_kwargs(

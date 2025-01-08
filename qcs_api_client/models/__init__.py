@@ -2,7 +2,10 @@
 
 from .account_balance import AccountBalance
 from .account_type import AccountType
+from .activate_user_request import ActivateUserRequest
 from .add_group_user_request import AddGroupUserRequest
+from .announcement import Announcement
+from .announcements_response import AnnouncementsResponse
 from .architecture import Architecture
 from .auth_email_password_reset_token_request import AuthEmailPasswordResetTokenRequest
 from .auth_reset_password_request import AuthResetPasswordRequest
@@ -45,8 +48,10 @@ from .endpoint_addresses import EndpointAddresses
 from .engagement_credentials import EngagementCredentials
 from .engagement_with_credentials import EngagementWithCredentials
 from .error import Error
+from .event_billing_price_rate import EventBillingPriceRate
 from .family import Family
 from .find_available_reservations_response import FindAvailableReservationsResponse
+from .get_account_event_billing_price_request import GetAccountEventBillingPriceRequest
 from .get_quilt_calibrations_response import GetQuiltCalibrationsResponse
 from .group import Group
 from .health import Health
@@ -61,6 +66,9 @@ from .list_endpoints_response import ListEndpointsResponse
 from .list_group_reservations_show_deleted import ListGroupReservationsShowDeleted
 from .list_group_users_response import ListGroupUsersResponse
 from .list_groups_response import ListGroupsResponse
+from .list_instruction_set_architecture_response import (
+    ListInstructionSetArchitectureResponse,
+)
 from .list_quantum_processor_accessors_response import (
     ListQuantumProcessorAccessorsResponse,
 )
@@ -73,9 +81,11 @@ from .operation import Operation
 from .operation_site import OperationSite
 from .parameter import Parameter
 from .parameter_spec import ParameterSpec
+from .product import Product
 from .quantum_processor import QuantumProcessor
 from .quantum_processor_accessor import QuantumProcessorAccessor
 from .quantum_processor_accessor_type import QuantumProcessorAccessorType
+from .quantum_processor_calendar import QuantumProcessorCalendar
 from .remove_group_user_request import RemoveGroupUserRequest
 from .reservation import Reservation
 from .restart_endpoint_request import RestartEndpointRequest
@@ -89,17 +99,22 @@ from .translate_native_quil_to_encrypted_binary_response import (
 from .translate_native_quil_to_encrypted_binary_response_memory_descriptors import (
     TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors,
 )
+from .update_viewer_user_profile_request import UpdateViewerUserProfileRequest
 from .user import User
 from .user_credentials import UserCredentials
 from .user_credentials_password import UserCredentialsPassword
 from .user_profile import UserProfile
 from .validation_error import ValidationError
 from .validation_error_in import ValidationErrorIn
+from .viewer_user_onboarding_completed import ViewerUserOnboardingCompleted
 
 __all__ = (
     "AccountBalance",
     "AccountType",
+    "ActivateUserRequest",
     "AddGroupUserRequest",
+    "Announcement",
+    "AnnouncementsResponse",
     "Architecture",
     "AuthEmailPasswordResetTokenRequest",
     "AuthResetPasswordRequest",
@@ -140,8 +155,10 @@ __all__ = (
     "EngagementCredentials",
     "EngagementWithCredentials",
     "Error",
+    "EventBillingPriceRate",
     "Family",
     "FindAvailableReservationsResponse",
+    "GetAccountEventBillingPriceRequest",
     "GetQuiltCalibrationsResponse",
     "Group",
     "Health",
@@ -154,6 +171,7 @@ __all__ = (
     "ListGroupReservationsShowDeleted",
     "ListGroupsResponse",
     "ListGroupUsersResponse",
+    "ListInstructionSetArchitectureResponse",
     "ListQuantumProcessorAccessorsResponse",
     "ListQuantumProcessorsResponse",
     "ListReservationsResponse",
@@ -164,9 +182,11 @@ __all__ = (
     "OperationSite",
     "Parameter",
     "ParameterSpec",
+    "Product",
     "QuantumProcessor",
     "QuantumProcessorAccessor",
     "QuantumProcessorAccessorType",
+    "QuantumProcessorCalendar",
     "RemoveGroupUserRequest",
     "Reservation",
     "RestartEndpointRequest",
@@ -174,10 +194,12 @@ __all__ = (
     "TranslateNativeQuilToEncryptedBinaryRequest",
     "TranslateNativeQuilToEncryptedBinaryResponse",
     "TranslateNativeQuilToEncryptedBinaryResponseMemoryDescriptors",
+    "UpdateViewerUserProfileRequest",
     "User",
     "UserCredentials",
     "UserCredentialsPassword",
     "UserProfile",
     "ValidationError",
     "ValidationErrorIn",
+    "ViewerUserOnboardingCompleted",
 )

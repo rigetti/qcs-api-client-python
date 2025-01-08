@@ -11,63 +11,57 @@ from ..util.serialization import is_not_none
 
 
 from typing import Union
+from ..models.product import Product
 
 
-T = TypeVar("T", bound="Tier")
+T = TypeVar("T", bound="EventBillingPriceRate")
 
 
 @_attrs_define
-class Tier:
-    """Use `flatAmount` to charge a fixed amount for the quantity relevant
-    to the tier.
-    Use `unitAmount` to charge a linear rate for the quantity relevant to the
-    tier.
-    Only one field between `flatAmount`, `flatAmountDecimal`, `unitAmount`, or
-    `unitAmountDecimal` should be set.
+class EventBillingPriceRate:
+    """The per-unit price associated with a particular QCS service product,
+    and (optionally) with a particular quantum processor.
 
         Attributes:
-            up_to (int): The upper bound of product quantity relevant to this tier.
-                The highest tier should be open ended, represented by an `upTo` value
-                of `-1`.
-            flat_amount (Union[Unset, int]):
-            flat_amount_decimal (Union[Unset, float]):
-            unit_amount (Union[Unset, int]):
-            unit_amount_decimal (Union[Unset, float]):
+            id (int):
+            product (Product): The set of known QCS service products.
+            quantum_processor_id (Union[Unset, str]): If unset, this per-unit price applies to any quantum processor.
+            unit_amount_decimal (Union[Unset, float]): The unit amount in currency to be charged.
+            unit_label (Union[Unset, str]): Human-readable unit label infomation.
     """
 
-    up_to: int
-    flat_amount: Union[Unset, int] = UNSET
-    flat_amount_decimal: Union[Unset, float] = UNSET
-    unit_amount: Union[Unset, int] = UNSET
+    id: int
+    product: Product
+    quantum_processor_id: Union[Unset, str] = UNSET
     unit_amount_decimal: Union[Unset, float] = UNSET
+    unit_label: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        up_to = self.up_to
+        id = self.id
 
-        flat_amount = self.flat_amount
+        product = self.product.value
 
-        flat_amount_decimal = self.flat_amount_decimal
-
-        unit_amount = self.unit_amount
+        quantum_processor_id = self.quantum_processor_id
 
         unit_amount_decimal = self.unit_amount_decimal
+
+        unit_label = self.unit_label
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "upTo": up_to,
+                "id": id,
+                "product": product,
             }
         )
-        if flat_amount is not UNSET:
-            field_dict["flatAmount"] = flat_amount
-        if flat_amount_decimal is not UNSET:
-            field_dict["flatAmountDecimal"] = flat_amount_decimal
-        if unit_amount is not UNSET:
-            field_dict["unitAmount"] = unit_amount
+        if quantum_processor_id is not UNSET:
+            field_dict["quantumProcessorId"] = quantum_processor_id
         if unit_amount_decimal is not UNSET:
             field_dict["unitAmountDecimal"] = unit_amount_decimal
+        if unit_label is not UNSET:
+            field_dict["unitLabel"] = unit_label
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -78,26 +72,26 @@ class Tier:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        up_to = d.pop("upTo")
+        id = d.pop("id")
 
-        flat_amount = d.pop("flatAmount", UNSET)
+        product = Product(d.pop("product"))
 
-        flat_amount_decimal = d.pop("flatAmountDecimal", UNSET)
-
-        unit_amount = d.pop("unitAmount", UNSET)
+        quantum_processor_id = d.pop("quantumProcessorId", UNSET)
 
         unit_amount_decimal = d.pop("unitAmountDecimal", UNSET)
 
-        tier = cls(
-            up_to=up_to,
-            flat_amount=flat_amount,
-            flat_amount_decimal=flat_amount_decimal,
-            unit_amount=unit_amount,
+        unit_label = d.pop("unitLabel", UNSET)
+
+        event_billing_price_rate = cls(
+            id=id,
+            product=product,
+            quantum_processor_id=quantum_processor_id,
             unit_amount_decimal=unit_amount_decimal,
+            unit_label=unit_label,
         )
 
-        tier.additional_properties = d
-        return tier
+        event_billing_price_rate.additional_properties = d
+        return event_billing_price_rate
 
     @property
     def additional_keys(self) -> List[str]:

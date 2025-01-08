@@ -8,11 +8,10 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
+from typing import cast, List
 from typing import Union
-from dateutil.parser import isoparse
-from typing import cast
-from typing import List
 import datetime
+from dateutil.parser import isoparse
 
 
 T = TypeVar("T", bound="Characteristic")

@@ -9,8 +9,8 @@ from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 from ...models.validation_error import ValidationError
-from ...models.endpoint import Endpoint
 from ...models.error import Error
+from ...models.endpoint import Endpoint
 
 
 def _get_kwargs(

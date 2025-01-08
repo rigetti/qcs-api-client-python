@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Type, TypeVar, Optional
+from typing import Any, Callable, Dict, Type, TypeVar, Optional, TYPE_CHECKING
 
 from typing import List
 
@@ -10,33 +10,42 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-T = TypeVar("T", bound="BillingCustomer")
+if TYPE_CHECKING:
+    from ..models.user_profile import UserProfile
+    from ..models.user_credentials import UserCredentials
+
+
+T = TypeVar("T", bound="ActivateUserRequest")
 
 
 @_attrs_define
-class BillingCustomer:
-    """Billing account information of a particular QCS account.
-
+class ActivateUserRequest:
+    """
     Attributes:
-        email (str):
-        id (str):
+        credentials (UserCredentials):
+        profile (UserProfile):
+        token (str): Verification token provided in invitation email.
     """
 
-    email: str
-    id: str
+    credentials: "UserCredentials"
+    profile: "UserProfile"
+    token: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        email = self.email
+        credentials = self.credentials.to_dict()
 
-        id = self.id
+        profile = self.profile.to_dict()
+
+        token = self.token
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "email": email,
-                "id": id,
+                "credentials": credentials,
+                "profile": profile,
+                "token": token,
             }
         )
 
@@ -48,18 +57,24 @@ class BillingCustomer:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.user_profile import UserProfile
+        from ..models.user_credentials import UserCredentials
+
         d = src_dict.copy()
-        email = d.pop("email")
+        credentials = UserCredentials.from_dict(d.pop("credentials"))
 
-        id = d.pop("id")
+        profile = UserProfile.from_dict(d.pop("profile"))
 
-        billing_customer = cls(
-            email=email,
-            id=id,
+        token = d.pop("token")
+
+        activate_user_request = cls(
+            credentials=credentials,
+            profile=profile,
+            token=token,
         )
 
-        billing_customer.additional_properties = d
-        return billing_customer
+        activate_user_request.additional_properties = d
+        return activate_user_request
 
     @property
     def additional_keys(self) -> List[str]:

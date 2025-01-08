@@ -10,33 +10,27 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-T = TypeVar("T", bound="BillingCustomer")
+T = TypeVar("T", bound="ViewerUserOnboardingCompleted")
 
 
 @_attrs_define
-class BillingCustomer:
-    """Billing account information of a particular QCS account.
-
+class ViewerUserOnboardingCompleted:
+    """
     Attributes:
-        email (str):
-        id (str):
+        onboarding_completed (bool):
     """
 
-    email: str
-    id: str
+    onboarding_completed: bool
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        email = self.email
-
-        id = self.id
+        onboarding_completed = self.onboarding_completed
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "email": email,
-                "id": id,
+                "onboardingCompleted": onboarding_completed,
             }
         )
 
@@ -49,17 +43,14 @@ class BillingCustomer:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        email = d.pop("email")
+        onboarding_completed = d.pop("onboardingCompleted")
 
-        id = d.pop("id")
-
-        billing_customer = cls(
-            email=email,
-            id=id,
+        viewer_user_onboarding_completed = cls(
+            onboarding_completed=onboarding_completed,
         )
 
-        billing_customer.additional_properties = d
-        return billing_customer
+        viewer_user_onboarding_completed.additional_properties = d
+        return viewer_user_onboarding_completed
 
     @property
     def additional_keys(self) -> List[str]:

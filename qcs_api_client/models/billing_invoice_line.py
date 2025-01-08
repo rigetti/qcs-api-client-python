@@ -10,12 +10,12 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
 from ..models.billing_invoice_line_line_item_type import BillingInvoiceLineLineItemType
+from typing import Union
 
 if TYPE_CHECKING:
-    from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
     from ..models.billing_price import BillingPrice
+    from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
 
 
 T = TypeVar("T", bound="BillingInvoiceLine")
@@ -34,7 +34,9 @@ class BillingInvoiceLine:
             metadata (BillingInvoiceLineMetadata):
             quantity (int):
             invoice_item (Union[Unset, str]):
-            price (Union[Unset, BillingPrice]): The price schedule for a particular service applied to an invoice line item.
+            price (Union[Unset, BillingPrice]): A configuration for calculating the cost of `BillingProduct` usage
+                based on quantity,
+                and when that cost should be added as an invoice item.
             subscription (Union[Unset, str]):
             subscription_item (Union[Unset, str]):
     """
@@ -103,8 +105,8 @@ class BillingInvoiceLine:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
         from ..models.billing_price import BillingPrice
+        from ..models.billing_invoice_line_metadata import BillingInvoiceLineMetadata
 
         d = src_dict.copy()
         amount = d.pop("amount")

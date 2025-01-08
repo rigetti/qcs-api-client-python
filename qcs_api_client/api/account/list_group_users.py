@@ -8,9 +8,9 @@ from ...types import Response, UNSET
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.list_group_users_response import ListGroupUsersResponse
-from ...models.error import Error
 from ...types import Unset
+from ...models.error import Error
+from ...models.list_group_users_response import ListGroupUsersResponse
 
 
 def _get_kwargs(

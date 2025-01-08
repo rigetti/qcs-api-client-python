@@ -6,39 +6,36 @@ from typing import List
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET
+from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-T = TypeVar("T", bound="BillingCustomer")
+from typing import Union
+
+
+T = TypeVar("T", bound="QuantumProcessorCalendar")
 
 
 @_attrs_define
-class BillingCustomer:
-    """Billing account information of a particular QCS account.
+class QuantumProcessorCalendar:
+    """Details about calendars related to a quantum processor.
 
     Attributes:
-        email (str):
-        id (str):
+        maintenance_i_cal (Union[Unset, str]): This calendar's schedule contains maintenance events for the QPU, during
+            which execution is not available.
     """
 
-    email: str
-    id: str
+    maintenance_i_cal: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        email = self.email
-
-        id = self.id
+        maintenance_i_cal = self.maintenance_i_cal
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "email": email,
-                "id": id,
-            }
-        )
+        field_dict.update({})
+        if maintenance_i_cal is not UNSET:
+            field_dict["maintenanceICal"] = maintenance_i_cal
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -49,17 +46,14 @@ class BillingCustomer:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        email = d.pop("email")
+        maintenance_i_cal = d.pop("maintenanceICal", UNSET)
 
-        id = d.pop("id")
-
-        billing_customer = cls(
-            email=email,
-            id=id,
+        quantum_processor_calendar = cls(
+            maintenance_i_cal=maintenance_i_cal,
         )
 
-        billing_customer.additional_properties = d
-        return billing_customer
+        quantum_processor_calendar.additional_properties = d
+        return quantum_processor_calendar
 
     @property
     def additional_keys(self) -> List[str]:

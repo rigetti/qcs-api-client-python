@@ -10,33 +10,37 @@ from ..types import UNSET
 from ..util.serialization import is_not_none
 
 
-T = TypeVar("T", bound="BillingCustomer")
+T = TypeVar("T", bound="UpdateViewerUserProfileRequest")
 
 
 @_attrs_define
-class BillingCustomer:
-    """Billing account information of a particular QCS account.
-
+class UpdateViewerUserProfileRequest:
+    """
     Attributes:
-        email (str):
-        id (str):
+        first_name (str):
+        last_name (str):
+        organization (str):
     """
 
-    email: str
-    id: str
+    first_name: str
+    last_name: str
+    organization: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        email = self.email
+        first_name = self.first_name
 
-        id = self.id
+        last_name = self.last_name
+
+        organization = self.organization
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "email": email,
-                "id": id,
+                "firstName": first_name,
+                "lastName": last_name,
+                "organization": organization,
             }
         )
 
@@ -49,17 +53,20 @@ class BillingCustomer:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        email = d.pop("email")
+        first_name = d.pop("firstName")
 
-        id = d.pop("id")
+        last_name = d.pop("lastName")
 
-        billing_customer = cls(
-            email=email,
-            id=id,
+        organization = d.pop("organization")
+
+        update_viewer_user_profile_request = cls(
+            first_name=first_name,
+            last_name=last_name,
+            organization=organization,
         )
 
-        billing_customer.additional_properties = d
-        return billing_customer
+        update_viewer_user_profile_request.additional_properties = d
+        return update_viewer_user_profile_request
 
     @property
     def additional_keys(self) -> List[str]:

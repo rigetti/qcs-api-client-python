@@ -6,39 +6,45 @@ from typing import List
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET
+from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-T = TypeVar("T", bound="BillingCustomer")
+from typing import Union
+from ..models.product import Product
+
+
+T = TypeVar("T", bound="GetAccountEventBillingPriceRequest")
 
 
 @_attrs_define
-class BillingCustomer:
-    """Billing account information of a particular QCS account.
+class GetAccountEventBillingPriceRequest:
+    """Property `quantumProcessorId` is currently required for all `product`s, however in the future there may be
+    `product`s that do not require a `quantumProcessorId`.
 
-    Attributes:
-        email (str):
-        id (str):
+        Attributes:
+            product (Product): The set of known QCS service products.
+            quantum_processor_id (Union[Unset, str]):
     """
 
-    email: str
-    id: str
+    product: Product
+    quantum_processor_id: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        email = self.email
+        product = self.product.value
 
-        id = self.id
+        quantum_processor_id = self.quantum_processor_id
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "email": email,
-                "id": id,
+                "product": product,
             }
         )
+        if quantum_processor_id is not UNSET:
+            field_dict["quantumProcessorId"] = quantum_processor_id
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -49,17 +55,17 @@ class BillingCustomer:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        email = d.pop("email")
+        product = Product(d.pop("product"))
 
-        id = d.pop("id")
+        quantum_processor_id = d.pop("quantumProcessorId", UNSET)
 
-        billing_customer = cls(
-            email=email,
-            id=id,
+        get_account_event_billing_price_request = cls(
+            product=product,
+            quantum_processor_id=quantum_processor_id,
         )
 
-        billing_customer.additional_properties = d
-        return billing_customer
+        get_account_event_billing_price_request.additional_properties = d
+        return get_account_event_billing_price_request
 
     @property
     def additional_keys(self) -> List[str]:

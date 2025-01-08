@@ -8,16 +8,28 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.error import Error
+from ...models.update_viewer_user_profile_request import UpdateViewerUserProfileRequest
 from ...models.user import User
+from ...models.error import Error
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    *,
+    body: UpdateViewerUserProfileRequest,
+) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
+
     _kwargs: Dict[str, Any] = {
-        "method": "get",
-        "url": "/v1/auth:getUser",
+        "method": "put",
+        "url": "/v1/viewer/userProfile",
     }
 
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -39,11 +51,13 @@ def _build_response(*, response: httpx.Response) -> Response[Union[Error, User]]
 def sync(
     *,
     client: httpx.Client,
+    body: UpdateViewerUserProfileRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Union[Error, User]]:
-    """Get User
+    """Update the profile of the authenticated user.
 
-     Retrieve the profile of the authenticated user.
+    Args:
+        body (UpdateViewerUserProfileRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -53,7 +67,9 @@ def sync(
         Response[Union[Error, User]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
@@ -66,10 +82,12 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Union[Error, User]]:
     kwargs = _get_kwargs(
         client=client,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -82,11 +100,13 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
+    body: UpdateViewerUserProfileRequest,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Union[Error, User]]:
-    """Get User
+    """Update the profile of the authenticated user.
 
-     Retrieve the profile of the authenticated user.
+    Args:
+        body (UpdateViewerUserProfileRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -96,7 +116,9 @@ async def asyncio(
         Response[Union[Error, User]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(**kwargs)
     return _build_response(response=response)
@@ -106,10 +128,12 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
 ) -> Response[Union[Error, User]]:
     kwargs = _get_kwargs(
         client=client,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(

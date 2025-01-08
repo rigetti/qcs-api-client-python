@@ -5,62 +5,50 @@ from typing import List
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from rfc3339 import rfc3339
 
 from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
 from typing import Union
-import datetime
-from dateutil.parser import isoparse
 
 if TYPE_CHECKING:
-    from ..models.user_profile import UserProfile
+    from ..models.announcement import Announcement
 
 
-T = TypeVar("T", bound="User")
+T = TypeVar("T", bound="AnnouncementsResponse")
 
 
 @_attrs_define
-class User:
-    """
+class AnnouncementsResponse:
+    """A page of announcements.
+
     Attributes:
-        created_time (datetime.datetime):
-        id (int):
-        idp_id (str):
-        profile (Union[Unset, UserProfile]):
+        announcements (List['Announcement']):
+        next_page_token (Union[Unset, str]):
     """
 
-    created_time: datetime.datetime
-    id: int
-    idp_id: str
-    profile: Union[Unset, "UserProfile"] = UNSET
+    announcements: List["Announcement"]
+    next_page_token: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
-        assert self.created_time.tzinfo is not None, "Datetime must have timezone information"
-        created_time = rfc3339(self.created_time)
+        announcements = []
+        for announcements_item_data in self.announcements:
+            announcements_item = announcements_item_data.to_dict()
+            announcements.append(announcements_item)
 
-        id = self.id
-
-        idp_id = self.idp_id
-
-        profile: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.profile, Unset):
-            profile = self.profile.to_dict()
+        next_page_token = self.next_page_token
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "createdTime": created_time,
-                "id": id,
-                "idpId": idp_id,
+                "announcements": announcements,
             }
         )
-        if profile is not UNSET:
-            field_dict["profile"] = profile
+        if next_page_token is not UNSET:
+            field_dict["nextPageToken"] = next_page_token
 
         field_dict = {k: v for k, v in field_dict.items() if v != UNSET}
         if pick_by_predicate is not None:
@@ -70,31 +58,25 @@ class User:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.user_profile import UserProfile
+        from ..models.announcement import Announcement
 
         d = src_dict.copy()
-        created_time = isoparse(d.pop("createdTime"))
+        announcements = []
+        _announcements = d.pop("announcements")
+        for announcements_item_data in _announcements:
+            announcements_item = Announcement.from_dict(announcements_item_data)
 
-        id = d.pop("id")
+            announcements.append(announcements_item)
 
-        idp_id = d.pop("idpId")
+        next_page_token = d.pop("nextPageToken", UNSET)
 
-        _profile = d.pop("profile", UNSET)
-        profile: Union[Unset, UserProfile]
-        if isinstance(_profile, Unset):
-            profile = UNSET
-        else:
-            profile = UserProfile.from_dict(_profile)
-
-        user = cls(
-            created_time=created_time,
-            id=id,
-            idp_id=idp_id,
-            profile=profile,
+        announcements_response = cls(
+            announcements=announcements,
+            next_page_token=next_page_token,
         )
 
-        user.additional_properties = d
-        return user
+        announcements_response.additional_properties = d
+        return announcements_response
 
     @property
     def additional_keys(self) -> List[str]:

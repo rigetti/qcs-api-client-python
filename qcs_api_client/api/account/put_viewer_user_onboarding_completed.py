@@ -8,29 +8,40 @@ from ...types import Response
 from ...util.errors import QCSHTTPStatusError
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
+from ...models.viewer_user_onboarding_completed import ViewerUserOnboardingCompleted
 from ...models.error import Error
-from ...models.user import User
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    *,
+    body: ViewerUserOnboardingCompleted,
+) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
+
     _kwargs: Dict[str, Any] = {
-        "method": "get",
-        "url": "/v1/auth:getUser",
+        "method": "put",
+        "url": "/v1/viewer/onboardingCompleted",
     }
 
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
-def _parse_response(*, response: httpx.Response) -> Union[Error, User]:
+def _parse_response(*, response: httpx.Response) -> Union[Error, ViewerUserOnboardingCompleted]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = User.from_dict(response.json())
+        response_200 = ViewerUserOnboardingCompleted.from_dict(response.json())
 
         return response_200
     else:
         raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
 
 
-def _build_response(*, response: httpx.Response) -> Response[Union[Error, User]]:
+def _build_response(*, response: httpx.Response) -> Response[Union[Error, ViewerUserOnboardingCompleted]]:
     """Construct the Response class from the raw ``httpx.Response``."""
     return Response.build_from_httpx_response(response=response, parse_function=_parse_response)
 
@@ -39,21 +50,25 @@ def _build_response(*, response: httpx.Response) -> Response[Union[Error, User]]
 def sync(
     *,
     client: httpx.Client,
+    body: ViewerUserOnboardingCompleted,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Union[Error, User]]:
-    """Get User
+) -> Response[Union[Error, ViewerUserOnboardingCompleted]]:
+    """Update the onboarding status of the authenticated user.
 
-     Retrieve the profile of the authenticated user.
+    Args:
+        body (ViewerUserOnboardingCompleted):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, User]]
+        Response[Union[Error, ViewerUserOnboardingCompleted]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
         **kwargs,
@@ -66,10 +81,12 @@ def sync(
 def sync_from_dict(
     *,
     client: httpx.Client,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Union[Error, User]]:
+) -> Response[Union[Error, ViewerUserOnboardingCompleted]]:
     kwargs = _get_kwargs(
         client=client,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = client.request(
@@ -82,21 +99,25 @@ def sync_from_dict(
 async def asyncio(
     *,
     client: httpx.AsyncClient,
+    body: ViewerUserOnboardingCompleted,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Union[Error, User]]:
-    """Get User
+) -> Response[Union[Error, ViewerUserOnboardingCompleted]]:
+    """Update the onboarding status of the authenticated user.
 
-     Retrieve the profile of the authenticated user.
+    Args:
+        body (ViewerUserOnboardingCompleted):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, User]]
+        Response[Union[Error, ViewerUserOnboardingCompleted]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(**kwargs)
     return _build_response(response=response)
@@ -106,10 +127,12 @@ async def asyncio(
 async def asyncio_from_dict(
     *,
     client: httpx.AsyncClient,
+    body: Dict,
     httpx_request_kwargs: Dict[str, Any] = {},
-) -> Response[Union[Error, User]]:
+) -> Response[Union[Error, ViewerUserOnboardingCompleted]]:
     kwargs = _get_kwargs(
         client=client,
+        body=body,
     )
     kwargs.update(httpx_request_kwargs)
     response = await client.request(
