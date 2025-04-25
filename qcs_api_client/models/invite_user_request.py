@@ -21,15 +21,19 @@ class InviteUserRequest:
     """
     Attributes:
         email (str):
+        billing_organization_id (Union[Unset, int]):
         group_name (Union[Unset, str]):
     """
 
     email: str
+    billing_organization_id: Union[Unset, int] = UNSET
     group_name: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self, pick_by_predicate: Optional[Callable[[Any], bool]] = is_not_none) -> Dict[str, Any]:
         email = self.email
+
+        billing_organization_id = self.billing_organization_id
 
         group_name = self.group_name
 
@@ -40,6 +44,8 @@ class InviteUserRequest:
                 "email": email,
             }
         )
+        if billing_organization_id is not UNSET:
+            field_dict["billingOrganizationId"] = billing_organization_id
         if group_name is not UNSET:
             field_dict["groupName"] = group_name
 
@@ -54,10 +60,13 @@ class InviteUserRequest:
         d = src_dict.copy()
         email = d.pop("email")
 
+        billing_organization_id = d.pop("billingOrganizationId", UNSET)
+
         group_name = d.pop("groupName", UNSET)
 
         invite_user_request = cls(
             email=email,
+            billing_organization_id=billing_organization_id,
             group_name=group_name,
         )
 

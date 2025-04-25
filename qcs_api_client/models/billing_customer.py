@@ -15,7 +15,7 @@ T = TypeVar("T", bound="BillingCustomer")
 
 @_attrs_define
 class BillingCustomer:
-    """A representation of a QCS's account billing customer. Note, `balance` does not account for the upcoming invoice.
+    """Billing account information of a particular QCS account.
 
     Attributes:
         email (str):

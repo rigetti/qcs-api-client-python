@@ -10,8 +10,8 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
 from typing import cast
+from typing import Union
 from ..models.account_type import AccountType
 
 if TYPE_CHECKING:

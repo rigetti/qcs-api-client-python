@@ -6,15 +6,15 @@ from tenacity import retry
 from rfc3339 import rfc3339
 
 from ...types import Response, UNSET
-from ...util.errors import QCSHTTPStatusError
+from ...util.errors import raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 from ...models.find_available_reservations_response import (
     FindAvailableReservationsResponse,
 )
-from ...models.error import Error
 from ...types import Unset
 import datetime
+from ...models.error import Error
 
 
 def _get_kwargs(
@@ -57,7 +57,7 @@ def _parse_response(*, response: httpx.Response) -> Union[Error, FindAvailableRe
 
         return response_200
     else:
-        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
+        raise_for_status(response)
 
 
 def _build_response(*, response: httpx.Response) -> Response[Union[Error, FindAvailableReservationsResponse]]:

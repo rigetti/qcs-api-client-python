@@ -5,14 +5,14 @@ import httpx
 from tenacity import retry
 
 from ...types import Response, UNSET
-from ...util.errors import QCSHTTPStatusError
+from ...util.errors import raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.create_engagement_request import CreateEngagementRequest
-from ...models.engagement_with_credentials import EngagementWithCredentials
-from ...models.error import Error
-from ...types import Unset
 from ...models.account_type import AccountType
+from ...types import Unset
+from ...models.create_engagement_request import CreateEngagementRequest
+from ...models.error import Error
+from ...models.engagement_with_credentials import EngagementWithCredentials
 
 
 def _get_kwargs(
@@ -48,7 +48,7 @@ def _parse_response(*, response: httpx.Response) -> Union[Any, EngagementWithCre
 
         return response_200
     else:
-        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
+        raise_for_status(response)
 
 
 def _build_response(*, response: httpx.Response) -> Response[Union[Any, EngagementWithCredentials, Error]]:

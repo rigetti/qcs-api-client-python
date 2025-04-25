@@ -1,10 +1,16 @@
+from qcs_api_client.api.account.activate_user import asyncio as activate_user
 from qcs_api_client.api.account.add_group_user import asyncio as add_group_user
+from qcs_api_client.api.account.dismiss_viewer_announcement import asyncio as dismiss_viewer_announcement
 from qcs_api_client.api.account.get_group_balance import asyncio as get_group_balance
 from qcs_api_client.api.account.get_group_billing_customer import asyncio as get_group_billing_customer
 from qcs_api_client.api.account.get_group_upcoming_billing_invoice import asyncio as get_group_upcoming_billing_invoice
 from qcs_api_client.api.account.get_user_balance import asyncio as get_user_balance
 from qcs_api_client.api.account.get_user_billing_customer import asyncio as get_user_billing_customer
+from qcs_api_client.api.account.get_user_event_billing_price import asyncio as get_user_event_billing_price
 from qcs_api_client.api.account.get_user_upcoming_billing_invoice import asyncio as get_user_upcoming_billing_invoice
+from qcs_api_client.api.account.get_viewer_user_onboarding_completed import (
+    asyncio as get_viewer_user_onboarding_completed,
+)
 from qcs_api_client.api.account.list_group_billing_invoice_lines import asyncio as list_group_billing_invoice_lines
 from qcs_api_client.api.account.list_group_billing_invoices import asyncio as list_group_billing_invoices
 from qcs_api_client.api.account.list_group_upcoming_billing_invoice_lines import (
@@ -17,7 +23,12 @@ from qcs_api_client.api.account.list_user_groups import asyncio as list_user_gro
 from qcs_api_client.api.account.list_user_upcoming_billing_invoice_lines import (
     asyncio as list_user_upcoming_billing_invoice_lines,
 )
+from qcs_api_client.api.account.list_viewer_announcements import asyncio as list_viewer_announcements
+from qcs_api_client.api.account.put_viewer_user_onboarding_completed import (
+    asyncio as put_viewer_user_onboarding_completed,
+)
 from qcs_api_client.api.account.remove_group_user import asyncio as remove_group_user
+from qcs_api_client.api.account.update_viewer_user_profile import asyncio as update_viewer_user_profile
 from qcs_api_client.api.authentication.auth_email_password_reset_token import asyncio as auth_email_password_reset_token
 from qcs_api_client.api.authentication.auth_get_user import asyncio as auth_get_user
 from qcs_api_client.api.authentication.auth_reset_password import asyncio as auth_reset_password
@@ -39,6 +50,9 @@ from qcs_api_client.api.quantum_processors.get_instruction_set_architecture impo
     asyncio as get_instruction_set_architecture,
 )
 from qcs_api_client.api.quantum_processors.get_quantum_processor import asyncio as get_quantum_processor
+from qcs_api_client.api.quantum_processors.list_instruction_set_architectures import (
+    asyncio as list_instruction_set_architectures,
+)
 from qcs_api_client.api.quantum_processors.list_quantum_processor_accessors import (
     asyncio as list_quantum_processor_accessors,
 )
@@ -46,6 +60,7 @@ from qcs_api_client.api.quantum_processors.list_quantum_processors import asynci
 from qcs_api_client.api.reservations.create_reservation import asyncio as create_reservation
 from qcs_api_client.api.reservations.delete_reservation import asyncio as delete_reservation
 from qcs_api_client.api.reservations.find_available_reservations import asyncio as find_available_reservations
+from qcs_api_client.api.reservations.get_quantum_processor_calendar import asyncio as get_quantum_processor_calendar
 from qcs_api_client.api.reservations.list_group_reservations import asyncio as list_group_reservations
 from qcs_api_client.api.reservations.list_reservations import asyncio as list_reservations
 from qcs_api_client.api.translation.get_quilt_calibrations import asyncio as get_quilt_calibrations

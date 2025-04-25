@@ -5,13 +5,13 @@ import httpx
 from tenacity import retry
 
 from ...types import Response, UNSET
-from ...util.errors import QCSHTTPStatusError
+from ...util.errors import raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
-from ...models.validation_error import ValidationError
 from ...models.list_quantum_processor_accessors_response import (
     ListQuantumProcessorAccessorsResponse,
 )
+from ...models.validation_error import ValidationError
 from ...types import Unset
 
 
@@ -46,7 +46,7 @@ def _parse_response(*, response: httpx.Response) -> Union[ListQuantumProcessorAc
 
         return response_200
     else:
-        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
+        raise_for_status(response)
 
 
 def _build_response(

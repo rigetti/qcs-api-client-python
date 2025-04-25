@@ -11,8 +11,8 @@ from ..util.serialization import is_not_none
 
 
 from typing import Union
-from typing import cast
 from ..models.nomad_job_datacenters import NomadJobDatacenters
+from typing import cast
 
 
 T = TypeVar("T", bound="CreateEndpointParameters")

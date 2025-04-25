@@ -5,7 +5,7 @@ import httpx
 from tenacity import retry
 
 from ...types import Response
-from ...util.errors import QCSHTTPStatusError
+from ...util.errors import raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 from ...models.billing_upcoming_invoice import BillingUpcomingInvoice
@@ -31,7 +31,7 @@ def _parse_response(*, response: httpx.Response) -> Union[BillingUpcomingInvoice
 
         return response_200
     else:
-        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
+        raise_for_status(response)
 
 
 def _build_response(*, response: httpx.Response) -> Response[Union[BillingUpcomingInvoice, Error]]:

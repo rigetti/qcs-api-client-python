@@ -18,13 +18,21 @@ T = TypeVar("T", bound="Tier")
 
 @_attrs_define
 class Tier:
-    """
-    Attributes:
-        up_to (int): A value of `-1` will imply that this tier is up to Infinity.
-        flat_amount (Union[Unset, int]):
-        flat_amount_decimal (Union[Unset, float]):
-        unit_amount (Union[Unset, int]):
-        unit_amount_decimal (Union[Unset, float]):
+    """Use `flatAmount` to charge a fixed amount for the quantity relevant
+    to the tier.
+    Use `unitAmount` to charge a linear rate for the quantity relevant to the
+    tier.
+    Only one field between `flatAmount`, `flatAmountDecimal`, `unitAmount`, or
+    `unitAmountDecimal` should be set.
+
+        Attributes:
+            up_to (int): The upper bound of product quantity relevant to this tier.
+                The highest tier should be open ended, represented by an `upTo` value
+                of `-1`.
+            flat_amount (Union[Unset, int]):
+            flat_amount_decimal (Union[Unset, float]):
+            unit_amount (Union[Unset, int]):
+            unit_amount_decimal (Union[Unset, float]):
     """
 
     up_to: int

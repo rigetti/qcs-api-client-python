@@ -10,12 +10,12 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
-from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
 from ..models.billing_price_recurrence_usage_type import BillingPriceRecurrenceUsageType
 from ..models.billing_price_recurrence_aggregate_usage import (
     BillingPriceRecurrenceAggregateUsage,
 )
+from typing import Union
+from ..models.billing_price_recurrence_interval import BillingPriceRecurrenceInterval
 
 
 T = TypeVar("T", bound="BillingPriceRecurrence")
@@ -23,13 +23,23 @@ T = TypeVar("T", bound="BillingPriceRecurrence")
 
 @_attrs_define
 class BillingPriceRecurrence:
-    """The recurring components of a price such as `interval` and `usageType`.
+    """How to invoice for the usage of a product that has a recurring
+    (subscription) price.
 
-    Attributes:
-        interval (BillingPriceRecurrenceInterval):
-        aggregate_usage (Union[Unset, BillingPriceRecurrenceAggregateUsage]):
-        interval_count (Union[Unset, int]):
-        usage_type (Union[Unset, BillingPriceRecurrenceUsageType]):
+        Attributes:
+            interval (BillingPriceRecurrenceInterval): The frequency at which recurring usage should be billed.
+                Using `month` is recommended.
+            aggregate_usage (Union[Unset, BillingPriceRecurrenceAggregateUsage]): How to determine the aggregate usage over
+                the `interval` when
+                `usageType=metered`.
+                Using `sum` is recommended.
+            interval_count (Union[Unset, int]): The number of `interval` units between each billing cycle.
+                For example, `interval=month` and `intervalCount=1` means every month
+                (recommended).
+            usage_type (Union[Unset, BillingPriceRecurrenceUsageType]): Use `metered` to calculate a dynamic quantity based
+                on reported
+                usage records (recommended).
+                Use `licensed` when you provide a fixed quantity, e.g. a TV subscription.
     """
 
     interval: BillingPriceRecurrenceInterval

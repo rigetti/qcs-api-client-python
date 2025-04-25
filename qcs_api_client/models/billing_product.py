@@ -19,16 +19,18 @@ T = TypeVar("T", bound="BillingProduct")
 
 @_attrs_define
 class BillingProduct:
-    """A QCS service product. This may represent one time (such as reservations) or metered services.
+    """A QCS service product, such as reservation time or on-demand execution.
+    One product can be associated with multiple prices, which may be associated
+    to particular resources or customers.
 
-    Attributes:
-        id (str): Unique identifier for the object.
-        name (str): This name will show up on associated invoice line item descriptions.
-        object_ (BillingProductObject): String representing the object's type. Objects of the same type share the same
-            value.
-        description (Union[Unset, str]):
-        unit_label (Union[Unset, str]): A label that represents units of this product. When set, this will be included
-            in associated invoice line item descriptions.
+        Attributes:
+            id (str): Unique identifier for the object.
+            name (str): This name will show up on associated invoice line item descriptions.
+            object_ (BillingProductObject): This object's type, which is always `product`.
+            description (Union[Unset, str]):
+            unit_label (Union[Unset, str]): A label for units of this product which appears on customer
+                invoices, e.g. "microseconds" for on-demand execution or "minutes" for
+                qpu reservations.
     """
 
     id: str

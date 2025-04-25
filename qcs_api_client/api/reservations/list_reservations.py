@@ -5,14 +5,14 @@ import httpx
 from tenacity import retry
 
 from ...types import Response, UNSET
-from ...util.errors import QCSHTTPStatusError
+from ...util.errors import raise_for_status
 from ...util.retry import DEFAULT_RETRY_ARGUMENTS
 
 from ...models.list_reservations_show_deleted import ListReservationsShowDeleted
-from ...models.list_reservations_response import ListReservationsResponse
-from ...models.error import Error
-from ...types import Unset
 from ...models.account_type import AccountType
+from ...models.list_reservations_response import ListReservationsResponse
+from ...types import Unset
+from ...models.error import Error
 
 
 def _get_kwargs(
@@ -66,7 +66,7 @@ def _parse_response(*, response: httpx.Response) -> Union[Error, ListReservation
 
         return response_200
     else:
-        raise QCSHTTPStatusError(f"Unexpected response: status code {response.status_code}")
+        raise_for_status(response)
 
 
 def _build_response(*, response: httpx.Response) -> Response[Union[Error, ListReservationsResponse]]:

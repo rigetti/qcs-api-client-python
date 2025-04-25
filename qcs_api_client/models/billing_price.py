@@ -10,16 +10,16 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from ..models.billing_price_tiers_mode import BillingPriceTiersMode
 from typing import Union
-from ..models.billing_price_scheme import BillingPriceScheme
 from ..models.billing_price_object import BillingPriceObject
+from ..models.billing_price_scheme import BillingPriceScheme
 from ..models.billing_price_price_type import BillingPricePriceType
+from ..models.billing_price_tiers_mode import BillingPriceTiersMode
 
 if TYPE_CHECKING:
     from ..models.billing_product import BillingProduct
-    from ..models.tier import Tier
     from ..models.billing_price_recurrence import BillingPriceRecurrence
+    from ..models.tier import Tier
 
 
 T = TypeVar("T", bound="BillingPrice")
@@ -27,31 +27,35 @@ T = TypeVar("T", bound="BillingPrice")
 
 @_attrs_define
 class BillingPrice:
-    """The price schedule for a particular service applied to an invoice line item.
+    """A configuration for calculating the cost of `BillingProduct` usage
+    based on quantity,
+    and when that cost should be added as an invoice item.
 
-    Attributes:
-        id (str): Unique identifier for the object.
-        active (Union[Unset, bool]): Whether the price can be used for new purchases.
-        billing_scheme (Union[Unset, BillingPriceScheme]): Describes how to compute the price per period. Either
-            `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unitAmount` or
-            `unitAmountDecimal`) will be charged per unit in `quantity` (for prices with `usageType=licensed`), or per unit
-            of total usage (for prices with `usageType=metered`). `tiered` indicates that the unit pricing will be computed
-            using a tiering strategy as defined using the `tiers` and `tiersMode` attributes.
-        object_ (Union[Unset, BillingPriceObject]): String representing the object's type. Objects of the same type
-            share the same value.
-        price_type (Union[Unset, BillingPricePriceType]): One of `one_time` or `recurring` depending on whether the
-            price is for a one-time purchase or a recurring (subscription) purchase.
-        product (Union[Unset, BillingProduct]): A QCS service product. This may represent one time (such as
-            reservations) or metered services.
-        recurring (Union[Unset, BillingPriceRecurrence]): The recurring components of a price such as `interval` and
-            `usageType`.
-        tiers (Union[Unset, List['Tier']]): Each element represents a pricing tier. This parameter requires
-            `billingScheme` to be set to `tiered`. See also the documentation for `billingScheme`.
-        tiers_mode (Union[Unset, BillingPriceTiersMode]): Defines if the tiering price should be `graduated` or `volume`
-            based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in
-            `graduated` tiering pricing can successively change as the quantity grows.
-        unit_amount_decimal (Union[Unset, float]): The unit amount in `currency` to be charged. Only set if
-            `billingScheme=per_unit`.
+        Attributes:
+            id (str): Unique identifier for the object.
+            active (Union[Unset, bool]): Whether the price can be used for new purchases.
+            billing_scheme (Union[Unset, BillingPriceScheme]): Use `per_unit` to charge a linear rate per quantity
+                (recommended).
+                Use `tiered` to charge a dynamic rate based on quantity as defined in the
+                `tiers` of a `BillingPice`.
+            object_ (Union[Unset, BillingPriceObject]): This object's type, which is always `price`.
+            price_type (Union[Unset, BillingPricePriceType]): Use `one_time` to invoice immediately based on a single usage
+                report, e.g. purchasing a QPU reservation.
+                Use `recurring` to aggregate usage reports over an interval and then invoice
+                once based on `BillingPriceRecurrence`, e.g. on-demand QPU usage.
+            product (Union[Unset, BillingProduct]): A QCS service product, such as reservation time or on-demand execution.
+                One product can be associated with multiple prices, which may be associated
+                to particular resources or customers.
+            recurring (Union[Unset, BillingPriceRecurrence]): How to invoice for the usage of a product that has a recurring
+                (subscription) price.
+            tiers (Union[Unset, List['Tier']]): Configure how price should be calculated based on quantity
+                when `billingScheme=tiered`.
+                Requires at least two tiers.
+            tiers_mode (Union[Unset, BillingPriceTiersMode]): Use `graduated` to apply each tier calculation to the portion
+                of relevant quantity, e.g. how US federal tax brackets work.
+                Use `volume` to apply the highest relevant tier to the entire quantity.
+            unit_amount_decimal (Union[Unset, float]): The amount of `currency` to charge per quantity used.
+                Requires that `billingScheme=per_unit`.
     """
 
     id: str
@@ -139,8 +143,8 @@ class BillingPrice:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.billing_product import BillingProduct
-        from ..models.tier import Tier
         from ..models.billing_price_recurrence import BillingPriceRecurrence
+        from ..models.tier import Tier
 
         d = src_dict.copy()
         id = d.pop("id")

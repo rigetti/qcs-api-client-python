@@ -7,13 +7,13 @@ from ..types import UNSET, Unset
 from ..util.serialization import is_not_none
 
 
-from typing import Union
 from typing import List
+from typing import Union
 
 if TYPE_CHECKING:
     from ..models.characteristic import Characteristic
-    from ..models.operation_site import OperationSite
     from ..models.parameter import Parameter
+    from ..models.operation_site import OperationSite
 
 
 T = TypeVar("T", bound="Operation")
@@ -79,8 +79,8 @@ class Operation:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.characteristic import Characteristic
-        from ..models.operation_site import OperationSite
         from ..models.parameter import Parameter
+        from ..models.operation_site import OperationSite
 
         d = src_dict.copy()
         characteristics = []
