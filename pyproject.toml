@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qcs-api-client"
-version = "0.26.4"
+version = "0.26.5"
 description = "A client library for accessing the Rigetti QCS API"
 license = "Apache-2.0"
 repository = "https://github.com/rigetti/qcs-api-client-python"
@@ -23,7 +23,7 @@ python-dateutil = "^2.8.1"
 rfc3339 = "^6.2"
 toml = "^0.10.2"
 PyJWT = "^2.4.0"
-pydantic-settings = "^2.2.1"
+pydantic-settings = ">=2.2.1,<2.9"
 tenacity = "^8.3.0"
 
 
