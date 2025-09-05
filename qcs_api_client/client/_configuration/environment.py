@@ -3,7 +3,10 @@ from typing import Any, Dict
 
 from pydantic import BaseModel
 from pydantic.v1.utils import deep_update
-from pydantic_settings.sources import _annotation_is_complex
+try:
+    from pydantic_settings.sources.utils import _annotation_is_complex
+except ImportError:
+    from pydantic_settings.sources import _annotation_is_complex
 
 
 class _EnvironmentBaseModel(BaseModel):
