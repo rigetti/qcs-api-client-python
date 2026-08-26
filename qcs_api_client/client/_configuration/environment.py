@@ -3,7 +3,14 @@ from typing import Any, Dict
 
 from pydantic import BaseModel
 from pydantic.v1.utils import deep_update
-from pydantic_settings.sources import _annotation_is_complex
+try:
+    # pydantic-settings <= 2.8 re-exports this helper from the top-level `sources` module.
+    from pydantic_settings.sources import _annotation_is_complex
+except ImportError:  # pragma: no cover
+    # pydantic-settings >= 2.9 refactored `sources` into a package and moved the helper
+    # to `sources.utils`; it is no longer re-exported from the top-level `sources`.
+    # The (annotation, metadata) signature is unchanged, so the call site is unaffected.
+    from pydantic_settings.sources.utils import _annotation_is_complex
 
 
 class _EnvironmentBaseModel(BaseModel):
