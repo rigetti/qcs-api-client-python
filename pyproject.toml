@@ -1,11 +1,13 @@
 [project]
 name = "qcs_api_client"
-version = "0.27.7"
+version = "0.27.8"
 description = "A client library for accessing Rigetti QCS API"
 include = ["qcs_api_client/py.typed"]
 authors = [{ name = "Rigetti QPU Software", email = "qpu-software@rigetti.com" }]
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 
 dependencies = [
     "attrs (>=25.4.0,<26.0.0)",
@@ -20,6 +22,11 @@ dependencies = [
     "tenacity (>=9.1.4,<10.0.0)",
     "toml (>=0.10.2,<0.11.0)",
 ]
+
+[project.urls]
+Homepage = "https://docs.api.qcs.rigetti.com/"
+Documentation = "https://qcs-api-client-python.readthedocs.io/"
+Repository = "https://github.com/rigetti/qcs-api-client-python/"
 
 [dependency-groups]
 dev = [
